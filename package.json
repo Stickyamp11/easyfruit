@@ -38,5 +38,20 @@
     "> 1%",
     "last 2 versions",
     "not dead"
-  ]
+  ],
+  "description": "## Project setup ``` npm install ```",
+  "main": "babel.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Stickyamp11/easyfruit.git"
+  },
+  "keywords": [
+    "easyfruit"
+  ],
+  "author": "Manuel C",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/Stickyamp11/easyfruit/issues"
+  },
+  "homepage": "https://github.com/Stickyamp11/easyfruit#readme"
 }
