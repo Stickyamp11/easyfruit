@@ -94,6 +94,6 @@ img{
     display: flex;
     align-items: left;
     flex: 1;
-    justify-content: flex-end;
+    justify-content: flex-left;
 }
 </style>
