@@ -1,0 +1,21 @@
+.nav-bar {
+    
+}
+#login-button{
+    padding-top: 4px;
+    padding-bottom: 4px;
+    position:fixed;
+    right: 2%;
+    background-color: rgb(15, 98, 36);
+    
+
+}
+.nav-padding{
+    padding-left: 40px;
+    padding-bottom: 40px;
+}
+.login-button-wrapper{
+}
+#login-icon{
+    padding-right: 10px;
+}
