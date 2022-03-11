@@ -1,0 +1,24 @@
+.product-list-show{
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+#search-bar-container{
+    width: 100%;
+    margin: 0%;
+}
+#search-bar{
+    width: 80%;
+}
+#search-bar-li{
+width: 70%;
+}
+
+#store-catalog-display{
+    display: inline;
+}
+
+.product-catalog-title{
+margin-top: 5%;
+margin-bottom: 5%;
+}

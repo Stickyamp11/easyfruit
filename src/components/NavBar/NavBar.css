@@ -1,21 +1,51 @@
 .nav-bar {
     
 }
-#login-button{
+#user-menu{
     padding-top: 4px;
     padding-bottom: 4px;
     position:fixed;
     right: 2%;
     background-color: rgb(15, 98, 36);
-    
-
 }
+#user-menu-toggle{
+    
+}
+
 .nav-padding{
     padding-left: 40px;
     padding-bottom: 40px;
 }
-.login-button-wrapper{
-}
+
 #login-icon{
     padding-right: 10px;
+}
+
+#sign-up-button{
+    /*position: fixed;
+    right: 10%;*/
+
+}
+#sign-up-button-text{
+
+}
+
+#login-button{
+    padding-top: 4px;
+    padding-bottom: 4px;
+    /*position:fixed;
+    right: 2%;*/
+    background-color: rgb(40, 117, 40);
+}
+
+#login-text{
+    display: inline;
+    padding: 0px;
+}
+
+#main-navbar{
+}
+
+#fill-space{
+
 }

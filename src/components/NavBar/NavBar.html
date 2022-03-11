@@ -1,19 +1,23 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">Navbar</a>
+<div>
+
+  <!-- Main NavBar which is going to be present all over the user experience-->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light" id="main-navbar">
+    <router-link class="nav-link" to="/">EASYFRUIT</router-link>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarNavDropdown">
     <ul class="navbar-nav">
       <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        <router-link class="nav-link" to="/">Home <span class="sr-only">(current)</span></router-link>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Features</a>
+      <li class="nav-item" id="tab-2">
+        <router-link class="nav-link" to="/products">Products</router-link>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Pricing</a>
+      <li class="nav-item" id="tab-2">
+        <router-link class="nav-link" to="/stores">Comercios</router-link>
       </li>
+
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Dropdown link
@@ -26,12 +30,60 @@
         </div>
         
       </li>
-    
-      
-      <li class="login-button-wrapper">
-        
-        <button type="button" class="btn btn-primary btn-lg" id="login-button"><i class="fa-solid fa-user-large" id="login-icon"></i>Login</button>
-      </li>
     </ul>
+
+
+
+    <!-- Elements positioned in the middle -->
+    
+
+
+
+
+
+
+
+
+    <!-- Third part of the navbar. This elements are positioned in the right corner-->
+    <ul class="navbar-nav ml-auto">
+    <!--  If user is not logged then show sign up button-->
+      <li v-if="false" class="nav-item" id="sign-up-button">
+        <router-link class="nav-link" to="/signup" id="sign-up-button-text">Sign Up</router-link>
+      </li>
+
+    
+      <!--  If user is not logged then show Login button (This always shows with sign up)-->
+      <li v-if="false" class="nav-item" > 
+        <button type="button" class="btn btn-primary btn-lg" id="login-button">
+          <i class="fa-solid fa-user-large" id="login-icon"></i>
+          <router-link class="nav-link" to="/login" id="login-text">Login</router-link>
+        </button>
+      </li>
+            <!--  If user is logged, then it shows the user menu-->
+      
+      <li v-if="true" class="nav-item dropdown" > 
+        <a class="nav-link dropdown-toggle" href="#" id="user-menu-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          User Menu
+        </a>
+          <div class="dropdown-menu" aria-labelledby="user-menu-toggle">
+            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <a class="dropdown-item" href="#">Something else here</a>
+        
+          </div>
+        
+      </li>
+      
+
+      <!--  END USER MENU-->
+
+      
+
+    </ul>
+
+        <!-- END LIST-->
+
   </div>
 </nav>
+
+</div>
