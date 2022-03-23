@@ -1,0 +1,22 @@
+<section class="dialog-notification">
+  <transition name="dialog-animation">
+  <div v-show="dialogActive" class="dialog">
+    <transition name="dialog-animation-inner">
+
+    <div v-show="dialogActive" class="dialog-inner">
+      <router-link class="exit-link" to="/"><i class="far fa-times-circle" @Click="dialogActive = false"></i></router-link>
+      <!-- Dialog Content-->
+      <slot />
+
+      <button @Click="dialogActive = false">
+        <router-link class="close-link" to="/">
+          Ok
+        </router-link>
+      </button>
+
+    </div>
+  </transition>
+  </div>
+</transition>
+</section>
+

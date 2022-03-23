@@ -1,7 +1,10 @@
-<div class="card" id="card-item">
-  <img class="card-img-top" src="" alt="Card image cap">
+<router-link :to="{name:'store', params:{id: store_id}}">
+<div class="card" id="card-item" @Click="clicked">
+
+  <img class="card-img-top" src="../../assets/slide_1.png" alt="Card image cap">
   <div class="card-body">
     <p class="card-text">{{store_name}}</p>
     <p class="card-text">{{store_address}}</p>
   </div>
 </div>
+</router-link>

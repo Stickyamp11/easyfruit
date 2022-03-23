@@ -47,28 +47,27 @@
     <!-- Third part of the navbar. This elements are positioned in the right corner-->
     <ul class="navbar-nav ml-auto">
     <!--  If user is not logged then show sign up button-->
-      <li v-if="false" class="nav-item" id="sign-up-button">
+      <li v-if="!isUserLogged" class="nav-item" id="sign-up-button">
         <router-link class="nav-link" to="/signup" id="sign-up-button-text">Sign Up</router-link>
       </li>
 
     
       <!--  If user is not logged then show Login button (This always shows with sign up)-->
-      <li v-if="false" class="nav-item" > 
-        <button type="button" class="btn btn-primary btn-lg" id="login-button">
+      <li v-if="!isUserLogged" class="nav-item" > 
+          <router-link class="nav-link" to="/login" id="login-button">
           <i class="fa-solid fa-user-large" id="login-icon"></i>
-          <router-link class="nav-link" to="/login" id="login-text">Login</router-link>
-        </button>
+          <i id="login-text">Login</i>
+        </router-link> 
       </li>
             <!--  If user is logged, then it shows the user menu-->
       
-      <li v-if="true" class="nav-item dropdown" > 
+      <li v-if="isUserLogged" class="nav-item dropdown" > 
         <a class="nav-link dropdown-toggle" href="#" id="user-menu-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           User Menu
         </a>
-          <div class="dropdown-menu" aria-labelledby="user-menu-toggle">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <a class="dropdown-item" href="#">Something else here</a>
+          <div class="dropdown-menu" aria-labelledby="user-menu-toggle" id="user-dropdown">
+            <router-link class="user-dropdown-item" to="/profile" id="profile-link">Profile</router-link>
+            <router-link class="user-dropdown-item" to="/" id="profile-link" v-on:click="logout" >Log out</router-link>
         
           </div>
         
@@ -85,5 +84,18 @@
 
   </div>
 </nav>
+<main>
+<Board>
+</Board>
+</main>
+<!-- this is used to reload the component when data change-->
+<!--<span>{{userLogged}}</span>
+<button @Click="exampletry()" style="display: hidden;"></button>-->
+
+<hr style="margin: 0;">
+
+<Cart/>
 
 </div>
+
+

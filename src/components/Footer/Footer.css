@@ -1,3 +1,28 @@
-.footer {
+#footer-section{
 
+    margin-top: 20%;
+    color: white;
+}
+
+.footer-menu,#copyright-section{
+    background-color: rgb(7, 15, 7);
+}
+
+.footer-menu{
+    margin-top: 0%;
+    padding-top: 0.1%;
+}
+
+#row-footer-container{
+    margin-top: 5%;
+}
+
+p{
+color: white;
+}
+#copyright-section{
+    color:white;
+}
+h6{
+    color: rgb(65, 136, 43);
 }

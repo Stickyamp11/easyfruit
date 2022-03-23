@@ -1,0 +1,43 @@
+#slide{
+    width: 80%;
+    margin-left: 10%;
+    margin-top: 5%;
+}
+
+.header-home{
+    margin: auto;
+    width: 50%;
+    border: 0;
+    padding: 10px;
+    text-align: center;
+    margin-top: 5%;
+}
+.header-title{
+    color: rgb(36, 168, 36);
+}
+.sub-title{
+    margin: auto;
+    width: 50%;
+    border: 0;
+    padding: 10px;
+    text-align: center;
+    margin-top: 5%;
+}
+
+#why-us-items{
+    width: 80%;
+    margin-left: 15%;
+}
+#icon-card, .card-body{
+    
+    margin: auto;
+    width: 80%;
+    border: 0;
+    padding: 10px;
+    text-align: center;
+    margin-top: 5%;
+    color:rgb(18, 58, 17);
+}
+.card{
+    border: 0;
+}

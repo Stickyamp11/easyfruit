@@ -1,7 +1,7 @@
 <template>
   <div>
   <!--<HelloWorld msg="Welcome to Your Vue.js App"/>-->
-  <NavBar/>
+  <NavBar :userLogged="userLogged"/>
   <!--
   <Login/>
   
@@ -10,10 +10,12 @@
   <SignUp/>-->
   <router-view/>
   <Footer/>
+
   </div>
 </template>
 
 <script>
+//import * as sharedData from "./shared/sharedData"
 import NavBar from './components/NavBar/nav-bar.vue'
 import Footer from './components/Footer/foot-er.vue'
 
@@ -24,10 +26,19 @@ import StoreProductCatalog from './components/StoreProductCatalog/store-product-
 import SignUp from './components/SignUp/sign-up.vue'*/
 export default {
   name: 'App',
+  data(){
+    return{
+      userLogged: Boolean,
+    }
+  },
   components: {
     NavBar,Footer
    //NavBar,Login,Footer,SingleProductCard, StoreProductCatalog, SignUp
+  },
+    mounted(){
+    //this.userLogged = sharedData.sharedData.userLogged
   }
+
 }
 </script>
 

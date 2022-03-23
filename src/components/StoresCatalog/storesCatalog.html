@@ -1,11 +1,11 @@
 <section class="stores-catalog">
-  <div class="product-catalog-title">
-  <span> Tienda Mercadona</span>
+  <div class="product-catalog-header">
+  <h1> Comercios disponibles</h1>
   </div>
   
   <div class="stores-list-show">
   <div class="row">
-    <div class="col col-lg-12 col-md-12 col-sm-12"  v-for="store in stores" >
+    <div class="col col-lg-6 col-md-12 col-sm-12"  v-for="store in stores" >
      <!-- V-bind is used in vue to fetch dynamic data into some prop into the component-->
       <SingleStoreCard class="store-card" :store_id="store.id" :store_name="store.name" :store_address="store.address" :store_comercial_logo="store.comercial_logo"></SingleStoreCard>
     </div>

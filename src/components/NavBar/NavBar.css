@@ -17,8 +17,10 @@
     padding-bottom: 40px;
 }
 
-#login-icon{
-    padding-right: 10px;
+
+#user-dropdown{
+    width: 6%;
+    min-width: 7.5rem;
 }
 
 #sign-up-button{
@@ -31,13 +33,17 @@
 }
 
 #login-button{
-    padding-top: 4px;
-    padding-bottom: 4px;
+    padding-top: 0px;
+    padding-bottom: 0px;
     /*position:fixed;
     right: 2%;*/
     background-color: rgb(40, 117, 40);
+    margin-top: 10%;
 }
 
+#login-icon{
+    padding-right: 10px;
+}
 #login-text{
     display: inline;
     padding: 0px;
@@ -49,3 +55,28 @@
 #fill-space{
 
 }
+
+.user-dropdown-item{
+    display: block;
+    margin-left: 10%;
+    width: 50%;
+    color: black;
+   
+}
+
+.board{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 300px;
+    background-color: #818181;
+    padding: 15px;
+
+  }
+
+  .card .board{
+    padding: 15px 25px;
+    background-color: aliceblue;
+    cursor: pointer;
+    margin-bottom: 15px;
+  }

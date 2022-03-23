@@ -1,12 +1,18 @@
-import axios from "axios"
 import SingleProductCard from "../SingleProductCard/single-product-card.vue";
+import * as storeService from "@/shared/services/storeService"
 export default {
   name: 'store-product-catalog',
   components: { SingleProductCard},
-  props: [],
+  props: {
+    id:{
+      type: String|Number,
+      required: true,
+    },
+  },
   data () {
     return {
       products: [],
+      storeInfo: '',
 
     }
   },
@@ -14,12 +20,21 @@ export default {
 
   },
   mounted () {
+    this.getStoreInfo();
     this.getProductsDataFromStore();
   },
   methods: {
+    getStoreInfo(){
+      storeService.getStoreData(this.$route.params.id).then((response) => {
+        console.log(response)
+        this.storeInfo = response.data
+      }).catch((error) => {
+        console.error(error);
+      })
+    },
 
     getProductsDataFromStore(){
-      axios.get('/api/v1/product').then((response) => {
+      storeService.getStoreProducts(this.$route.params.id).then((response) => {
         console.log(response)
         this.products = response.data
       }).catch((error) => {
