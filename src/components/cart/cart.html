@@ -1,30 +1,30 @@
 <section class="cart">
-<p>
+
   <button onclick="openNav()" id="cart-button" class="btn btn-primary" type="button" data-toggle="collapse" data-target="#cart-content" aria-expanded="false" aria-controls="cart-content">
-    <i class="fa-solid fa-cart-arrow-down"></i>
+    <i class="fa-solid fa-cart-arrow-down fa-2x"></i>
   </button>
-</p>
+
 <div class="collapse" id="cart-content">
-  <button onclick="closeNav()" class="btn btn-primary" type="button" data-toggle="collapse" data-target="#cart-content" aria-expanded="false" aria-controls="cart-content">
-    <i class="fa-solid fa-arrow-pointer"></i>
-  </button>
+  
   <div id="mySidebar" class="sidebar">
-    <i class="fa-solid fa-cart-arrow-down fa-4x" style="color: white;"></i>
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-    <a href="#">About</a>
-    <a href="#">Services</a>
-    <a href="#">Clients</a>
-    <a href="#">Contact</a>
-    <Board id="board-1">
-      <Card id="card-1" draggable="true">
-        <p> Holaaa</p>
-      </Card>
-      </Board>
+
+      <button onclick="openNav()" id="" class="btn btn-primary" type="button" data-toggle="collapse" data-target="#cart-content" aria-expanded="false" aria-controls="cart-content">
+        <i class="fa-solid fa-x"></i>
+      </button>
+    <h1 style="color: rgb(255, 255, 255);"> Carrito </h1>
+    
+
+    <!-- Calls the board component. -->
+    <Board/>
 
     <div id="sidebar-footer">
-      <button class="btn btn-primary" type="button">
-        Realizar pedido
-      </button>
+
+        <router-link :to="{name:'buy'}">
+            <button class="btn btn-primary" type="button">
+              Realizar pedido
+            </button>
+        </router-link>
+
     </div>
   </div>
 

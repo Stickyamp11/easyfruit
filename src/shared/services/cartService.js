@@ -1,0 +1,39 @@
+import axios from 'axios'
+axios.defaults.baseURL = 'http://localhost:3000/api/v1';
+
+    
+ export async function getCart() {
+        return await axios.get('/cart/' + localStorage.getItem('userId'), { headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }}).then(function (response) {
+            return response;
+        }).catch(function (error) {
+            console.log(error);
+        });
+    }
+
+export async function deleteProductFromCart(productId){
+    return await axios.delete('/cart', { 
+        headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
+        data: { 'productId': productId, 'customerId': localStorage.getItem('userId')}
+    
+    } ).then(function(response){
+         return response;
+     }).catch(function(error){
+         console.log(error);
+     })
+
+}
+
+export async function insertProductIntoCart(productId){
+    return await axios.post('/cart', {
+            
+        'productId': productId,
+        'customerId': localStorage.getItem('userId')
+    
+    
+},{ headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }}).then(function(response){
+         return response;
+     }).catch(function(error){
+         console.log(error);
+     })
+
+}

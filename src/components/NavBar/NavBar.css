@@ -18,10 +18,7 @@
 }
 
 
-#user-dropdown{
-    width: 6%;
-    min-width: 7.5rem;
-}
+
 
 #sign-up-button{
     /*position: fixed;
@@ -50,15 +47,20 @@
 }
 
 #main-navbar{
+    max-height: 50px;
 }
 
 #fill-space{
 
 }
 
+#user-dropdown{
+    width: 200px;
+}
+
 .user-dropdown-item{
     display: block;
-    margin-left: 10%;
+    margin-left: 0;
     width: 50%;
     color: black;
    
@@ -79,4 +81,8 @@
     background-color: aliceblue;
     cursor: pointer;
     margin-bottom: 15px;
+  }
+
+  #profile-link{
+    width: 100%;
   }

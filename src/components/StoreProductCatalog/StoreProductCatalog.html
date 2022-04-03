@@ -16,10 +16,29 @@
 
 <div class="product-list-show">
 <div class="row ">
-  <div class="col col-lg-4 col-md-3 col-sm-2"  v-for="product in products">
-   <!-- V-bind is used in vue to fetch dynamic data into some prop into the component-->
-    <SingleProductCard :product_id="product.id" :product_name="product.name" :price_per_kg="product.price_per_kg" :Category="product.fCategory"></SingleProductCard>
-  </div>
+    <div v-for="product in products"
+          :key="product.id" 
+          id="drag-el"
+          class="col col-lg-4 col-md-3 col-sm-2"
+          draggable="true"
+          @dragstart="startDrag($event, product)">
+
+            <!-- V-bind is used in vue to fetch dynamic data into some prop into the component-->
+             <!-- <SingleProductCard :product_id="product.id" :product_name="product.name" :price_per_kg="product.price_per_kg" :Category="product.fCategory"></SingleProductCard>-->
+            
+             <div class="card" id="card-item">
+              <img id="product-card-img" src="../../assets/product_1.png" alt="Card image cap">
+              
+              <div class="card-body">
+                <p class="card-text">{{product.name}}</p>
+                <p class="card-text">{{product.price_per_kg}}</p>
+              </div>
+              
+            </div>
+            
+ 
+    </div>
+ 
 
 </div>
 </div>

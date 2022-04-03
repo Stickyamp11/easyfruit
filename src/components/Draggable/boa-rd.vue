@@ -1,71 +1,126 @@
 <template>
-<div 
-class="drop-zone"
-@dragenter.prevent
-@dragover.prevent
->
-    <div v-for="item in products" 
-    :key="item.id" 
-    class="drag-el"
-    draggable="true"
-    @dragstart="startDrag($event, item)">
-    >
-    {{item.title}} 
-    </div>
- 
-</div>
 
 <div 
-class="drop-zone"
-@drop="onDrop($event,2)"
+class="drop-zone-board"
+@drop="onDrop($event)"
 @dragenter.prevent
 @dragover.prevent
 >
+    <!-- In case there is no products yet here-->
+    <div v-if="emptyProducts">
+      <div> ¡Arrastra productos aquí!</div>
+      <i class="fa-solid fa-share-from-square"></i>
+    </div>
+
+    <!-- Loop to display the list of products in cart -->
     <div v-for="item in products2" 
     :key="item.id" 
-    class="drag-el"
+    class="drag-el-in-board"
     draggable="true"
     @dragstart="startDrag($event, item)">
-    {{item.title}} 
+            <div class="draggable-item-body">
+                <div style="display: inline"><img id="img-cart-item" class="card-img-top" src="../../assets/product_1.png" alt="Card image cap"></div>
+                <div style="display: inline; margin-left: 4%;">
+                    <h7>{{item.name}}</h7>
+                </div>
+                <div style="display: inline; float:right;">
+                     <button class="button-cart-delete-item" type="submit" v-on:click="deleteProductFromCart(item)">
+                    <i class="fa-solid fa-x"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!--
+            <div class="draggable-item-footer">
+                <span>
+                    <button class="button-cart-delete-item" type="submit" v-on:click="deleteProductFromCart(item)">
+                    <i class="fa-solid fa-x"></i>
+                    </button>
+                </span>
+            </div> -->
     </div>
  
 </div> 
 </template>
 
 <script>
+import * as cartService from "@/shared/services/cartService" 
  export default{
      data(){
          return{
-            products: [
-             {id:0, title: 'item a', list: 1},
-             {id:1, title: 'item b', list: 1},
-             {id:2, title: 'item c', list: 2},
-            ],
-            products2: []
+            products2: [],
+            emptyProducts: true,
          }
          
      },
      setup(){
      },
+
+     mounted(){
+         this.getCartProductsFromCustomer()
+     },
      props: [],
      methods: {
-         drop: e => {
-             const card_id = e.dataTransfer.getData('card_id');
-             const card = document.getElementById(card_id);
-             card.style.display = "block"
-             e.target.appendChild(card);
+         getCartProductsFromCustomer(){
+
+             console.log('heyyyyyy')
+              cartService.getCart().then((response) => {
+              console.log(response)
+              console.log('hi')
+              
+              this.products2 = response.data
+
+              if(this.products2.length){
+                  this.emptyProducts = false;
+              }
+              }).catch((error) => {
+              console.error(error);
+              })
+
          },
 
-         onDrop(event, list){
-            const itemId = event.dataTransfer.getData('productId')
-            const itemTitle = event.dataTransfer.getData('productTitle')
-            const itemList = event.dataTransfer.getData('productList')
+         onDrop(event){
+            const productId = event.dataTransfer.getData('productId')
+            const productImg = event.dataTransfer.getData('productImg')
+            const productName = event.dataTransfer.getData('productName')
+            const productFStore = event.dataTransfer.getData('productFStore')
 
-            console.log(itemId)
-            console.log(list)
-            if(!this.products2.find((prd) => prd.id == itemId )){
-                this.products2.push({id: itemId, title: itemTitle, list: itemList})
+
+            console.log(productId)
+            if(!this.products2.find((prd) => prd.id == productId ) && productId){
+                
+                //When there is at least one product in cart we need to add extra security
+                if(this.products2.length > 0){
+                    console.log('FIRST LOOP' )
+                    //If the product comes from a different store we need to reject it.
+                    console.log(productFStore)
+                    console.log('RECENT HERE' )
+                    console.log(this.products2)
+                    console.log(this.products2[0])
+                    if(this.products2[0].fStore == productFStore)
+                    {
+                        this.products2.push({id: productId, img: productImg, name: productName})
+                        //Insert the dropped product into the user cart
+                        cartService.insertProductIntoCart(productId)
+                        this.emptyProducts = false;
+                    }
+                }
+                //If there is not a product in cart we can add it right away
+                else
+                {
+                    this.products2.push({id: productId, img: productImg, name: productName, fStore: productFStore})
+                    //Insert the dropped product into the user cart
+                    cartService.insertProductIntoCart(productId)
+                    this.emptyProducts = false;
+                }
+               
+                
+                
+                
+
             }
+
+            console.log(this.products2)
             
         },
 
@@ -80,6 +135,28 @@ class="drop-zone"
 
 
             console.log(event.dataTransfer.getData('productId'))
+        },
+        deleteProductFromCart(product){
+            console.log('Borrando')
+            console.log(product)
+            console.log(product.id)
+            console.log(this.products2)
+            let position = this.products2.indexOf(product)
+            console.log(position)
+            if(position >= 0)
+            {
+            this.products2.splice(position, 1);
+
+            cartService.deleteProductFromCart(product.id);
+            }
+
+            //If length is 0 , then products array is empty
+            console.log('heyyy')
+            console.log(this.products2.length)
+            if(this.products2.length == 0){ 
+                this.emptyProducts = true;
+                }
+            console.log(this.products2)
         }
          
 
@@ -88,18 +165,44 @@ class="drop-zone"
  </script>
 
  <style>
- .drop-zone{
-     width: 50%;
+ .drop-zone-board{
      margin: 50px auto;
      padding: 10px;
-     min-height: 10px;
-     background-color: antiquewhite;
+     min-height: 70%;
+     min-width: 10%;
+     width: 90%;
+     background-color: rgb(255, 255, 255);
+     opacity: 100%;
  }
- .drag-el{
-     background-color: aqua;
+ .drag-el-in-board{
      color: aliceblue;
      padding: 5px;
      margin-bottom: 10px;
+     text-align: left;
+ }
+
+ .button-cart-delete-item{
+
+    background: white;
+    border: 1;
+    margin-top: 70%;
+    margin-right: 20%;
+
+
+ }
+ #img-cart-item{
+     max-width: 20%;
+     max-height: 20%;
+     display: inline;
+ }
+
+ .draggable-item-body{
+     background-color: rgb(138, 248, 116);
+ }
+ .draggable-item-footer{
+     text-align: center;
+     border: 2px;
+     background-color: rgb(218, 218, 218);
  }
 
 

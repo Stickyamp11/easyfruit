@@ -28,7 +28,7 @@ export default {
       console.log(this.email)
       console.log('submitted')
 
-      const response = await axios.post('/api/v1/customer',
+      const response = await axios.post('/customer',
       {
         "name": this.name,
         "email": this.email,

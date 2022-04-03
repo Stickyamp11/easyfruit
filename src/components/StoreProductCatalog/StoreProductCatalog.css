@@ -23,3 +23,39 @@ margin-top: 5%;
 margin-bottom: 5%;
 margin-left: 5%;
 }
+
+
+#drag-el{
+    background-color: rgb(255, 255, 255);
+    color: aliceblue;
+    padding: 5px;
+    margin: 5%;
+    border-color: green;
+    border-radius: 5%;
+    text-align: center;
+}
+
+#product-card-img{
+    width: 40%;
+}
+
+.card-text{
+    color: black;
+}
+
+#card-item{
+    width: 100%;
+    background-color: rgb(255, 255, 255);
+}
+
+.product-text{
+    color: black;
+}
+
+.card{
+    display: block;
+}
+
+#product-card-img{
+    margin-right: 5%;
+}

@@ -28,6 +28,7 @@ export default {
       storeService.getStoreData(this.$route.params.id).then((response) => {
         console.log(response)
         this.storeInfo = response.data
+        console.log('storeInfo', this.storeInfo)
       }).catch((error) => {
         console.error(error);
       })
@@ -40,7 +41,24 @@ export default {
       }).catch((error) => {
         console.error(error);
       })
-    }
+    },
+
+    //Draggable items
+    startDrag(event, product){
+      console.log('Problem is here')
+      console.log(product)
+      console.log(this.products)
+      console.log('startDrag | storeProductCatalog')
+      event.dataTransfer.dropEffect = 'move'
+      event.dataTransfer.effectAllowed = 'move'
+      event.dataTransfer.setData('productId', product.id)
+      event.dataTransfer.setData('productImg', product.product_img)
+      event.dataTransfer.setData('productName', product.name)
+      event.dataTransfer.setData('productFStore', product.fStore)
+
+
+      console.log(event.dataTransfer.getData('productId'))
+  }
 
 
   }

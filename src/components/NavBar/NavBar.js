@@ -12,13 +12,16 @@ export default {
     return {
       sharedData,
       Cart,
-      isUserLogged: Boolean
+      isUserLogged: Boolean,
+      isStoreManager: Boolean,
     }
   },
   computed: {
 
   },
   mounted () {
+    this.isStoreManager = false;
+    this.isUserLogged = false;
    this.exampletry()
     
   },
@@ -34,7 +37,9 @@ export default {
       {
       localStorage.removeItem('token');
       localStorage.removeItem('userEmail');
+      localStorage.removeItem('isStoreManager');
       this.isUserLogged = false;
+      this.isStoreManager = false;
       }
       console.log(localStorage.getItem('token'))
         //localStorage.getItem('token') = null;
@@ -46,6 +51,12 @@ export default {
     exampletry(){
       console.log('NavBar mounted')
       this.isUserLogged = localStorage.getItem('token');
+      console.log('isStore', localStorage.getItem('isStoreManager'))
+      if(localStorage.getItem('isStoreManager') == 'si') 
+      {
+        this.isStoreManager = true;
+      }
+ 
       console.log(this.userLogged)
     }
   }

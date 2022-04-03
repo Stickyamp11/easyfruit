@@ -1,6 +1,7 @@
 import axios from "axios"
 import {sharedData} from "../../shared/sharedData"
 import DialogNotification from "../DialogNotification/dialog-notification.vue"
+import * as customerService from "@/shared/services/customerService"
 export default {
 
   name: 'login',
@@ -26,7 +27,7 @@ export default {
       console.log(this.email)
       console.log('submitted')
 
-       await axios.post('/api/v1/auth',
+       await axios.post('/auth',
       {
         "email": this.email,
         "passwd": this.password,
@@ -37,6 +38,21 @@ export default {
           if(res.status == 200){
             localStorage.setItem('token', res.data.token);
             localStorage.setItem('userEmail', this.email);
+
+
+              customerService.getCustomer(this.email).then((response) => {
+              console.log('Datos usuario', response)
+              //Sets localStorage userId
+              localStorage.setItem('userId', response.data.id)
+              localStorage.setItem('isStoreManager', response.data.seller)
+              }).catch((error) => {
+              console.error(error);
+              })
+
+
+
+
+            
            // this.$root.$emit('logged-event', 'OK')
            sharedData.userEmail = this.email;
            sharedData.userLogged = true;

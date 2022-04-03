@@ -11,13 +11,15 @@
       <li class="nav-item active">
         <router-link class="nav-link" to="/">Home <span class="sr-only">(current)</span></router-link>
       </li>
+      <!--
       <li class="nav-item" id="tab-2">
         <router-link class="nav-link" to="/products">Products</router-link>
       </li>
+      -->
       <li class="nav-item" id="tab-2">
         <router-link class="nav-link" to="/stores">Comercios</router-link>
       </li>
-
+      <!--
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Dropdown link
@@ -30,12 +32,17 @@
         </div>
         
       </li>
+      -->
     </ul>
 
 
 
     <!-- Elements positioned in the middle -->
-    
+
+    <ul v-if="isUserLogged" class="navbar-nav mx-auto">
+
+
+    </ul>
 
 
 
@@ -59,21 +66,38 @@
           <i id="login-text">Login</i>
         </router-link> 
       </li>
-            <!--  If user is logged, then it shows the user menu-->
-      
-      <li v-if="isUserLogged" class="nav-item dropdown" > 
+
+
+
+            <!--  If user is logged AND HE IS NOT A STORE MANAGER, then it shows the user menu-->
+      <li v-if="isUserLogged && !isStoreManager" class="nav-item dropdown" style="margin-right: 15% ;">
+        <Cart/>
+      </li>
+      <li v-if="isUserLogged && !isStoreManager" class="nav-item dropdown"> 
         <a class="nav-link dropdown-toggle" href="#" id="user-menu-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           User Menu
         </a>
           <div class="dropdown-menu" aria-labelledby="user-menu-toggle" id="user-dropdown">
-            <router-link class="user-dropdown-item" to="/profile" id="profile-link">Profile</router-link>
-            <router-link class="user-dropdown-item" to="/" id="profile-link" v-on:click="logout" >Log out</router-link>
+            <router-link class="user-dropdown-item" to="/profile" id="profile-link"><i class="fa-regular fa-address-card"></i> Profile</router-link>
+            <router-link class="user-dropdown-item" to="/" id="profile-link" v-on:click="logout" ><i class="fa-solid fa-arrow-right-from-bracket"></i> Log out</router-link>
         
           </div>
         
       </li>
+       <!--  If user is logged AND HE IS A STORE MANAGER, then it shows the user menu-->
       
-
+       <li v-if="isUserLogged && isStoreManager" class="nav-item dropdown"> 
+        <a class="nav-link dropdown-toggle" href="#" id="user-menu-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Store Manager Menu
+        </a>
+          <div class="dropdown-menu" aria-labelledby="user-menu-toggle" id="user-dropdown">
+            <router-link class="user-dropdown-item" to="/storemanagement" id="profile-link"><i class="fa-regular fa-address-card"></i> Store Menu</router-link>
+            <router-link class="user-dropdown-item" to="/profile" id="profile-link"><i class="fa-regular fa-address-card"></i> Profile</router-link>
+            <router-link class="user-dropdown-item" to="/" id="profile-link" v-on:click="logout" ><i class="fa-solid fa-arrow-right-from-bracket"></i> Log out</router-link>
+        
+          </div>
+        
+      </li>
       <!--  END USER MENU-->
 
       
@@ -84,17 +108,13 @@
 
   </div>
 </nav>
-<main>
-<Board>
-</Board>
-</main>
+
+
 <!-- this is used to reload the component when data change-->
 <!--<span>{{userLogged}}</span>
 <button @Click="exampletry()" style="display: hidden;"></button>-->
 
 <hr style="margin: 0;">
-
-<Cart/>
 
 </div>
 

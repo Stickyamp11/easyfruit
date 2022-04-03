@@ -51,6 +51,26 @@ routes: [
       name: 'store',
       component: () => import('./components/StoreProductCatalog/store-product-catalog.vue')
      },
+     {
+      path: '/buy',
+      name: 'buy',
+      component: () => import('./components/buy-order.vue')
+     },
+     {
+      path: '/storemanagement',
+      name: 'storemanagement',
+      component: () => import('./components/store-management.vue')
+     },
+     {
+      path: '/editproduct/:id',
+      name: 'editproduct',
+      component: () => import('./components/edit-product.vue')
+     },
+     {
+      path: '/createproduct',
+      name: 'createproduct',
+      component: () => import('./components/create-product.vue')
+     },
 
 
 
