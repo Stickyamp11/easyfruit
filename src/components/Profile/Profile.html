@@ -20,7 +20,7 @@
     </div>
     <div class="form-group col-md-2">
       <label for="inputZip">Zip</label>
-      <input type="text" class="form-control" id="inputZip">
+      <input type="text" v-model="zip" class="form-control" id="inputZip">
     </div>
   </div>
  
@@ -28,7 +28,7 @@
 </form>
 
 
-<DialogNotification v-if="dialogSuccess" :dialogShow="dialogSuccess">
+<DialogNotification v-if="dialogSuccess" :dialogShow="dialogSuccess" :link='successLink'>
 <div class="modal-content">
   <p>
     Se ha registrado correctamente

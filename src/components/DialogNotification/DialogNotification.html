@@ -4,12 +4,11 @@
     <transition name="dialog-animation-inner">
 
     <div v-show="dialogActive" class="dialog-inner">
-      <router-link class="exit-link" to="/"><i class="far fa-times-circle" @Click="dialogActive = false"></i></router-link>
       <!-- Dialog Content-->
       <slot />
-
+      <i class="fa-solid fa-circle-check fa-8x"></i>
       <button @Click="dialogActive = false">
-        <router-link class="close-link" to="/">
+        <router-link class="close-link" :to="redirectLink">
           Ok
         </router-link>
       </button>

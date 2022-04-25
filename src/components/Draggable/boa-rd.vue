@@ -19,15 +19,17 @@ class="drop-zone-board"
     draggable="true"
     @dragstart="startDrag($event, item)">
             <div class="draggable-item-body">
-                <div style="display: inline"><img id="img-cart-item" class="card-img-top" src="../../assets/product_1.png" alt="Card image cap"></div>
+            <div class="col-12">
+                <div style="display: inline"><img id="img-cart-item" class="card-img-top" :src="item.product_img" alt="Card image cap" style="width: 60px; height: 60px"></div>
                 <div style="display: inline; margin-left: 4%;">
                     <h7>{{item.name}}</h7>
                 </div>
                 <div style="display: inline; float:right;">
-                     <button class="button-cart-delete-item" type="submit" v-on:click="deleteProductFromCart(item)">
+                     <button class="btn btn-danger" id="button-cart-delete-item" type="submit" v-on:click="deleteProductFromCart(item)">
                     <i class="fa-solid fa-x"></i>
                     </button>
                 </div>
+            </div>
             </div>
 
             <!--
@@ -65,7 +67,7 @@ import * as cartService from "@/shared/services/cartService"
 
              console.log('heyyyyyy')
               cartService.getCart().then((response) => {
-              console.log(response)
+              console.log('Productos carrito en la carga', response)
               console.log('hi')
               
               this.products2 = response.data
@@ -99,7 +101,7 @@ import * as cartService from "@/shared/services/cartService"
                     console.log(this.products2[0])
                     if(this.products2[0].fStore == productFStore)
                     {
-                        this.products2.push({id: productId, img: productImg, name: productName})
+                        this.products2.push({id: productId, product_img: productImg, name: productName})
                         //Insert the dropped product into the user cart
                         cartService.insertProductIntoCart(productId)
                         this.emptyProducts = false;
@@ -108,7 +110,7 @@ import * as cartService from "@/shared/services/cartService"
                 //If there is not a product in cart we can add it right away
                 else
                 {
-                    this.products2.push({id: productId, img: productImg, name: productName, fStore: productFStore})
+                    this.products2.push({id: productId, product_img: productImg, name: productName, fStore: productFStore})
                     //Insert the dropped product into the user cart
                     cartService.insertProductIntoCart(productId)
                     this.emptyProducts = false;
@@ -169,24 +171,24 @@ import * as cartService from "@/shared/services/cartService"
      margin: 50px auto;
      padding: 10px;
      min-height: 70%;
+     max-height: 70%;
+     overflow-y: auto;
+     overflow-x: hidden; /* Hide horizontal scrollbar */
      min-width: 10%;
-     width: 90%;
      background-color: rgb(255, 255, 255);
      opacity: 100%;
  }
  .drag-el-in-board{
-     color: aliceblue;
+     color: rgb(0, 0, 0);
      padding: 5px;
      margin-bottom: 10px;
      text-align: left;
  }
 
- .button-cart-delete-item{
-
-    background: white;
+ #button-cart-delete-item{
     border: 1;
-    margin-top: 70%;
-    margin-right: 20%;
+    margin-top: 25%;
+    margin-right: 0%;
 
 
  }
@@ -197,7 +199,7 @@ import * as cartService from "@/shared/services/cartService"
  }
 
  .draggable-item-body{
-     background-color: rgb(138, 248, 116);
+     background-color: rgb(255, 255, 255);
  }
  .draggable-item-footer{
      text-align: center;

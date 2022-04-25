@@ -14,7 +14,8 @@ export default {
       password: '',
       phone:'',
       name:'',
-
+      zip: '',
+      successLink: '/',
     }
   },
   computed: {
@@ -37,6 +38,7 @@ export default {
           this.email = res.data.email;
           this.phone = res.data.phone;
           this.name = res.data.name;
+          this.zip = res.data.zip;
         }).catch(
           err => {
             console.log(err)
@@ -56,6 +58,7 @@ export default {
         "email": this.email ? this.email : "",
         "phone": this.phone ? this.phone : "",
         "passwd": this.password ? this.password : "",
+        "zip": this.zip ? this.zip : ""
       }
       await customerService.updateCustomer(customer, this.customerId).then(
         res => {

@@ -1,12 +1,12 @@
 <template>
-<section class="buy-order" v-if="dialogActive">
+<section class="repeat-order" v-if="dialogActive">
     <!-- This is a loop to show the products-->
 
-<div class="buy-order-inner">
-    <div class="buy-order-inner-header">
+<div class="repeat-order-inner">
+    <div class="repeat-order-inner-header">
         <div class="row align-items-center justify-content-center">
             <div class="col-9">
-                  <span id="buy-order-title">Resumen del pedido para {{storeInfo.name}}</span>
+                  <span id="repeat-order-title">Volver a pedir {{storeInfo.name}}</span>
             </div>
             <div class="col-3 text-right ">
                 <button class="btn btn-circle"><i class="fa-solid fa-x" v-on:click="hidde()"></i></button>
@@ -14,7 +14,7 @@
         </div>
         <hr style="margin: 0;">
     </div>
-    <div class="buy-order-inner-body">
+    <div class="repeat-order-inner-body">
     <div class="cart-products-show" 
     v-for="product in products" 
     :key="product.id">
@@ -27,7 +27,7 @@
                         <h5 class="card-title">{{product.name}}</h5>
                     </div>
                     <div class="col-6 text-right">
-                    <button id="buy-order-delete-button" class="btn btn-danger"><i class="fa-solid fa-x" v-on:click="discardProduct(product)"></i></button>
+                    <button id="repeat-order-delete-button" class="btn btn-danger"><i class="fa-solid fa-x" v-on:click="discardProduct(product)"></i></button>
                     </div>
                 </div>
                 
@@ -47,7 +47,7 @@
                                 <div class="col-5" style="padding: 0;">
                                  <label for="methodSelect">Método de medida</label>
                                 <select v-model="product.methodSelected" class="form-select" id="methodSelect">
-                                    <option v-for="method in product.methodsAllowed.split(';')" :key="method">{{method}}</option>
+                                    <option v-for="method in product.methodsAllowed?.split(';')" :key="method">{{method}}</option>
                                 </select>
                                 </div>
                                         <div v-if="product.methodSelected == 'kg'" class="col-7">
@@ -130,7 +130,7 @@
     </div>
 
 
-        <div class="card w-150 border-light" id="resume-buy-order">
+        <div class="card w-150 border-light" id="resume-repeat-order">
             <div class="row align-items-center justify-content-center ">
                 <div class="col-6 col-sm-5">
                      <label for="anotations-order">Observaciones</label>
@@ -176,14 +176,7 @@
 
        
 
-<DialogNotification ref="DialogSuccessBuy" :link='successLink'>
-    <div class="modal-content">
-      <p>
-        Pedido realizado con éxito
-      </p>
-    
-    </div>
-</DialogNotification>
+
 
 </div>
 
@@ -193,22 +186,24 @@
 
 <script>
 import * as storeService from "@/shared/services/storeService"
-import * as cartService from "@/shared/services/cartService"
 import * as orderService from "@/shared/services/orderService"
-import DialogNotification from "./DialogNotification/dialog-notification.vue"
+import * as productService from "@/shared/services/productService"
+
 export default {
-    components: {DialogNotification},
+     props: {
+     
+     
+     },
      data(){
          return{
-            products: [
-             {id:0, name: 'item a', description: "Este es un producto de ejemplo", store:"1", methodsAllowed: ''},
-             {id:1, name: 'item b', description: "Este es un producto de ejemplo", store:"1", methodsAllowed: ''},
-             {id:2, name: 'item c', description: "Este es un producto de ejemplo", store:"2", methodsAllowed: ''},
-            ],
+            products: [{'id': 1}, {'id': 2}],
             storeInfo: '',
             anotationsOrder: '',
             dialogActive: false,
-            successLink: ''
+            productsReceived: [],
+            fStoreReceived: 0, 
+            timesOrdered: 0,
+            updatedProducts: []
 
          }
          
@@ -217,19 +212,24 @@ export default {
      },
 
      mounted(){
-         this.getCartProductsFromCustomer();
-         this.getStoreInfo();
+         //this.products = this.productsReceived;
+         //this.getUpdatedInfoProducts()
+         //this.getCartProductsFromCustomer();
+        // this.getStoreInfo();
      },
-     props: [],
      methods: {
           hidde(){
         this.dialogActive = false;
-         this.getCartProductsFromCustomer();
 
              },
-            show(){
-            this.getCartProductsFromCustomer();
-            this.dialogActive = true;
+            show(productsR, storeR, timesorderedR){
+                this.products = productsR;
+                this.fStoreReceived = storeR;
+                this.timesOrdered = timesorderedR;
+
+                this.getUpdatedInfoProducts();
+                this.getStoreInfo();
+                this.dialogActive = true;
              },
          getEstimatedPriceForAllProducts(){
              let total = 0;
@@ -255,7 +255,7 @@ export default {
              }
          },
           getStoreInfo(){
-            storeService.getStoreData(this.products[0].store).then((response) => {
+            storeService.getStoreData(this.fStoreReceived).then((response) => {
                 console.log(response)
                 this.storeInfo = response.data
                 console.log('storeInfo', this.storeInfo)
@@ -272,8 +272,7 @@ export default {
              //All the prices sum 
              let totalPrice = this.getEstimatedPriceForAllProducts();
 
-
-             orderService.createOrder(this.storeInfo.id, localStorage.getItem('userId'), totalPrice, this.anotationsOrder).then((response) => {
+             orderService.createOrderRepeated(this.storeInfo.id, localStorage.getItem('userId'), totalPrice, this.timesOrdered, this.anotationsOrder).then((response) => {
                 console.log(response)
                 if(response.status == '201'){
                     //Order created correctly, now insert items
@@ -281,18 +280,7 @@ export default {
                     orderService.createOrderItems(response.data.id, this.products).then((response) => {
                      console.log(response)
                      if(response.status == 201){
-                         //Order is placed, cart now is redundant
-                         cartService.deleteCart().then((response) => {
-                              console.log(response)
-                              //Everything went fine
-                              if(response.status == '201'){
-                                  
-                                  this.$refs['DialogSuccessBuy'].show()
-                                  //this.hidde()
-                                  console.log('Pedido realizado correctamente')
-                              }
-                              
-                              }).catch((error) => console.error(error))
+                         console.log('Pedido correcto')
                      }
                     }).catch((error) => {
                         console.error(error);
@@ -306,42 +294,52 @@ export default {
          },
 
          discardProduct(product){
-             let index = this.products.findIndex((item) => {
-                 item.id = product.id;
+             console.log('product received to delete', product);
+             console.log('products', this.products)
+             console.log(this.products[1].id)
+             console.log(product.id)
+             let index = this.products.findIndex(function(item) {
+                 console.log('dentro del findindex', product);
+                 console.log('dentro del findindex item', item);
+                 return item == product;
              })
-             if(index)
+             console.log('Voy a borrar', index)
+             if(index != -1)
              {
                this.products.splice(index,1);
+               
 
-              //Delete product from cart
-               cartService.deleteProductFromCart(product.id);
              }
              
          },
 
 
-         getCartProductsFromCustomer(){
+         async getUpdatedInfoProducts(){
+             console.log('productos repeatOrder', this.products);
+             console.log('fStore', this.fStoreReceived)
+             this.updatedProducts = [];
+            await this.products?.forEach( product => {
+                productService.getProductById(product.productId).then( resp => {
+                    let updatedproduct = resp.data;
+                    if(updatedproduct.methodsAllowed.split(';').includes(product.methodSelected))
+                    {
+                        updatedproduct['methodSelected'] = product.methodSelected;
+                    }
+                    else
+                    {
+                        updatedproduct['methodSelected'] = '';
+                    }
+                    
+                    updatedproduct['unitsToBuy'] = product.unitsToBuy;
+                    console.log('Aqui un producto', updatedproduct)
+                    this.updatedProducts.push(updatedproduct);
+                })
+            })
 
-              cartService.getCart().then((response) => {
-              console.log(response)
-              console.log('hi')
-              this.products = response.data
+            console.log('updatedPRODUCTS', this.updatedProducts)
+            this.products = this.updatedProducts;
 
-              this.products.forEach( product => {
-                  
-                  product['methodSelected'] = ''
-                  //product['methodsAllowed'] = 'kg;pieces;pack'
-                  //console.log('aquiiiiii', product.methodsAllowed.split(';'))
-                  product['unitsToBuy'] = ''
-                  if(product.id == 8)
-                  {
-                    product['methodsAllowed'] = 'kg'  
-                  }
-            
-              })
-              }).catch((error) => {
-              console.error(error);
-              })
+          
 
          }
 
@@ -357,7 +355,7 @@ export default {
 </script>
 
 <style>
-#buy-order-title{
+#repeat-order-title{
     text-align: left;
 }
 #total-price-buy{
@@ -368,7 +366,7 @@ export default {
     width: 80%;
     height: 10rem;
 }
-#resume-buy-order{
+#resume-repeat-order{
     width: 72%;
     margin-left: 14%;
     margin-right: 10%;
@@ -408,7 +406,7 @@ export default {
     margin-right: 10%;
 }
 
-.buy-order{
+.repeat-order{
     width: 100%;
     height: 100%;
     justify-content: center;
@@ -419,7 +417,7 @@ export default {
     left: 0;
     background-color: rgba(30, 31, 30, 0.6);
 }
-.buy-order-inner{
+.repeat-order-inner{
     margin-top: 5%;
     margin-left: 20%;
     overflow-y: auto;
@@ -432,11 +430,11 @@ export default {
     background-color: rgb(255, 255, 255);
 
 }
-.buy-order-inner-body{
+.repeat-order-inner-body{
     margin-top: 8%;
 
 }
-.buy-order-inner-header{
+.repeat-order-inner-header{
     position: fixed;
     z-index: 10001;
     background-color: rgb(255, 255, 255);
@@ -446,7 +444,7 @@ export default {
     width: 100%;
     height: 90%;
 }
-#buy-order-delete-button{
+#repeat-order-delete-button{
     padding-top: 2px;
     padding-bottom: 2px;
     padding-left: 6px;
@@ -466,7 +464,7 @@ export default {
     #product-price-row{
     font-size: 70%;
 }
-.buy-order-inner{
+.repeat-order-inner{
     margin-top: 5%;
     margin-left: 5%;
     overflow-y: auto;
@@ -479,7 +477,7 @@ export default {
     background-color: rgb(255, 255, 255);
 
 }
-.buy-order-inner-header{
+.repeat-order-inner-header{
 
     width: 90%;
 }
@@ -490,7 +488,7 @@ export default {
     width: 100%;
     font-size: 70% !important;
 }
-#resume-buy-order{
+#resume-repeat-order{
     width: 80%;
     margin-left: 10%;
     margin-right: 10%;
@@ -499,7 +497,7 @@ export default {
 #anotations-order{
 font-size: 90%;
 }
-.buy-order-inner-body{
+.repeat-order-inner-body{
     margin-top: 12%;
 
 }

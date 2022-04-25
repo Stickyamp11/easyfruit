@@ -1,13 +1,13 @@
 <template>
-<form  class="update-customer-form" @submit.prevent="">
+<form  class="update-product-form" @submit.prevent="">
    <div class="form-group row">
 
             <div class="form-group col-sm-6">
                 <label for="Image" class="form-label">Previsualización del producto</label>
-                 <div id="frame-wrapper"> 
-                  <img id="frame" ref="frame-ref" src="" class="img-fluid" />
+                 <div id="frame-edit-wrapper"> 
+                  <img id="frame-edit" ref="frame-ref" src="" class="img-fluid" />
                  </div>
-                <input class="form-control" type="file" id="formFile" v-on:change="preview()" v-on:click="clearImage()">
+                <input class="form-control" type="file" accept="image/jpeg" id="formFile" v-on:change="preview()" v-on:click="clearImage()">
             </div>
             
 
@@ -49,7 +49,7 @@
 </form>
 
 
-<DialogNotification v-if="dialogSuccess" :dialogShow="dialogSuccess">
+<DialogNotification v-if="dialogSuccess" :dialogShow="dialogSuccess" :link='successLink'>
 <div class="modal-content">
   <p>
     Se ha registrado correctamente
@@ -85,6 +85,8 @@ export default {
       product: '',
       categories: [],
       categorySelected: '',
+      successLink: '/storemanagement',
+      imgToSend: '',
 
     }
   },
@@ -135,6 +137,9 @@ export default {
           this.productName = this.product.name;
           this.productCategory = this.product.fCategory;
           this.productDescription = this.product.description;
+          //Preview load
+          this.$refs["frame-ref"].src = this.product.product_img;
+
           console.log('orrrrirorr', this.productCategory)
 
         //When you have product data, then , you call to get categories and get product category
@@ -159,19 +164,37 @@ export default {
       console.log('submitted')
       console.log('product', this.product)
 
-      
 
       let sendProduct = {
         id: this.product.id,
         fCategory: this.categories.find(i => i.name == this.categorySelected).id,
         description: this.productDescription,
         name: this.productName,
-        fStore: this.product.fStore
+        fStore: this.product.fStore,
+        product_img: document.querySelector('input[type=file]').files[0],
+        price_per_kg: 0,
       }
       console.log('sendProduct', sendProduct)
      await productService.updateProduct(sendProduct, this.product.id).then(response =>
      {
        console.log(response);
+
+            if(document.querySelector('input[type=file]').files[0])
+            {
+                let formData = new FormData();
+
+                let myFile = document.querySelector('input[type=file]').files[0];
+                myFile.fileId = this.productId;
+                formData.append("file", myFile);
+                formData.append("id",this.productId);
+                console.log('aquiiii', myFile);
+                productService.uploadImg(formData).then((response) => {
+                console.log(response)
+                this.dialogSuccess = true;
+                }).catch((error) => {
+                console.error(error);
+                })
+            }
      });
 
 
@@ -203,28 +226,23 @@ export default {
 </script>
 
 <style>
-#frame-wrapper{
-    max-width: 75%;
-    max-height: 95%;
-    min-width: 75%;
-    min-height: 95%;
+#frame-edit-wrapper{
+    width: 256px;
+    height: 256px;
     display: block;
 
     background-color: rgb(67, 67, 68);
 
 }
-#frame{
-    max-width: 100%;
-    max-height: 110%;
-    min-width: 100%;
-    min-height: 110%;
-    height: 100%;
+#frame-edit{
+    width: 256px;
+    height: 256px;
 }
 #formFile{
   width: 60%;
 }
 
-.update-customer-form{
+.update-product-form{
   width: 80%;
   margin-left: 10%;
   margin-top: 10%;

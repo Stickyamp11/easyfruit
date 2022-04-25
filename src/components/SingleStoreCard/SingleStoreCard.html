@@ -1,9 +1,9 @@
-<router-link :to="{name:'store', params:{id: store_id}}">
+<router-link class="card-store-link" :to="{name:'store', params:{id: store_id}}">
 <div class="card" id="card-item" @Click="clicked">
 
-  <img class="card-img-top" src="../../assets/slide_1.png" alt="Card image cap">
+  <img id="card-img" class="card-img-top" :src="store_comercial_logo" alt="Card image cap">
   <div class="card-body">
-    <p class="card-text">{{store_name}}</p>
+    <h3 class="card-text" id="title-store">{{store_name}}</h3>
     <p class="card-text">{{store_address}}</p>
   </div>
 </div>

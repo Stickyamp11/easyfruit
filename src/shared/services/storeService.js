@@ -36,3 +36,22 @@ export async function getStoreDataByManagerEmail(email) {
         console.log(error);
     });
 }
+
+export async function updateStore(store) {
+    return await axios.put('/store/' + store.id ,{ name: store.name, phone: store.phone, address: store.address
+}, { headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }}).then(function (response) {
+        return response;
+    }).catch(function (error) {
+        console.log(error);
+    });
+}
+
+export async function uploadImg(payLoad){
+    return await axios.post('/store/uploadImg' ,payLoad
+     ,{ headers: {'Content-Type': 'multipart/form-data', Authorization: 'Bearer ' + localStorage.getItem('token') }}).then(function(response){
+         return response;
+     }).catch(function(error){
+         console.log(error);
+     })
+
+    }

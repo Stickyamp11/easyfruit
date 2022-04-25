@@ -71,6 +71,16 @@ routes: [
       name: 'createproduct',
       component: () => import('./components/create-product.vue')
      },
+     {
+      path: '/editstore',
+      name: 'editstore',
+      component: () => import('./components/edit-store.vue')
+     },
+     {
+      path: '/myorders',
+      name: 'myorders',
+      component: () => import('./components/myOrders.vue')
+     },
 
 
 

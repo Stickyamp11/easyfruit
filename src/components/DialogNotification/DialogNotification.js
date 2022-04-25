@@ -2,28 +2,28 @@
 export default {
   name: 'dialog-notification',
   components: {},
-  props: ['dialogShow'],
+  props: ['dialogShow','link'],
   data () {
     return {
-      dialogActive: Boolean,
+      dialogActive: false,
+      redirectLink: this.link
     }
   },
   computed: {
 
   },
   mounted () {
-  
-    this.dialogActive = this.dialogShow;
-    console.log(this.dialogActive)
-    console.log('hi')
+
   },
   methods: {
-    close({root}){
-      root.$destroy();
-      root.$el.parentNode.removeChild(root.$el);
-    }
-
-
+    hidde(){
+      this.dialogActive = false;
+  },
+  show(){
+      this.dialogActive = true;
+      console.log('he ejecutado el show y el valor de dialogActive es:', this.dialogActive)
+  },
+  
   }
 }
 

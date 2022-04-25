@@ -3,11 +3,13 @@
    <div class="form-group row">
 
             <div class="form-group col-sm-6">
+                <div style="margin-left: 10%">
                 <label for="Image" class="form-label">Previsualización del producto</label>
-                 <div id="frame-wrapper"> 
-                  <img id="frame" ref="frame-ref" src="" class="img-fluid" />
+                 <div id="frame-create-wrapper"> 
+                  <img id="frame-create" ref="frame-ref" src="" class="img-fluid" />
                  </div>
-                <input class="form-control" type="file" id="formFile" v-on:change="preview()" v-on:click="clearImage()">
+                <input class="form-control" type="file" accept="image/jpeg" id="formFile" v-on:change="preview()" v-on:click="clearImage()">
+                </div>
             </div>
             
 
@@ -22,7 +24,45 @@
 
               <label for="inputName">Descripción</label>
               <textarea type="text" v-model="productDescription" class="form-control" id="inputName"></textarea>
+
+              <span>Métodos de venta aceptados</span>
+               <div class="row">
+                    <div class="col-4 d-flex justify-content-center" id="methods_accepted">
+                      <input class="form-check-input" type="checkbox" id="checkKg" v-model="acceptKg">
+                      <label class="form-check-label" for="checkKg">Kg</label>
+                    </div>
+                    <div class="col-4 d-flex justify-content-center" id="methods_accepted">
+                      <input class="form-check-input" type="checkbox" id="checkUnits" v-model="acceptUnits">
+                      <label class="form-check-label" for="checkUnits">Unidades</label>
+                    </div>
+                    <div class="col-4 d-flex justify-content-center" id="methods_accepted">
+                      <input class="form-check-input" type="checkbox" id="checkPacks" v-model="acceptPacks">
+                      <label class="form-check-label" for="checkPacks">Packs</label>
+                    </div>
+               </div>
+
+               <div class="row">
+                    <div class="col-3">
+                      <input class="input_prices" type="text" id="price_per_kg" v-model="pricePerKg" :disabled="!acceptKg" >
+                      <label class="form-check-label" for="price_per_kg">Precio del Kg(€)</label>
+                    </div>
+                    <div class="col-3">
+                      <input class="input_prices" type="text" id="price_per_unit" v-model="pricePerUnit" :disabled="!acceptUnits">
+                      <label class="form-check-label" for="price_per_unit">Precio de la unidad(€)</label>
+                    </div>
+                    <div class="col-3">
+                      <input class="input_prices" type="text" id="pack_quantity" v-model="packQuantity" :disabled="!acceptPacks">
+                      <label class="form-check-label" for="packQuantity">Precio del paquete(€)</label>
+                    </div>
+                    <div class="col-3">
+                      <input class="input_prices" type="text" id="price_per_pack" v-model="pricePerPack" :disabled="!acceptPacks">
+                      <label class="form-check-label" for="price_per_pack">Unidades del paquete(Uds)</label>
+                    </div>
+               </div>
+
             </div>
+
+           
    </div>
 
 
@@ -49,7 +89,7 @@
 </form>
 
 
-<DialogNotification v-if="dialogSuccess" :dialogShow="dialogSuccess">
+<DialogNotification v-if="dialogSuccess" :dialogShow="dialogSuccess" to=''>
 <div class="modal-content">
   <p>
     Se ha registrado correctamente
@@ -70,7 +110,7 @@ import DialogNotification from "./DialogNotification/dialog-notification.vue"
 
 
 export default {
-  name: 'edit-product',
+  name: 'create-product',
   components: {DialogNotification},
   props: [],
   data () {
@@ -80,9 +120,17 @@ export default {
       productName: 'm',
       productCategory: '',
       productDescription:'',
+      productId: 0,
       storeInfo: '',
       categories: [],
       categorySelected: '',
+      acceptKg: false,
+      acceptUnits: false,
+      acceptPacks: false,
+      pricePerKg: 0.00,
+      pricePerUnit: 0.00,
+      packQuantity: 0,
+      pricePerPack: 0.00,
 
     }
   },
@@ -137,14 +185,44 @@ export default {
         fCategory: this.categories.find(i => i.name == this.categorySelected).id,
         description: this.productDescription,
         name: this.productName,
-        fStore: this.storeInfo.id
+        product_img: document.querySelector('input[type=file]').files[0],
+        fStore: this.storeInfo.id,
+        price_per_kg: this.acceptKg ? this.pricePerKg : 0,
+        price_per_unit: this.acceptUnits ? this.pricePerUnit : 0,
+        price_per_pack: this.acceptPacks ? this.pricePerPack : 0,
+        packQuantity: this.acceptPacks ? this.packQuantity : 0,
+        methodsAllowed: this.getMethodsForProduct()
       }
       console.log('sendProduct', sendProduct)
+
      await productService.createProduct(sendProduct).then(response =>
      {
        console.log(response);
-       this.dialogSuccess = true;
-     });
+
+     //Set the id of the created product
+          this.productId = response.data.id;
+          
+
+          let formData = new FormData();
+
+          let myFile = document.querySelector('input[type=file]').files[0];
+          myFile.fileId = this.productId;
+          formData.append("file", myFile);
+          formData.append("id",this.productId);
+          console.log('aquiiii', myFile);
+          productService.uploadImg(formData).then((response) => {
+          console.log(response)
+          this.dialogSuccess = true;
+          }).catch((error) => {
+          console.error(error);
+          })
+          
+
+     }).catch((error) => {
+            console.error(error);
+            });
+    
+   
 
 
     },
@@ -163,6 +241,22 @@ export default {
             })
             },
 
+    getMethodsForProduct(){
+      let methods = ""
+      if(this.acceptKg){
+        methods += "kg;" 
+      }
+      if(this.acceptUnits){
+        methods += "pieces;" 
+      }
+      if(this.acceptPacks){
+        methods += "pack" 
+
+      }
+      return methods
+
+    }
+
   }
 }
 
@@ -171,25 +265,40 @@ export default {
 </script>
 
 <style>
-#frame-wrapper{
-    max-width: 75%;
-    max-height: 95%;
-    min-width: 75%;
-    min-height: 95%;
+#methods_accepted{
+  padding: 0;
+}
+.form-check-input{
+  margin-right: 45%;
+}
+.form-check-label{
+    margin-left: 0%;
+}
+.input_prices{
+  width: 100%;
+}
+.input_prices:focus{
+  border-color: rgb(37, 36, 52);
+}
+
+.input_prices:disabled{
+  content-visibility: none;
+}
+#frame-create-wrapper{
+    width: 256px;
+    height: 256px;
     display: block;
 
     background-color: rgb(67, 67, 68);
 
 }
-#frame{
-    max-width: 100%;
-    max-height: 110%;
-    min-width: 100%;
-    min-height: 110%;
-    height: 100%;
+#frame-create{
+    width: 256px;
+    height: 256px;
 }
 #formFile{
-  width: 60%;
+  margin-top: 10%;
+  width: 80%;
 }
 
 .create-product-form{

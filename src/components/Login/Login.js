@@ -10,6 +10,7 @@ export default {
   data () {
     return {
       loginSuccess: Boolean,
+      successLink: '/home',
       sharedData,
       email: '',
       password: ''
@@ -20,6 +21,7 @@ export default {
   },
   mounted () {
     this.loginSuccess = false;
+    console.log('He entrado al login')
   },
   methods: {
 
@@ -65,6 +67,7 @@ export default {
            //Opens success dialog 
            this.loginSuccess = true;
            console.log(this.loginSuccess)
+           //this.$root.emit('refreshNavbar');
           }
 
           //this.dialogSuccess = true;

@@ -1,11 +1,19 @@
 <template>
-  <div class="form-group col-sm-12 ms-right text-right" id="add-button-wrapper">
-    <router-link to="/createproduct" id="add-button" type="button" class="btn btn-success btn-circle">
-      <i class="fa-solid fa-plus"></i>
-    </router-link>
+  <div class="row" style="margin-left: 5%; width: 90%">
+    <div class="form-group col-sm-6 " id="edit-store-wrapper">
+      <router-link to="/editstore" id="edit-store" type="button" class="btn btn-primary">
+        <i class="fa-solid fa-pen" id="store-name-img"></i> Editar {{storeInfo.name}}
+      </router-link>
+    </div>
+  
+    <div class="form-group col-sm-6 ms-right text-right" id="add-button-wrapper">
+      <router-link to="/createproduct" id="add-button" type="button" class="btn btn-success btn-circle">
+        <i class="fa-solid fa-plus"></i>
+      </router-link>
+    </div>
   </div>
 
-  <table class="table" id="products-table">
+<table class="table" id="products-table">
   <thead>
     <tr>
       <th scope="col">Imagen</th>
@@ -16,45 +24,74 @@
     </tr>
   </thead>
 
-  <tbody :key="product.id" v-for="product in products">
+  <tbody :key="product.id" v-for="product in paginatedProducts">
     <tr class="">
-      <td>
-        <img id="img-cart-item" class="card-img-top" src="../assets/product_1.png" alt="Card image cap">
+      <td class="align-middle">
+        <img class="storemanagement-product-img" :src="product.product_img" alt="Card image cap">
       </td>
-      <td>{{product.id}}</td>
-      <td>{{product.name}}</td>
-      <td>
+      <td class="align-middle">{{product.id}}</td>
+      <td class="align-middle">{{product.name}}</td>
+      <td class="align-middle">
         <div class="row-description">
           {{product.description}}
         </div>  
       </td>
       <!-- Opciones --> 
-      <td>
-        <router-link :to="{name:'editproduct', params:{id: product.id}}">
-        <i class="fa-solid fa-pen-to-square"></i>
+      <td class="align-middle">
+        <router-link id="edit-product-button" :to="{name:'editproduct', params:{id: product.id}}">
+        <i class="fa-solid fa-pen-to-square" id="edit-product-button-img"></i>
         </router-link>
-        <button type="submit" class="btn btn-danger btn-circle" v-on:click="deleteProductFromStore(product)">
+        <button type="submit" class="btn btn-danger btn-circle" v-on:click="deleteProduct(product)">
         <i class="fa-solid fa-xmark"></i>
         </button>
       </td>
     </tr>
   </tbody>
 </table>
+<div class="row">
+<div class="col-12">
+<nav aria-label="Easy navigation" style="margin-left: 70%">
+  <ul class="pagination" id="storemanagement-list-products">
+    <li class="page-item" v-on:click="getPreviousPage()"><a class="page-link" id="page-item-storemanagement-link" >Previous</a></li>
+    <li id="page-item-storemanagement-link" v-for="page in tableMaxPages()" :key="page" v-on:click="getDataPage(page)" class="page-item" v-bind:class="isActive(page)"><a class="page-link" id="page-item-storemanagement-link">{{page}}</a></li>
+    <li class="page-item" v-on:click="getNextPage()"><a class="page-link" id="page-item-storemanagement-link">Next</a></li>
+
+  </ul>
+</nav>
+</div>
+</div>
+
+
+<!-- Dialog to show when deleting products -->
+<DialogDeleteProduct :dialogShow="dialogDeleteProduct" :idProductToDelete='idProductDelete' ref="deleteDialogStoreManagement">
+<div class="modal-content-delete-product-store-management">
+  <p>
+    ¿Seguro que quieres eliminar el producto {{nameProductDelete}}?
+  </p>
+<hr/>
+</div>
+</DialogDeleteProduct>
 </template>
 
 <script>
 import * as storeService from "@/shared/services/storeService"
 import * as cartService from "@/shared/services/cartService"
 import * as productService from "@/shared/services/productService"
+import DialogDeleteProduct from "./DialogDeleteProduct.vue"
+
 export default {
+     components: {DialogDeleteProduct},
      data(){
          return{
             products: [
-             {id:0, name: 'item a', description: "Este es un producto de ejemplo", store:"1"},
-             {id:1, name: 'item b', description: "Este es un producto de ejemplo", store:"1"},
-             {id:2, name: 'item c', description: "Este es un producto de ejemplo", store:"2"},
             ],
             storeInfo: '',
+            dialogDeleteProduct: false,
+            idProductDelete: 0,
+            nameProductDelete: '',
+            pageElements: 10,
+            paginatedProducts:[],
+            pageSelected: 1
 
          }
          
@@ -64,9 +101,51 @@ export default {
 
      mounted(){
          this.getStoreInfo();
+         //Gets the info of first page when mounted
+         
      },
      props: [],
      methods: {
+       getDataPage(pageNumber){
+         this.pageSelected = pageNumber;
+         this.paginatedProducts = [];
+         let ini = (pageNumber * this.pageElements) - this.pageElements;
+         let fin = (pageNumber * this.pageElements);
+
+         /*for(let index = ini; index < fin ; index++){
+           this.paginatedProducts.push(this.products[index]);
+         }*/
+         this.paginatedProducts = this.products.slice(ini, fin);
+         console.log('Estoy en el getDataPage', this.paginatedProducts)
+       },
+          tableMaxPages(){
+            return Math.ceil(this.products.length / this.pageElements);
+          },
+          getPreviousPage(){
+            if(this.pageSelected > 1){
+              this.pageSelected--;
+              this.getDataPage(this.pageSelected);
+            }
+           
+          },
+          getNextPage(){
+            if(this.pageSelected < this.tableMaxPages()){
+              this.pageSelected++;
+              this.getDataPage(this.pageSelected);
+            }
+          },
+          deleteProduct(product){
+            //Refresh
+            console.log('Deleting', product);
+            this.idProductDelete = product.id;
+            this.nameProductDelete = product.name;
+           // this.dialogDeleteProduct = true;
+           this.$refs.deleteDialogStoreManagement.show();
+            //refresh
+            //this.dialogDeleteProduct = false;
+
+          },
+
           async getStoreInfo(){
             await storeService.getStoreDataByManagerEmail(localStorage.getItem('userEmail')).then((response) => {
                 console.log(response)
@@ -85,7 +164,9 @@ export default {
             async getProductsDataFromStore(){
             await storeService.getStoreProducts(this.storeInfo.id).then((response) => {
             console.log('products', response)
-            this.products = response.data
+            this.products = response.data;
+            //Once we have the products we set the pagination:
+            this.getDataPage(1);
             }).catch((error) => {
             console.error(error);
             })
@@ -120,6 +201,15 @@ export default {
             console.error(error);
             })
 
+         },
+
+         isActive(page){
+           if(page == this.pageSelected){
+             return 'active';
+           }
+           else{
+             return '';
+           }
          }
 
 
@@ -141,20 +231,83 @@ export default {
     margin-left: 10%;
     margin-top: 0%;
 }
-i{
-  margin-left: 10%;
-  margin-right: 10%;
+.storemanagement-product-img{
+  width: 60%;
 }
+@media (max-width: 1050px) { 
+   .storemanagement-product-img{
+    width: 128px;
+}
+
+}
+@media (max-width: 550px) { 
+   .storemanagement-product-img{
+    width: 64px;
+}
+
+}
+
 #add-button{
   margin-right: 10%;
   margin-top: 5%;
   border-radius: 100%;
 }
+#edit-store{
+  margin-top: 5%;
+  margin-left: 10%;
+  max-width: 50%;
+  width: 40%;
+  text-align: left;
+
+}
+#edit-store-wrapper{
+
+}
 .row-description{
-  max-width: 100%;
+  max-width: 200px;
+  max-height: 50px ;
   overflow:hidden;
 }
-tr{
- 
+g-cart-item-table{
+    width: 128px;
+    height: 128px;
 }
+
+#store-name-img{
+  margin-left: 0;
+}
+
+#edit-product-button{
+
+  padding-top: 6px;
+  padding-bottom: 11px;
+  padding-right: 10px;
+  padding-left: 10px;
+  background-color: rgb(65, 65, 246);
+  border-radius: 10%;
+}
+#edit-product-button:hover{
+  background-color: rgb(49, 49, 187);
+}
+#edit-product-button-img{
+  margin: 0;
+  margin-top: 2px;
+  color: white;
+
+}
+
+.modal-content-delete-product-store-management{
+  color:black;
+  font-size: 20;
+}
+
+#page-item-storemanagement-link{
+color: green;
+
+}
+#page-item-storemanagement-link.active > .page-link{
+  background-color: green;
+  color: white;
+}
+
 </style>

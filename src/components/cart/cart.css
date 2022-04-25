@@ -10,17 +10,18 @@
 /* The sidebar menu */
 .sidebar {
     height: 100%; /* 100% Full-height */
-    width: 25%; /* 0 width - change this with JavaScript */
+    width: 350px; /* 0 width - change this with JavaScript */
     position: fixed; /* Stay in place */
-    z-index: 1; /* Stay on top */
+    z-index: 9999; /* Stay on top */
     top: 0;
     right: 0;
-    background-color: rgb(189, 248, 183); /* Black*/
+    background-color: rgb(255, 255, 255); /* Black*/
     opacity: 100%;
 
     overflow-x: hidden; /* Disable horizontal scroll */
-    padding-top: 60px; /* Place content 60px from the top */
+    padding-top: 0%; /* Place content 60px from the top */
     transition: 0.5s; /* 0.5 second transition effect to slide in the sidebar */
+    border-left: 1px solid; 
   }
   
   /* The sidebar links */
@@ -74,3 +75,22 @@
   #cart-button.i{
     width: 100%;
   }
+
+
+  @media (max-width: 992px) { 
+
+    .sidebar {
+      width: 350px; /* 0 width - change this with JavaScript */
+      position: fixed; /* Stay in place */
+      z-index: 9999; /* Stay on top */
+      top: 5%;
+      right: 15%;
+      height: 90%;
+      background-color: rgb(255, 255, 255); /* Black*/
+      opacity: 100%;
+      overflow-x: hidden; /* Disable horizontal scroll */
+      padding-top: 0%; /* Place content 60px from the top */
+      transition: 0.5s; /* 0.5 second transition effect to slide in the sidebar */
+      border: 2px solid; 
+    }
+}
