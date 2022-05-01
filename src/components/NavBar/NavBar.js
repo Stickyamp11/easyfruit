@@ -15,24 +15,27 @@ export default {
       Cart,
       isUserLogged: Boolean,
       isStoreManager: Boolean,
-      counter: '',
+      counter: Number,
     }
   },
   computed: {
 
   },
-  created (){
-    /*this.$root.on('refreshNavbar', () => {
-      console.log('Noticed about the root refreshNavbar');
-      this.$forceUpdate;
-
-    });*/
+  created() {
+    this.updateCounterItems() // first run
+    //this.interval = setInterval(this.updateCounterItems, 5000)
+  },
+  beforeDestroy() {
+    if (this.interval) {
+      this.interval = undefined
+    }
   },
   mounted () {
     this.isStoreManager = false;
     this.isUserLogged = false;
    this.exampletry();
    this.jsStuffToAdd();
+   //this.updateCounter();
    this.updateCounterItems();
     
   },
@@ -73,8 +76,15 @@ export default {
 
     updateCounterItems(){
        cartService.getNumberOfItems().then(res => {
+         console.log('aqui la res del cart', res)
         this.counter = res.data;
        });
+    },
+
+    updateCounter(){
+      //Updates counter shown in screen
+      console.log('return del ref', this.$refs['customerCart'].sendCounter())
+      this.counter = this.$refs['customerCart'].sendCounter();
     },
 
 
@@ -206,6 +216,7 @@ export default {
           //TODO ADD FUNCTIONS TO SHOW CART ICON AND HIDE IT WHEN CLICK
 
           window.onload = function(){
+            //MOST IMPORTANT OF ALL IS THAT HERE WE CONTROL WHEN CART IS SHOWN AND WHEN HIDDEN
             //Enable click in the cart icon
             document.getElementById('cart-button-web').addEventListener('click', function(){
               document.getElementById('cart-button-web').style.display = document.getElementById('cart-button-web').style.display == 'none' ? 'block' : 'none';
@@ -232,6 +243,8 @@ export default {
               document.getElementById('cart-button-web-counter').style.display = document.getElementById('cart-button-web-counter').style.display == 'none' ? 'block' : 'none';
 
             }.bind(this), false);
+
+          
 
             
 

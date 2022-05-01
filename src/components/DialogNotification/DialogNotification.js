@@ -23,6 +23,10 @@ export default {
       this.dialogActive = true;
       console.log('he ejecutado el show y el valor de dialogActive es:', this.dialogActive)
   },
+
+  dialogFinished(){
+    this.$emit('finished');
+  }
   
   }
 }

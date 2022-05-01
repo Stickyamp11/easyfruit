@@ -3,12 +3,13 @@
    <div class="form-group row">
 
             <div class="form-group col-sm-6">
-                <div style="margin-left: 10%">
+                <div>
                 <label for="Image" class="form-label">Previsualización del producto</label>
                  <div id="frame-create-wrapper"> 
                   <img id="frame-create" ref="frame-ref" src="" class="img-fluid" />
                  </div>
-                <input class="form-control" type="file" accept="image/jpeg" id="formFile" v-on:change="preview()" v-on:click="clearImage()">
+                <input style="display: none;" class="form-control" type="file" accept="image/jpeg" id="formFile" v-on:change="preview()" v-on:click="clearImage()">
+                <button class="btn btn-primary" @click="clickUploadImg()">Seleccionar imagen</button>
                 </div>
             </div>
             
@@ -75,12 +76,12 @@
   </div>
 
   <div class="form-group row"  style="margin-top: 2%;">
-     <div class="form-group col-md-6">
-    <button type="submit" class="btn btn-success"  v-on:click="handleSubmit">Crear</button>
+     <div class="form-group col-md-6 col-12 d-flex justify-content-center">
+    <button type="submit" class="btn-option-create-product btn btn-success"  v-on:click="handleSubmit">Crear</button>
      </div>
 
-      <div class="form-group col-md-6 ms-auto text-right">
-    <button type="submit" class="btn btn-danger"  v-on:click="$router.go(-1)">Volver</button>
+      <div class="form-group col-12 col-md-6 d-flex justify-content-center">
+    <button type="submit" class="btn-option-create-product btn btn-danger"  v-on:click="$router.go(-1)">Volver</button>
      </div>
     
     
@@ -255,6 +256,10 @@ export default {
       }
       return methods
 
+    },
+
+    clickUploadImg(){
+      document.getElementById('formFile').click();
     }
 
   }
@@ -302,13 +307,43 @@ export default {
 }
 
 .create-product-form{
+  padding: 5%;
+  padding-bottom: 0%;
   width: 80%;
   margin-left: 10%;
   margin-top: 10%;
   background-color: aliceblue;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
-
+.create-product-form input:focus{
+  border: 1px solid rgba(10, 46, 20, 0.604);
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(16, 59, 7, 0.3) 0px 1px 3px -1px;
+}
+.create-product-form textarea:focus{
+  border: 1px solid rgba(10, 46, 20, 0.604);
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(16, 59, 7, 0.3) 0px 1px 3px -1px;
+}
+.create-product-form :checked{
+ background-color: aqua;
+ color: red;
+}
+@media (max-width: 767.98px) {
+   .create-product-form{
+  width: 90%;
+  margin-left: 5%;
+}
+  .btn-option-create-product{
+    width: 100%;
+  }
+}
 .form-control{
   width: 95%;
+}
+
+.btn-option-create-product{
+  padding-left: 10%;
+  padding-right: 10%;
+  padding-top: 5%;
+  padding-bottom: 5%;
 }
 </style>

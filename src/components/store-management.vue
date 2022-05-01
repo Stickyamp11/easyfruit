@@ -1,12 +1,12 @@
 <template>
   <div class="row" style="margin-left: 5%; width: 90%">
-    <div class="form-group col-sm-6 " id="edit-store-wrapper">
+    <div class="form-group col-6 col-sm-6 " id="edit-store-wrapper">
       <router-link to="/editstore" id="edit-store" type="button" class="btn btn-primary">
         <i class="fa-solid fa-pen" id="store-name-img"></i> Editar {{storeInfo.name}}
       </router-link>
     </div>
   
-    <div class="form-group col-sm-6 ms-right text-right" id="add-button-wrapper">
+    <div class="form-group col-6 col-sm-6 ms-right text-right" id="add-button-wrapper">
       <router-link to="/createproduct" id="add-button" type="button" class="btn btn-success btn-circle">
         <i class="fa-solid fa-plus"></i>
       </router-link>
@@ -50,8 +50,8 @@
 </table>
 <div class="row">
 <div class="col-12">
-<nav aria-label="Easy navigation" style="margin-left: 70%">
-  <ul class="pagination" id="storemanagement-list-products">
+<nav aria-label="Easy navigation" >
+  <ul class="pagination justify-content-center" id="storemanagement-list-products">
     <li class="page-item" v-on:click="getPreviousPage()"><a class="page-link" id="page-item-storemanagement-link" >Previous</a></li>
     <li id="page-item-storemanagement-link" v-for="page in tableMaxPages()" :key="page" v-on:click="getDataPage(page)" class="page-item" v-bind:class="isActive(page)"><a class="page-link" id="page-item-storemanagement-link">{{page}}</a></li>
     <li class="page-item" v-on:click="getNextPage()"><a class="page-link" id="page-item-storemanagement-link">Next</a></li>
@@ -230,6 +230,8 @@ export default {
     width: 80%;
     margin-left: 10%;
     margin-top: 0%;
+      box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
 }
 .storemanagement-product-img{
   width: 60%;

@@ -1,10 +1,33 @@
 .stores-list-show{
-    margin-left: 10%;
-    margin-right: 10%;
-}
 
+}
 #store-card{
     margin-bottom: 2%;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    padding: 0;
+    margin-left: 0%;
+    margin-right: 2%;
+}
+
+@media (max-width: 790.98px) { 
+    .stores-list-show{
+     margin-left: 5%;
+     width: 90%;
+    }
+    #store-card{
+        margin-bottom: 5%;
+    }
+ } 
+.stores-list-show .row{
+    justify-content: center;
+
+}
+
+
+#store-card:hover{
+    box-shadow: rgba(19, 66, 27, 0.55) 0px 5px 15px 20px;
+    transition: 0.5s;
+
 }
 
 .product-catalog-header{

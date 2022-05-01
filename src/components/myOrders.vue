@@ -20,7 +20,7 @@
                 <tbody :key="order.id" v-for="order in paginatedOrders">
                     <tr class="">
                     <td class="align-middle">
-                        {{order.order_date}}
+                        {{order.order_date.split("00:00:00 GMT")[0]}}
                     </td>
                     <td class="align-middle">{{order.items?.length}}</td>
                     <td class="align-middle">{{parseFloat(order.estimated_total).toFixed(2)}}€</td>
@@ -70,8 +70,8 @@
                     </tr>
                 </tbody>
             </table>
-            <nav aria-label="Easy navigation" style="margin-left: 80%">
-                <ul class="pagination" id="customer-order-list-pagination">
+            <nav aria-label="Easy navigation" >
+                <ul class="pagination justify-content-center" id="customer-order-list-pagination" >
                     <li class="page-item" v-on:click="getPreviousPage()"><a class="page-link" id="page-item-orders-link" >Previous</a></li>
                     <li id="page-item-orders-link" v-for="page in tableMaxPages()" :key="page" v-on:click="getDataPage(page)" class="page-item" v-bind:class="isActive(page)"><a class="page-link" id="page-item-orders-link">{{page}}</a></li>
                     <li class="page-item" v-on:click="getNextPage()"><a class="page-link" id="page-item-orders-link">Next</a></li>
@@ -88,7 +88,7 @@
             <h1>Pedidos que sueles hacer</h1>
             <hr class="titleSeparator">
             <div class="row" :key="toporder.id" v-for="toporder in topOrders">
-                <div class="col-12" style="margin-left: 5%; margin-bottom: 10%; border: 1px solid; flex: 0 0 90%;" >
+                <div class="col-12" style="margin-left: 5%; margin-bottom: 10%; flex: 0 0 90%;" >
                     <div class="row">
                         <div class="col-6">
                             <span style="font-size: 200%; color: black;">Google</span>
@@ -99,17 +99,21 @@
                                 <i class="fa-solid fa-repeat"></i>
                             </button>
                         </div>
+
                     </div>
+                        <hr class="itemSeparatorOrders">
+
                         <div class="row">
                             <div class="col-12">
     
-                            <div style="width: 100%; overflow-x: auto; background-color: green;">
+                            <div style="width: 100%; overflow-x: auto; ">
                                 <img v-for="item in toporder.items" :key="item.productId" :src="item.productData?.product_img" style="width: 128px; height: 128px; margin-right: 2%;">
                             </div>
                             </div>
                         </div>
                    
                 </div>
+
             </div>
            
         </div>
@@ -376,4 +380,10 @@ color: green;
   color: white;
 }
 
+.itemSeparatorOrders{
+   border: 1px solid rgb(0, 0, 0);
+  border-radius: 5px;
+  width: 100%;
+  margin-left: 0;
+}
 </style>

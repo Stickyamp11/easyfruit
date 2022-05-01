@@ -82,7 +82,7 @@
         </a>
           <div class="dropdown-menu" aria-labelledby="user-menu-toggle" id="user-dropdown">
             <router-link class="user-dropdown-item" to="/profile" id="profile-link"><i class="fa-regular fa-address-card"></i> Perfil</router-link>
-            <router-link class="user-dropdown-item" to="/myorders" id="orders-link" ><i class="fa-solid fa-arrow-right-from-bracket"></i> Historial</router-link>
+            <router-link class="user-dropdown-item" to="/myorders" id="orders-link" ><i class="fa-solid fa-clock-rotate-left"></i> Historial</router-link>
             <router-link class="user-dropdown-item" to="/" id="profile-link" v-on:click="logout" ><i class="fa-solid fa-arrow-right-from-bracket"></i> Salir</router-link>
         
           </div>
@@ -120,7 +120,7 @@
 
 
 <!-- Cart displayed here -->
-      <div v-if="isUserLogged && !isStoreManager"> <Cart ref="customerCart"/> 
+      <div v-if="isUserLogged && !isStoreManager"> <Cart ref="customerCart" @counterUpdated="updateCounter()"/> 
           <!-- Cart button here -->
             <i id="cart-button-web" @drop="onDrop($event)" @dragenter.prevent
             @dragover.prevent class="fa-solid fa-cart-arrow-down fa-2x" data-toggle="collapse" data-target="#cart-content" aria-expanded="false" aria-controls="cart-content"></i>
@@ -129,7 +129,7 @@
             <!-- Number of items in cart -->
             <div id="cart-button-web-counter">{{counter}}</div>
 
-          <div class="overlay-cart-buttons"></div>
+          <div class="overlay-cart-button"></div>
       </div>
 
 <!-- TOOGLE MENU VERSION MOBIL-->
@@ -169,7 +169,7 @@
           </li>
           <li v-if="isUserLogged && !isStoreManager">
             <div class="d-flex justify-content-center align-items-center">
-            <router-link class="user-dropdown-item"  to="/myorders" id="mobile-sidebar-link" ><i class="fa-solid fa-arrow-right-from-bracket"></i> Historial</router-link>
+            <router-link class="user-dropdown-item"  to="/myorders" id="mobile-sidebar-link" ><i class="fa-solid fa-clock-rotate-left"></i> Historial</router-link>
             </div>
           </li>
           <li v-if="isUserLogged">
@@ -177,6 +177,21 @@
             <router-link class="user-dropdown-item"  to="/" id="mobile-sidebar-link" v-on:click="logout" ><i class="fa-solid fa-arrow-right-from-bracket"></i> Log out</router-link>
             </div>
           </li>
+          <li v-if="!isUserLogged">
+            <div class="row" style="width: 80%; margin-left: 10%;">
+              <div class="col-6" style="padding: 0;">
+                <div class="d-flex justify-content-center align-items-center" style="font-size: 70%;">
+                  <router-link class="btn btn-success user-dropdown-item"  to="/login" id="mobile-sidebar-link"> Login</router-link>
+                  </div>             
+               </div>
+              <div class="col-6" style="padding: 0;">
+                <div class="d-flex justify-content-center align-items-center" style="font-size: 70%;">
+                  <router-link class="btn btn-primary user-dropdown-item"  to="/signup" id="mobile-sidebar-link" >Sign up</router-link>
+                </div>
+              </div>
+            </div>
+          </li>
+          
       </ul>
   </nav>
 

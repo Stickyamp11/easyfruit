@@ -5,15 +5,23 @@
   <div v-show="dialogActive" class="dialog">
     <transition name="dialog-animation-inner">
 
-    <div v-show="dialogActive" class="dialog-inner">
+    <div v-show="dialogActive" class="dialog-inner" id="dialogDelete">
       <!-- Dialog Content-->
       <slot />
-      <button class="btn btn-success" id="button-delete-dialog" @Click="deleteProduct">
-          Sí
-      </button>
-      <button class="btn btn-danger" id="button-delete-dialog" @Click="noDeleteProduct">
-          No
-      </button>
+      <div class="row">
+      <div class="col-12 col-sm-6">
+           <button class="btn btn-success" id="button-delete-dialog" @Click="deleteProduct">
+             Sí
+            </button>
+      </div>
+      <div class="col-12 col-sm-6">
+
+            <button class="btn btn-danger" id="button-delete-dialog" @Click="noDeleteProduct">
+                No
+            </button>
+      </div>
+      </div>
+     
 
     </div>
   </transition>
@@ -88,6 +96,7 @@ export default {
 }
 
 .dialog{
+    z-index: 1001;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -99,6 +108,8 @@ export default {
     background-color: rgba(30, 31, 30, 0.6);
     
 }
+
+
 .dialog-inner{
     z-index: 1000;
     max-width: 640px;
@@ -108,6 +119,13 @@ export default {
     border-radius: 0%;
     background-color: rgb(255, 255, 255);
     text-align:center;
+}
+@media (max-width: 767.98px) {
+    .dialog-inner{
+    height: 25%;
+    width: 60%;
+
+    }
 }
 
 #button-delete-dialog{
@@ -143,6 +161,13 @@ export default {
 .dialog-animation-inner-leave-to{
     opacity: 0;
     transform: scale(0.8);
+}
+
+#dialogDelete .btn{
+    padding-left: 12%;
+    padding-right: 12%;
+    padding-top: 6%;
+    padding-bottom: 6%;
 }
 
 

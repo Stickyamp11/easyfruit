@@ -1,8 +1,7 @@
 import axios from 'axios'
-
 axios.defaults.baseURL = 'http://localhost:3000/api/v1';
 
- export async function createOrder(storeId, customerId, totalPrice,anotations) {
+ export async function createOrder(storeId, customerId, totalPrice,anotations,) {
         return await axios.post('/order', {
             
                 'fStore': storeId,
@@ -27,7 +26,8 @@ axios.defaults.baseURL = 'http://localhost:3000/api/v1';
                 'fCustomer': customerId,
                 'estimated_total': totalPrice,
                 'times_ordered': timesOrdered,
-                'anotations': anotations
+                'anotations': anotations,
+
             
             
         },{ headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }}).then(function (response) {

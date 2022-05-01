@@ -6,16 +6,34 @@ export default {
   props: [],
   data () {
     return {
-
+      currentProductsBoard: false
     }
   },
   computed: {
 
   },
   mounted () {
+    //this.jsStuff();
+    this.getProductItemsFromBoard();
 
   },
   methods: {
+    getProductItemsFromBoard(){
+      console.log('update button')
+      console.log(this.$refs['cartBoard'].getLengthProducts())
+      if(this.$refs['cartBoard'].getLengthProducts() > 0){
+        this.currentProductsBoard = true;
+      }
+      else{
+        this.currentProductsBoard = false;
+      }
+
+      //Items in board have been updated so we send the info to the navbar
+      this.$emit('counterUpdated');
+    },
+    sendCounter(){
+      return this.$refs['cartBoard'].getLengthProducts();
+    },
     hidde(){
       this.dialogActive = false;
       this.$refs['cartBoard'].getCartProductsFromCustomer();
@@ -23,6 +41,7 @@ export default {
            },
           show(){
             this.$refs['cartBoard'].getCartProductsFromCustomer();
+
             this.dialogActive = true;
            },
            updateCart(){
@@ -33,15 +52,13 @@ export default {
   
       this.$refs.buyResumeDilog.show();
     },
-    /* Set the width of the sidebar to 250px and the left margin of the page content to 250px */
-    openNav() {
-  document.getElementById("cart-button").style.marginRight = "250px";
-},
+  /* jsStuff(){
+     /* events fired on the drop targets 
+      document.addEventListener("dragover", function() {
 
-/* Set the width of the sidebar to 0 and the left margin of the page content to 0 */
-    closeNav() {
-  document.getElementById("cart-button").style.marginRight = "0";
-}
+        this.getProductItemsFromBoard()
+      }.bind(this), false);
+   } */
 
   }
 }

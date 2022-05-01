@@ -75,6 +75,8 @@ import * as cartService from "@/shared/services/cartService"
               if(this.products2.length){
                   this.emptyProducts = false;
               }
+              //Refresh cart items
+            this.onChangeProducts();
               }).catch((error) => {
               console.error(error);
               })
@@ -105,6 +107,9 @@ import * as cartService from "@/shared/services/cartService"
                         //Insert the dropped product into the user cart
                         cartService.insertProductIntoCart(productId)
                         this.emptyProducts = false;
+
+                        //Refresh cart items
+                        this.onChangeProducts();
                     }
                 }
                 //If there is not a product in cart we can add it right away
@@ -114,6 +119,8 @@ import * as cartService from "@/shared/services/cartService"
                     //Insert the dropped product into the user cart
                     cartService.insertProductIntoCart(productId)
                     this.emptyProducts = false;
+                    //Refresh cart items
+                        this.onChangeProducts();
                 }
                
                 
@@ -159,7 +166,19 @@ import * as cartService from "@/shared/services/cartService"
                 this.emptyProducts = true;
                 }
             console.log(this.products2)
+            //Refresh cart items
+            this.onChangeProducts();
+        },
+
+        onChangeProducts(){
+                this.$emit('changedProducts');
+            },
+
+        getLengthProducts(){
+            return this.products2.length;
         }
+
+        
          
 
       }
@@ -178,6 +197,21 @@ import * as cartService from "@/shared/services/cartService"
      background-color: rgb(255, 255, 255);
      opacity: 100%;
  }
+ /* width */
+.drop-zone-board::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+.drop-zone-board::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+.drop-zone-board::-webkit-scrollbar-thumb {
+  background: rgb(37, 74, 26);
+}
+
  .drag-el-in-board{
      color: rgb(0, 0, 0);
      padding: 5px;

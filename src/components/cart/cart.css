@@ -21,7 +21,6 @@
     overflow-x: hidden; /* Disable horizontal scroll */
     padding-top: 0%; /* Place content 60px from the top */
     transition: 0.5s; /* 0.5 second transition effect to slide in the sidebar */
-    border-left: 1px solid; 
   }
   
   /* The sidebar links */
@@ -73,6 +72,9 @@
     margin-top: 5%;
   }
   #cart-button.i{
+    width: 100%;
+  }
+  #button-send-buy-order{
     width: 100%;
   }
 

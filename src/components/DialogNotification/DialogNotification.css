@@ -6,6 +6,7 @@
 }
 
 .dialog{
+    z-index: 10004;
     display: flex;
     justify-content: center;
     align-items: center;

@@ -6,10 +6,10 @@
     <div class="buy-order-inner-header">
         <div class="row align-items-center justify-content-center">
             <div class="col-9">
-                  <span id="buy-order-title">Resumen del pedido para {{storeInfo.name}}</span>
+                  <span class="ml-3" id="buy-order-title">Resumen del pedido para {{storeInfo.name}}</span>
             </div>
             <div class="col-3 text-right ">
-                <button class="btn btn-circle"><i class="fa-solid fa-x" v-on:click="hidde()"></i></button>
+                <button id="button-close-buy-order" class="btn btn-circle" v-on:click="hidde()"><i class="fa-solid fa-x" ></i></button>
             </div>
         </div>
         <hr style="margin: 0;">
@@ -32,10 +32,10 @@
                 </div>
                 
                 <div class="row">
-                    <div class="col-4">
+                    <div class="col-12 col-sm-4">
                     <img id="buy-item-card-img" class="card-img-top" :src="product.product_img" alt="Card image cap">
                     </div>
-                    <div class="col-8">
+                    <div class="col-12 col-sm-8">
 
                             <div class="row mb-5">
                                 <div class="col-12">
@@ -43,7 +43,7 @@
                                 </div>
                         
                             </div>
-                            <div class="row mt-5">
+                            <div class="row mt-5" id="row-methods-select-units">
                                 <div class="col-5" style="padding: 0;">
                                  <label for="methodSelect">Método de medida</label>
                                 <select v-model="product.methodSelected" class="form-select" id="methodSelect">
@@ -169,14 +169,14 @@
             </div>
            
                 
-                    <div class="text-right">
+                    <div class="text-right mb-3">
                     <button class="btn btn-success" @Click="confirmBuy" :disabled="this.products.length <= 0">Confirmar pedido</button>
                     </div>
          </div>
 
        
 
-<DialogNotification ref="DialogSuccessBuy" :link='successLink'>
+<DialogNotification ref="DialogSuccessBuy" :link='successLink' @finished="closeDialog()">
     <div class="modal-content">
       <p>
         Pedido realizado con éxito
@@ -208,7 +208,7 @@ export default {
             storeInfo: '',
             anotationsOrder: '',
             dialogActive: false,
-            successLink: ''
+            successLink: '/'
 
          }
          
@@ -217,20 +217,19 @@ export default {
      },
 
      mounted(){
-         this.getCartProductsFromCustomer();
-         this.getStoreInfo();
+        
      },
      props: [],
      methods: {
           hidde(){
         this.dialogActive = false;
-         this.getCartProductsFromCustomer();
 
              },
             show(){
-            this.getCartProductsFromCustomer();
             this.dialogActive = true;
+            this.getCartProductsFromCustomer();
              },
+
          getEstimatedPriceForAllProducts(){
              let total = 0;
              this.products.forEach( product => {
@@ -255,7 +254,8 @@ export default {
              }
          },
           getStoreInfo(){
-            storeService.getStoreData(this.products[0].store).then((response) => {
+              console.log('AQUI EL STORE DEL PRODUCT 0', this.products[0].fStore)
+            storeService.getStoreData(this.products[0].fStore).then((response) => {
                 console.log(response)
                 this.storeInfo = response.data
                 console.log('storeInfo', this.storeInfo)
@@ -272,7 +272,7 @@ export default {
              //All the prices sum 
              let totalPrice = this.getEstimatedPriceForAllProducts();
 
-
+            
              orderService.createOrder(this.storeInfo.id, localStorage.getItem('userId'), totalPrice, this.anotationsOrder).then((response) => {
                 console.log(response)
                 if(response.status == '201'){
@@ -320,12 +320,17 @@ export default {
          },
 
 
-         getCartProductsFromCustomer(){
+        async getCartProductsFromCustomer(){
 
-              cartService.getCart().then((response) => {
+              await cartService.getCart().then((response) => {
               console.log(response)
-              console.log('hi')
+              console.log('HIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII')
               this.products = response.data
+
+              //Adding js to the new tab of buy
+              this.jsStuffToAdd();
+              //Getting store info
+              this.getStoreInfo();
 
               this.products.forEach( product => {
                   
@@ -339,10 +344,30 @@ export default {
                   }
             
               })
+             
+              
+
               }).catch((error) => {
               console.error(error);
               })
+            
+            
 
+
+         },
+         closeDialog(){
+             //this.hidde();
+             document.getElementById('button-close-buy-order').click();
+         },
+
+         jsStuffToAdd(){
+               //SHOW CART WHEN CLOSING BUY ORDER TAB
+            document.getElementById('button-close-buy-order').addEventListener('click', function(){
+              document.getElementById('cart-button-web').style.display = 'block';
+              document.getElementById('cart-button-web-counter').style.display = 'block';
+
+            });
+            
          }
 
 
@@ -460,11 +485,17 @@ export default {
 }
 @media (max-width: 767.98px) { 
    #buy-item-card-img{
-    width: 100%;
-    height: 50%;
-    } 
+    width: 11rem;
+    height: 11rem;
+    justify-content: center;
+    margin-bottom: 5%;
+} 
+#row-methods-select-units{
+    margin-left: 5%;
+    margin-right: 5%;
+}
     #product-price-row{
-    font-size: 70%;
+    font-size: 120%;
 }
 .buy-order-inner{
     margin-top: 5%;
