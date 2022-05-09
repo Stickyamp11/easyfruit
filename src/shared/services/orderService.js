@@ -131,3 +131,44 @@ export async function getItems(order){
     }).catch(error => console.error(error));
 
 }
+
+
+
+export async function getFullOrdersOneCall(){
+    return await axios.get('/order/full',
+    { headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
+        params: { idCustomer: localStorage.getItem('userId')}
+    }
+    ).then(function (response) {
+        console.log('aqui la response FULLLLL', response)
+        response.data = response.data.orders;
+        return response;
+    }).catch( error => console.error(error))
+
+}
+
+export async function getFullOrdersPendingOfStoreOneCall(idStore){
+    return await axios.get('/order/receivedStore',
+    { headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
+        params: { idStore: idStore}
+    }
+    ).then(function (response) {
+        console.log('aqui la response FULLLLL', response)
+        response.data = response.data.orders;
+        return response;
+    }).catch( error => console.error(error))
+
+}
+
+
+export async function updateStatusOrder(orderId, status) {
+    return await axios.put('/order/' + orderId, {
+        
+            'anotations': status,
+        
+    },{ headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }}).then(function (response) {
+        return response;
+    }).catch(function (error) {
+        console.log(error);
+    });
+}

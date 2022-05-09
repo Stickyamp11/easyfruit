@@ -1,0 +1,240 @@
+<div style="max-height: 70px; min-height: 70px;">
+  
+  <!-- Main NavBar which is going to be present all over the user experience-->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light" id="main-navbar">
+    <router-link id="main-logo" class="nav-link" to="/"><img src="@/assets/logo2.png" style="width: 260px; height: 120px;"></router-link>
+  <button type="button" id="sidebarCollapse">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavDropdown" style="background-color: white; z-index: 1000;">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <router-link class="nav-link" to="/">Home <span class="sr-only">(current)</span></router-link>
+      </li>
+      <!--
+      <li class="nav-item" id="tab-2">
+        <router-link class="nav-link" to="/products">Products</router-link>
+      </li>
+      -->
+      <li class="nav-item" id="tab-2">
+        <router-link class="nav-link" to="/stores">Comercios</router-link>
+      </li>
+      <!--
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Dropdown link
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="#">Action</a>
+          <a class="dropdown-item" href="#">Another action</a>
+          <a class="dropdown-item" href="#">Something else here</a>
+        
+        </div>
+        
+      </li>
+      -->
+    </ul>
+
+
+
+    <!-- Elements positioned in the middle -->
+
+    <ul v-if="isUserLogged" class="navbar-nav mx-auto">
+
+
+    </ul>
+
+
+
+
+
+
+
+
+    <!-- Third part of the navbar. This elements are positioned in the right corner-->
+    <ul class="navbar-nav ml-auto">
+
+      <li class="nav-item">
+        <router-link class="nav-link mr-2" to="/faq" id="login-button" style="margin-top: 0.6rem;">
+          <i class="fa-solid fa-circle-question" style="font-size: 1.8rem;"></i>
+        </router-link> 
+      </li>
+    <!--  If user is not logged then show sign up button-->
+      <li v-if="!isUserLogged" class="nav-item" id="sign-up-button">
+        <router-link class="nav-link" to="/signup" id="sign-up-button-text">Sign Up</router-link>
+      </li>
+
+    
+      <!--  If user is not logged then show Login button (This always shows with sign up)-->
+      <li v-if="!isUserLogged" class="nav-item" > 
+          <router-link class="nav-link" to="/login" id="login-button">
+          <i class="fa-solid fa-user-large" id="login-icon"></i>
+          <i id="login-text">Login</i>
+        </router-link> 
+      </li>
+
+
+
+            <!--  If user is logged AND HE IS NOT A STORE MANAGER, then it shows the user menu-->
+    <!-- <li v-if="isUserLogged && !isStoreManager" class="nav-item" style="margin-right: 10% ;">
+        <button id="cart-button" class="btn btn-primary" type="button" data-toggle="collapse" data-target="#cart-content" aria-expanded="false" aria-controls="cart-content">
+          <i class="fa-solid fa-cart-arrow-down fa-2x"></i>
+        </button>
+        
+      </li>--> 
+      <li v-if="isUserLogged && !isStoreManager" class="nav-item dropdown"> 
+        <a class="nav-link dropdown-toggle" href="#" id="user-menu-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Menú Usuario
+        </a>
+          <div class="dropdown-menu" aria-labelledby="user-menu-toggle" id="user-dropdown">
+            <router-link class="user-dropdown-item" to="/profile" id="profile-link"><i class="fa-regular fa-address-card"></i> Perfil</router-link>
+            <router-link class="user-dropdown-item" to="/repeatorder" id=""><i class="fa-solid fa-repeat"></i> Repetir orden</router-link>
+            <router-link class="user-dropdown-item" to="/myorders" id="orders-link" ><i class="fa-solid fa-clock-rotate-left"></i> Historial</router-link>
+            <router-link class="user-dropdown-item" to="/" id="profile-link" v-on:click="logout" ><i class="fa-solid fa-arrow-right-from-bracket"></i> Salir</router-link>
+        
+          </div>
+        
+      </li>
+       <!--  If user is logged AND HE IS A STORE MANAGER, then it shows the user menu-->
+      
+       <li v-if="isUserLogged && isStoreManager" class="nav-item dropdown"> 
+        <a class="nav-link dropdown-toggle" href="#" id="user-menu-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Menú Manager
+        </a>
+          <div class="dropdown-menu" aria-labelledby="user-menu-toggle" id="user-dropdown">
+            <router-link class="user-dropdown-item" to="/storemanagement" id="profile-link"><i class="fa-solid fa-store"></i> Menú de tienda</router-link>
+            <router-link class="user-dropdown-item" to="/receivedorders" id="profile-link"><i class="fa-regular fa-bell"></i> Órdenes Recibidas</router-link>
+            <router-link class="user-dropdown-item" to="/profile" id="profile-link"><i class="fa-regular fa-address-card"></i> Perfil</router-link>
+            <router-link class="user-dropdown-item" to="/" id="profile-link" v-on:click="logout" ><i class="fa-solid fa-arrow-right-from-bracket"></i> Salir</router-link>
+        
+          </div>
+        
+      </li>
+      <!--  END USER MENU-->
+
+    
+    </ul>
+
+        <!-- END LIST-->
+
+  </div>
+
+</nav>
+
+
+<!-- this is used to reload the component when data change-->
+<!--<span>{{userLogged}}</span>
+<button @Click="exampletry()" style="display: hidden;"></button>-->
+
+
+<!-- Cart displayed here -->
+      <div v-if="isUserLogged && !isStoreManager"> <Cart ref="customerCart" @counterUpdated="updateCounter()"/> 
+          <!-- Cart button here -->
+            <i id="cart-button-web" @drop="onDrop($event)" @dragenter.prevent
+            @dragover.prevent class="fa-solid fa-cart-arrow-down fa-2x" data-toggle="collapse" data-target="#cart-content" aria-expanded="false" aria-controls="cart-content"></i>
+          <!-- Dark Overlay element for cart -->
+
+            <!-- Number of items in cart -->
+            <div id="cart-button-web-counter">{{counter}}</div>
+
+          <div class="overlay-cart-button"></div>
+      </div>
+
+<!-- TOOGLE MENU VERSION MOBIL-->
+<div class="wrapper">
+  <!-- Sidebar -->
+  <nav id="sidebar">
+
+      <!--<button id="dismiss">
+          <i class="fas fa-arrow-left"></i>
+      </button>-->
+
+      <div class="sidebar-header" style="justify-content: center; text-align: center;">
+        <img src="@/assets/logo2.png" style="width: 90%; height: 90%;">
+      </div>
+      <hr style="margin: 0;">
+
+      <ul id="mobile-ul-sidebar" class="list-unstyled components" style="font-size: 130%; " >
+          <li >
+            <div class="d-flex justify-content-center align-items-center">
+            <router-link class="user-dropdown-item"  to="/" id="mobile-sidebar-link">Home <span class="sr-only">(current)</span></router-link>
+            </div>
+          </li>
+          <li>
+            <div class="d-flex justify-content-center align-items-center">
+            <router-link class="user-dropdown-item"  to="/stores" id="mobile-sidebar-link">Comercios</router-link>
+            </div>
+          </li>
+          <li v-if="isUserLogged && isStoreManager">
+            <div class="d-flex justify-content-center align-items-center">
+            <router-link class="user-dropdown-item"  to="/storemanagement" id="mobile-sidebar-link"><i class="fa-regular fa-address-card"></i> Store Menu</router-link>
+            </div>
+          </li>
+          <li v-if="isUserLogged && !isStoreManager">
+            <div class="d-flex justify-content-center align-items-center">
+            <router-link class="user-dropdown-item"  to="/profile" id="mobile-sidebar-link"><i class="fa-regular fa-address-card"></i> Profile</router-link>
+            </div>
+          </li>
+          <li v-if="isUserLogged && !isStoreManager">
+            <div class="d-flex justify-content-center align-items-center">
+              <router-link class="user-dropdown-item" to="/repeatorder" id="mobile-sidebar-link"><i class="fa-solid fa-repeat"></i> Repetir orden</router-link>
+            </div>
+          </li>
+
+          <li v-if="isUserLogged && isStoreManager">
+            <div class="d-flex justify-content-center align-items-center">
+              <router-link class="user-dropdown-item" to="/receivedorders" id="mobile-sidebar-link">Órdenes Recibidas</router-link>
+            </div>
+          </li>
+
+          <li v-if="isUserLogged && !isStoreManager">
+            <div class="d-flex justify-content-center align-items-center">
+            <router-link class="user-dropdown-item"  to="/myorders" id="mobile-sidebar-link" ><i class="fa-solid fa-clock-rotate-left"></i> Historial</router-link>
+            </div>
+          </li>
+          <li v-if="isUserLogged">
+            <div class="d-flex justify-content-center align-items-center">
+            <router-link class="user-dropdown-item"  to="/" id="mobile-sidebar-link" v-on:click="logout" ><i class="fa-solid fa-arrow-right-from-bracket"></i> Log out</router-link>
+            </div>
+          </li>
+          <li v-if="!isUserLogged">
+            <div class="row" style="width: 80%; margin-left: 10%;">
+              <div class="col-6" style="padding: 0;">
+                <div class="d-flex justify-content-center align-items-center" style="font-size: 70%;">
+                  <router-link class="btn btn-success user-dropdown-item"  to="/login" id="mobile-sidebar-link"> Login</router-link>
+                  </div>             
+               </div>
+              <div class="col-6" style="padding: 0;">
+                <div class="d-flex justify-content-center align-items-center" style="font-size: 70%;">
+                  <router-link class="btn btn-primary user-dropdown-item"  to="/signup" id="mobile-sidebar-link" >Sign up</router-link>
+                </div>
+              </div>
+            </div>
+          </li>
+          
+      </ul>
+  </nav>
+
+  <!-- Dark Overlay element -->
+  <div class="overlay-sidebar"></div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+

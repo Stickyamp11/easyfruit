@@ -1,0 +1,278 @@
+.nav-bar {
+    
+}
+.nav-item{
+    font-size: 130%;
+}
+#user-menu{
+    padding-top: 4px;
+    padding-bottom: 4px;
+    position:fixed;
+    right: 2%;
+    background-color: rgb(15, 98, 36);
+}
+#user-menu-toggle{
+    
+}
+
+.nav-padding{
+    padding-left: 40px;
+    padding-bottom: 40px;
+}
+
+
+
+
+#sign-up-button{
+    /*position: fixed;
+    right: 10%;*/
+
+}
+#sign-up-button-text{
+
+}
+
+#login-button{
+    padding-top: 0px;
+    padding-bottom: 0px;
+    /*position:fixed;
+    right: 2%;*/
+    background-color: rgba(40, 117, 40, 0);
+    margin-top: 10%;
+}
+
+#login-icon{
+    padding-right: 10px;
+}
+#login-text{
+    display: inline;
+    padding: 0px;
+}
+
+#main-navbar{
+    max-height: 70px;
+    min-height: 70px;
+    background-color: rgb(255, 255, 255) !important;
+}
+
+#fill-space{
+
+}
+
+#user-dropdown{
+    width: 11rem;
+    min-width: 11rem;
+}
+
+.user-dropdown-item{
+    display: block;
+    margin-left: 5%;
+    color: black;
+   
+}
+
+.board{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 300px;
+    background-color: #818181;
+    padding: 15px;
+
+  }
+
+  .card .board{
+    padding: 15px 25px;
+    background-color: aliceblue;
+    cursor: pointer;
+    margin-bottom: 15px;
+  }
+
+  #profile-link{
+    width: 100%;
+  }
+
+
+
+
+
+
+.wrapper {
+    display: block;
+}
+
+#sidebar {
+    min-width: 250px;
+    max-width: 250px;
+    height: 100vh;
+    position: fixed; 
+    visibility: hidden;
+    top: 0;
+    left: 0;
+    /* top layer */
+    z-index: 99999;
+    
+    background-color: white;
+    -webkit-animation: slide 0.5s forwards;
+    -webkit-animation-delay: 2s;
+    animation: slide 0.5s forwards;
+    animation-delay: 2s;
+
+}
+
+
+@-webkit-keyframes sidebar {
+100% { left: 0; }
+}
+
+@keyframes sidebar {
+100% { left: 0; }
+}
+
+
+.overlay-sidebar {
+    position: fixed; 
+    visibility: hidden;
+    /* full screen */
+    width: 100vw;
+    height: 100vh;
+    /* transparent black */
+    background: rgba(0, 0, 0, 0.7);
+    /* middle layer, i.e. appears below the sidebar */
+    z-index: 10200;
+    opacity: 0;
+    transition: all 0.5s ease-in-out;
+    /* animate the transition */
+}
+/* display .overlay when it has the .active class */
+.overlay-sidebar-active {
+    visibility: visible;
+    opacity: 1;
+    top: 0;
+    transition: all 0.5s ease-in-out;
+    /* animate the transition */
+}
+
+#dismiss {
+    width: 35px;
+    height: 35px;
+    position: absolute;
+    /* top right corner of the sidebar */
+    top: 10px;
+    right: 10px;
+}
+
+#sidebarCollapse{
+    display: none;
+}
+
+@media (max-width: 992px) { 
+
+    #sidebarCollapse{
+        display: block;
+        background: rgba(27,112,13,255);
+        border-color: rgb(0, 0, 0);
+
+        
+    }
+    #main-logo{
+        display: none;
+    }
+
+}
+
+.slide-in {
+    animation: slide-in 0.5s forwards;
+    -webkit-animation: slide-in 0.5s forwards;
+}
+
+.slide-out {
+    animation: slide-out 0.5s forwards;
+    -webkit-animation: slide-out 0.5s forwards;
+}
+    
+@keyframes slide-in {
+    100% { transform: translateX(0%); }
+}
+
+@-webkit-keyframes slide-in {
+    100% { -webkit-transform: translateX(0%); }
+}
+    
+@keyframes slide-out {
+    0% { transform: translateX(0%); }
+    100% { transform: translateX(-100%); }
+}
+
+@-webkit-keyframes slide-out {
+    0% { -webkit-transform: translateX(0%); }
+    100% { -webkit-transform: translateX(-100%); }
+}
+
+
+#mobile-ul-sidebar li :hover{
+    color: rgb(9, 79, 9);
+    transition: all 0.5 ease;
+    text-decoration: none;
+
+}
+#mobile-ul-sidebar li {
+    margin-bottom: 5%;
+
+}
+#mobile-sidebar-link{
+    text-align: center;
+    font-size: 120%;
+    font-weight: 600;
+
+}
+
+#cart-button-web{
+    position: fixed;
+    bottom: 1.4rem;
+    right: 2rem;
+    z-index: 10300;
+    color: rgb(0, 0, 0);
+}
+#cart-button-web-counter{
+    position: fixed;
+    bottom: 1rem;
+    right: 3.2rem;
+    z-index: 10301;
+    border-radius: 100%;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    background-color: rgba(27,112,13,255) ;
+    opacity: 1;
+    color: rgb(255, 255, 255);
+    font-weight: 800;
+}
+.cart-button-active{
+    transition: all 0.5s ease-in-out;
+}
+
+.overlay-cart-button{
+    visibility: hidden;
+    position: fixed;
+    width: 10rem;
+    height: 10rem;
+    bottom: 0%;
+    right: 0%;
+    box-shadow: 0 0 0 9999px rgba(14, 14, 14, 0.514);
+    /* middle layer, i.e. appears below the sidebar */
+    z-index: 10200;
+    opacity: 0;
+    border-radius: 100%;
+    /* animate the transition */
+    transition: all 0.5s ease-in-out;
+
+}
+/* display .overlay when it has the .active class */
+.overlay-cart-button-active {
+    visibility: visible;
+    opacity: 1;
+    /* animate the transition */
+    transition: all 0.5s ease-in-out;
+
+
+}

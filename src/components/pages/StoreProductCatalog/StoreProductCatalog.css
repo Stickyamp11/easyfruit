@@ -1,0 +1,147 @@
+.product-store-grid .form-select{
+    min-width: 3.5rem;
+}
+
+.product-list-show{
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+#select-and-search-row{
+    width: 80%;
+    margin-left: 10%;
+}
+#search-bar-container{
+    width: 100%;
+    margin: 0%;
+}
+#search-bar{
+    width: 80%;
+}
+#search-bar:focus{
+    border: 1px solid green;
+    box-shadow: none;
+}
+#search-addon{
+    background-color: rgb(68, 105, 68);
+    color: white;
+}
+#search-bar-li{
+width: 70%;
+}
+
+.form-select:focus{
+border: 1px solid green;
+}
+#store-catalog-display{
+    display: inline;
+}
+
+#product-catalog-title{
+margin-top: 5%;
+margin-bottom: 5%;
+margin-left: 5%;
+}
+
+
+#drag-el{
+    color: aliceblue;
+    padding: 0px;
+    margin: 0px;
+    border: 0;
+}
+
+
+#product-card-img{
+    width: 94%;
+    height: 32%;
+}
+
+.card-text{
+    color: black;
+
+}
+
+#card-item{
+    margin-left: 7%;
+    background-color: rgb(255, 255, 255);
+    border-color: white;
+}
+#card-item:hover{
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    transition: 0.3s;
+}
+#card-item:active{
+    background-color: #262525;
+    -webkit-filter: brightness(70%);
+    -webkit-transition: all 1s ease;
+    -moz-transition: all 1s ease;
+    -o-transition: all 1s ease;
+    -ms-transition: all 1s ease;
+    transition: all 1s ease;
+}
+
+
+.product-text{
+    color: black;
+}
+
+.card{
+    display: block;
+}
+
+#product-card-img{
+    margin-right: 5%;
+    width: 256px;
+    height: 256px;
+}
+
+#store-portrait{
+    width: 80%;
+    height: 90%;
+}
+@media (max-width: 1200.98px) { 
+
+    #product-card-img{
+
+        width: 256px;
+        height: 256px;
+    }
+}
+@media (max-width: 1000.98px) { 
+
+    #product-card-img{
+
+        width: 220px;
+        height: 220px;
+    }
+}
+@media (max-width: 800.98px) { 
+
+    #product-card-img{
+
+        width: 180px;
+        height: 180px;
+    }
+}
+@media (max-width: 600.98px) { 
+
+    #product-card-img{
+
+        width: 160px;
+        height: 160px;
+    }
+
+    #select-and-search-row{
+        width: 90%;
+        margin-left: 5%;
+    }
+}
+
+
+
+hr.titleSeparatorStoreProduct {
+        border: 6px solid green;
+        border-radius: 5px;
+        width: 80%;
+}

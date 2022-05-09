@@ -217,6 +217,7 @@ import * as cartService from "@/shared/services/cartService"
      padding: 5px;
      margin-bottom: 10px;
      text-align: left;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
  }
 
  #button-cart-delete-item{
