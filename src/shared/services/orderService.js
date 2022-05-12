@@ -172,3 +172,13 @@ export async function updateStatusOrder(orderId, status) {
         console.log(error);
     });
 }
+
+export async function deleteOrder(orderId){
+    return await axios.delete('/order/' + orderId ,{ headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }}).then(function(response){
+        return response;
+    }).catch(function(error){
+        console.log(error);
+    })
+       
+    
+    }

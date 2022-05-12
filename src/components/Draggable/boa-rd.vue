@@ -7,7 +7,7 @@ class="drop-zone-board"
 @dragover.prevent
 >
     <!-- In case there is no products yet here-->
-    <div v-if="emptyProducts">
+    <div class="empty-board" v-if="emptyProducts">
       <div> ¡Arrastra productos aquí!</div>
       <i class="fa-solid fa-share-from-square"></i>
     </div>
@@ -243,5 +243,10 @@ import * as cartService from "@/shared/services/cartService"
  }
 
 
-
+.empty-board{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
  </style>

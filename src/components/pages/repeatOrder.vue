@@ -82,7 +82,7 @@ export default {
           this.repeatBuyTimesordered = order.times_ordered;
           console.log('items', order.items)
           console.log('items', order.items)
-          this.$refs.repeatOrder.show(this.repeatBuyProducts, this.repeatBuyFstore, this.repeatBuyTimesordered);
+          this.$refs['repeatOrder'].show(this.repeatBuyProducts, this.repeatBuyFstore, this.repeatBuyTimesordered, order.id);
       },
      
     async refreshData(){

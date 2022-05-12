@@ -135,7 +135,7 @@ export default {
         //Dragable stuff for cart icon css when DRAG START
         document.addEventListener("dragstart", function() {
           console.log('dragstart')
-          if(!document.getElementById('cart-content').classList.contains('show'))
+          if(!document.getElementById('mySidebar').classList.contains('show'))
           {
                   setTimeout(function changePos() 
                   {
@@ -176,7 +176,7 @@ export default {
           //Dragable stuff for cart icon css when DRAG START
 
           document.addEventListener("dragend", function() {
-            if(!document.getElementById('cart-content').classList.contains('show'))
+            if(!document.getElementById('mySidebar').classList.contains('show'))
           {
                 console.log('drop')
                 event.preventDefault();
@@ -222,7 +222,9 @@ export default {
               document.getElementById('cart-button-web').style.display = document.getElementById('cart-button-web').style.display == 'none' ? 'block' : 'none';
               document.getElementById('cart-button-web-counter').style.display = document.getElementById('cart-button-web-counter').style.display == 'none' ? 'block' : 'none';
 
-              document.getElementsByClassName('sidebarCart')[0].classList.add('slideInSideBar');
+              document.getElementsByClassName('sidebarCart')[0].style.right = '0rem';
+              //Also when clicking, we need to set collapse to show so:
+              document.getElementById('mySidebar').classList.add('show');
 
             }, false);
             //Enable click in the counter
@@ -231,11 +233,12 @@ export default {
               document.getElementById('cart-button-web-counter').style.display = document.getElementById('cart-button-web-counter').style.display == 'none' ? 'block' : 'none';
 
               //Also when clicking counter, we need to set collapse to show so:
-              document.getElementById('cart-content').classList.add('show');
+              document.getElementById('mySidebar').classList.add('show');
             }, false);
 
             document.getElementById('button-cart-close-content').addEventListener('click', function(){
              // this.updateCounterItems();
+             document.getElementsByClassName('sidebarCart')[0].style.right = '-22rem';
              console.log('Estoy en el close y he llamado al cartservice en principio')
              console.log(this)
              cartService.getNumberOfItems().then(res => {
@@ -244,7 +247,18 @@ export default {
               document.getElementById('cart-button-web').style.display = document.getElementById('cart-button-web').style.display == 'none' ? 'block' : 'none';
               document.getElementById('cart-button-web-counter').style.display = document.getElementById('cart-button-web-counter').style.display == 'none' ? 'block' : 'none';
 
+              //Also when clicking close, we need to set collapse to show  hidde so:
+              document.getElementById('mySidebar').classList.remove('show');
             }.bind(this), false);
+
+
+            //To close sidebar cart when doing a order
+            document.getElementById('button-send-buy-order').addEventListener('click', function(){
+              
+              document.getElementsByClassName('sidebarCart')[0].style.right = '-22rem';
+
+            
+             }.bind(this), false);
 
           
 

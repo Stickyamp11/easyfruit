@@ -414,6 +414,8 @@ export default {
             document.getElementById('button-close-buy-order').addEventListener('click', function(){
               document.getElementById('cart-button-web').style.display = 'block';
               document.getElementById('cart-button-web-counter').style.display = 'block';
+              //document.getElementsByClassName('sidebarCart')[0].style.width = '22rem';
+
 
             });
             
@@ -568,6 +570,14 @@ export default {
     padding-right: 6px;
 }
 @media (max-width: 767.98px) { 
+    #buy-order-title{
+    text-align: left;
+    color: rgba(27,112,13,255);
+    font-size: 80%;
+    margin-left: 5%;
+    font-weight: 500;
+}
+
    #buy-item-card-img{
     width: 11rem;
     height: 11rem;
