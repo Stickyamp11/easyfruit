@@ -14,7 +14,9 @@ export async function getProductById(productId) {
 }
 
 export async function updateProduct(product, id){
-    return await axios.put('/product/' + id ,{ name: product.name, product_img: product.product_img, price_per_kg: product.price_per_kg,  description: product.description, fCategory: product.fCategory
+    return await axios.put('/product/' + id ,{ name: product.name, price_per_kg: product.price_per_kg, price_per_unit: product.price_per_unit,
+    price_per_pack: product.price_per_pack, packQuantity: product.packQuantity, methodsAllowed: product.methodsAllowed
+    , description: product.description, fCategory: product.fCategory, fStore: product.fStore,
      },{ headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }}).then(function(response){
          return response;
      }).catch(function(error){

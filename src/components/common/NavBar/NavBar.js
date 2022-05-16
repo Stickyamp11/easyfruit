@@ -232,6 +232,7 @@ export default {
               document.getElementById('cart-button-web').style.display = document.getElementById('cart-button-web').style.display == 'none' ? 'block' : 'none';
               document.getElementById('cart-button-web-counter').style.display = document.getElementById('cart-button-web-counter').style.display == 'none' ? 'block' : 'none';
 
+              document.getElementsByClassName('sidebarCart')[0].style.right = '0rem';
               //Also when clicking counter, we need to set collapse to show so:
               document.getElementById('mySidebar').classList.add('show');
             }, false);

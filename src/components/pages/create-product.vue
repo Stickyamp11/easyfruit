@@ -55,11 +55,11 @@
                     </div>
                     <div class="col-3">
                       <input class="input_prices" type="text" id="pack_quantity" v-model="packQuantity" :disabled="!acceptPacks">
-                      <label class="form-check-label" for="packQuantity">Precio del paquete(€)</label>
+                      <label class="form-check-label" for="packQuantity">Unidades del paquete(Uds)</label>
                     </div>
                     <div class="col-3">
                       <input class="input_prices" type="text" id="price_per_pack" v-model="pricePerPack" :disabled="!acceptPacks">
-                      <label class="form-check-label" for="price_per_pack">Unidades del paquete(Uds)</label>
+                      <label class="form-check-label" for="price_per_pack">Precio del paquete(€)</label>
                     </div>
                </div>
               </div>
@@ -129,9 +129,9 @@ export default {
     return {
       sharedData,
       dialogSuccess: false,
-      productName: 'm',
+      productName: 'Manzana',
       productCategory: '',
-      productDescription:'',
+      productDescription:'Producto del...',
       productId: 0,
       storeInfo: '',
       categories: [],
@@ -233,7 +233,7 @@ export default {
               console.log(response)
 
               if(response.status == 201){
-                 //This was a error
+                 //This was a success
                   this.processStatus = 'success';
                   this.showDialogProcessResult();
               }
@@ -373,8 +373,8 @@ export default {
   box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(16, 59, 7, 0.3) 0px 1px 3px -1px;
 }
 .create-product-form :checked{
- background-color: aqua;
- color: red;
+ background-color: rgb(13, 85, 28);
+ color: rgb(255, 255, 255);
 }
 @media (max-width: 767.98px) {
    .create-product-form{

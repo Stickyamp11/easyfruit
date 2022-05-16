@@ -126,3 +126,9 @@
     /*   border: 2px solid;  
     }*/
 }
+
+#button-cart-close-content:active{
+  background: none;
+  border: none;
+  box-shadow: none;
+}

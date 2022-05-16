@@ -29,8 +29,8 @@
       <td class="align-middle">
         <img class="storemanagement-product-img" :src="product.product_img" alt="Card image cap">
       </td>
-      <td class="align-middle">{{product.id}}</td>
       <td class="align-middle">{{product.name}}</td>
+      <td class="align-middle">{{product.category}}</td>
       <td class="align-middle">
         <div class="row-description">
           {{product.description}}
@@ -63,7 +63,7 @@
 
 
 <!-- Dialog to show when deleting products -->
-<DialogDeleteProduct :dialogShow="dialogDeleteProduct" :idProductToDelete='idProductDelete' ref="deleteDialogStoreManagement">
+<DialogDeleteProduct :dialogShow="dialogDeleteProduct" :idProductToDelete='idProductDelete' ref="deleteDialogStoreManagement" @finished="getProductsDataFromStore()">
 <div class="modal-content-delete-product-store-management">
   <p>
     ¿Seguro que quieres eliminar el producto {{nameProductDelete}}?
@@ -77,6 +77,7 @@
 import * as storeService from "@/shared/services/storeService"
 import * as cartService from "@/shared/services/cartService"
 import * as productService from "@/shared/services/productService"
+import * as categoryService from "@/shared/services/categoryService"
 import DialogDeleteProduct from "../Dialogs/DialogDeleteProduct.vue"
 
 export default {
@@ -93,6 +94,7 @@ export default {
             paginatedProducts:[],
             pageSelected: 1,
             processStatus: 'success',
+            categories: [],
 
          }
          
@@ -101,6 +103,7 @@ export default {
      },
 
      mounted(){
+         this.getProductCategories();
          this.getStoreInfo();
          //Gets the info of first page when mounted
          
@@ -166,6 +169,11 @@ export default {
             await storeService.getStoreProducts(this.storeInfo.id).then((response) => {
             console.log('products', response)
             this.products = response.data;
+
+            //Little fix to have the category name in the product:
+            this.products.forEach( product => {
+              product['category'] = this.categories.find( category => category.id == product.fCategory).name;
+            })
             //Once we have the products we set the pagination:
             this.getDataPage(1);
             }).catch((error) => {
@@ -211,7 +219,23 @@ export default {
            else{
              return '';
            }
-         }
+         },
+
+         async getProductCategories(){
+            console.log('hola')
+            await categoryService.getCategories().then((response) => {
+            console.log('categories', response)
+            this.categories = response.data;
+            console.log(this.categories)
+
+            
+
+            }).catch((error) => {
+            console.error(error);
+            this.processStatus = 'error';
+            this.showDialogProcessResult();
+            })
+            },
 
 
 

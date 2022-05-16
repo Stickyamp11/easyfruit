@@ -56,6 +56,7 @@ export default {
 
   methods: {
     hidde(){
+        this.$emit('finished');
         this.dialogActive = false;
     },
     show(){

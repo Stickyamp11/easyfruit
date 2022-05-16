@@ -8,12 +8,12 @@
                 <div class="col-12" style="margin-left: 5%; margin-bottom: 10%; flex: 0 0 90%;" >
                     <div class="row">
                         <div class="col-6">
-                            <span style="font-size: 200%; color: black;">Google</span>
+                            <span style="font-size: 200%; color: green; font-weight: 500;">{{toporder.storeName}}</span>
                         </div>
 
-                        <div class="col-6 text-right" style="">
+                        <div class="col-6 text-right d-flex justify-content-end align-items-center" style="">
                             <button class="btn btn-success" v-on:click="adjustOrderToRepeat(toporder)" style="font-size: 1rem;">
-                                <i class="fa-solid fa-repeat"></i>
+                                <span class="mr-2">Repetir pedido</span> <i class="fa-solid fa-repeat"></i>
                             </button>
                         </div>
 
@@ -43,6 +43,7 @@
 <script>
 import * as orderService from "@/shared/services/orderService"
 import * as productService from "@/shared/services/productService"
+import * as storeService from "@/shared/services/storeService"
 import RepeatOrder from "@/components/pages/repeatBuy.vue"
 
 import {sharedData} from "../../shared/sharedData"
@@ -100,7 +101,8 @@ export default {
                                 orderService.getItems(order).then( response => {
                                         console.log('getItems response', response )
                                         order['items'] = response.data;
-
+                                        //Get store name for the order.
+                                        this.getStoreInfo(order);
 
                                         order.items.forEach(item => {
                                         productService.getProductById(item.productId).then( response => {
@@ -121,6 +123,20 @@ export default {
     this.loading = false;
    
     },
+
+
+    async getStoreInfo(order){
+            console.log('AQYI', order.fStore)
+            await storeService.getStoreData(order.fStore).then((response) => {
+                console.log(response)
+                order['storeName'] = response.data.name;
+                console.log('storeInfo', this.storeInfo)
+
+
+            }).catch((error) => {
+                console.error(error);
+            })
+            },
 
   }
 }

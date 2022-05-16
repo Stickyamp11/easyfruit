@@ -12,9 +12,10 @@ export default {
       password: '',
       phone:'',
       name:'',
+      zip: '',
       termsAgreement: false,
       processStatus: 'success',
-      successLink: '',
+      successLink: '/',
 
 
 
@@ -37,6 +38,8 @@ export default {
         "email": this.email,
         "phone": this.phone,
         "passwd": this.password,
+        "zip": this.zip,
+        "seller": 'no',
       }).then(
         res => {
 

@@ -58,8 +58,8 @@
                                         </div>
                                         <div v-if="product.methodSelected == 'pieces'" class="col-7" style="padding: 0;">
                                             
-                                             <div id="warning-pack" style="">
-                                                    <i class="fa-solid fa-circle-exclamation"></i> El pack de este producto contiene {{product.packQuantity}} unidades
+                                             <div id="green-pieces" style="">
+                                                    <i class="fa-solid fa-circle-check"></i> Medida exacta
                                             </div>
                                             
                                                 
@@ -530,6 +530,11 @@ export default {
 #warning-pack{
     background-color: rgb(247, 247, 104);
     margin-bottom: 3%;
+}
+#green-pieces{
+    background-color: rgb(93, 151, 98);
+    margin-bottom: 3%;
+    color: white;
 }
 #info-kg{
     background-color: rgb(195, 195, 195);

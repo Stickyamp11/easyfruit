@@ -58,8 +58,8 @@
                                         </div>
                                         <div v-if="product.methodSelected == 'pieces'" class="col-7" style="padding: 0;">
                                             
-                                             <div id="warning-pack" style="">
-                                                    <i class="fa-solid fa-circle-exclamation"></i> El pack de este producto contiene {{product.packQuantity}} unidades
+                                             <div id="green-pieces" style="">
+                                                    <i class="fa-solid fa-circle-check"></i> Medida exacta
                                             </div>
                                             
                                                 
@@ -87,7 +87,7 @@
                             <div class="row ml-0 mr-0 p-2 d-flex justify-content-center align-items-center" id="row-methods-select-units-second">
                                 <div class="col-5">
                                      <select v-model="product.methodSelected" class="form-select" id="methodSelect">
-                                     <option v-for="method in product.methodsAllowed.split(';')" :key="method">{{method}}</option>
+                                     <option  v-for="method in getMethodsForProductSelected(product)" :key="method">{{method}}</option>
                                      </select>
                                 </div>
                                                                                                     <div v-if="product.methodSelected == 'kg'" class="col-7" style="padding: 0;">
@@ -280,7 +280,8 @@ export default {
                  return product.unitsToBuy * product.price_per_kg 
              }
              else if(product.methodSelected == 'pieces'){
-                 return product.unitsToBuy * product.price_per_unit
+              
+                 return product.unitsToBuy * product.price_per_unit;
              }
              else if(product.methodSelected == 'pack'){
                  return product.unitsToBuy * product.packQuantity * product.price_per_unit
@@ -404,6 +405,13 @@ export default {
 
 
          },
+
+         getMethodsForProductSelected(product){
+             let aux = [];
+             aux = product.methodsAllowed.split(';').filter(product => product != '');
+             return aux;
+
+         },
          closeDialog(){
              //this.hidde();
              document.getElementById('button-close-buy-order').click();
@@ -489,6 +497,11 @@ export default {
 #warning-pack{
     background-color: rgb(247, 247, 104);
     margin-bottom: 3%;
+}
+#green-pieces{
+    background-color: rgb(93, 151, 98);
+    margin-bottom: 3%;
+    color: white;
 }
 #info-kg{
     background-color: rgb(195, 195, 195);

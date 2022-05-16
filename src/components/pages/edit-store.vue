@@ -6,13 +6,14 @@
             <div id="frame-wrapper"> 
             <img id="frame" ref="frame-ref" src="" class="img-fluid" />
             </div>
-            <input class="form-control" type="file" accept="image/jpeg" id="formFile" v-on:change="preview()" v-on:click="clearImage()">
+            <input  style="display: none;" class="form-control" type="file" accept="image/jpeg" id="formFile" v-on:change="preview()" v-on:click="clearImage()">
+            <button class="btn btn-primary" @click="clickUploadImg()">Seleccionar imagen</button>
       </div>
   </div>
   <div class="form-row">
     <div class="form-group col-md-6">
       <label for="inputEmail4">Nombre oficial de la tienda</label>
-      <input type="email" v-model="name" class="form-control" id="inputEmail4">
+      <input type="text" v-model="name" class="form-control" id="inputEmail4">
     </div>
     <div class="form-group col-md-6">
       <label for="inputPassword4">Direccion</label>
@@ -202,6 +203,10 @@ export default {
         this.$refs['loginDialogStatusError'].show();
       }
 
+    },
+
+    clickUploadImg(){
+      document.getElementById('formFile').click();
     },
 
   }
