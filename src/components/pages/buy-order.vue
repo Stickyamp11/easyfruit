@@ -23,10 +23,10 @@
         <div class="card border-success" id="product-card">
             <div class="card-body" id="card-body-product">
                  <div class="row">
-                    <div class="col-6 text-left">
+                    <div class="col-8 text-left">
                         <h5 class="card-title">{{product.name}}</h5>
                     </div>
-                    <div class="col-6 text-right">
+                    <div class="col-4 text-right">
                     <button id="buy-order-delete-button" class="btn btn-danger"><i class="fa-solid fa-x" v-on:click="discardProduct(product)"></i></button>
                     </div>
                 </div>
@@ -36,14 +36,16 @@
                     <img id="buy-item-card-img" class="card-img-top" :src="product.product_img" alt="Card image cap">
                     </div>
                     <div class="col-12 col-sm-8">
-
-                            <!--<div class="row mb-5">
-                                <div class="col-12">
-                                <p class="card-text">{{product.description}}</p>
+                        <!-- Shows the price for the product -->
+                            <div class="row">
+                                <div class="col-12 d-flex justify-content-center align-items-middle">
+                                        <h5 v-if="product.methodSelected == 'kg'" class="card-title"><span class="mr-2">Precio del Kg:</span>{{product.price_per_kg.toFixed(2)}}€</h5>
+                                        <h5 v-if="product.methodSelected == 'pieces'" class="card-title"><span class="mr-2">Precio de la unidad:</span>{{parseFloat(product.price_per_unit).toFixed(2)}}€</h5>
+                                        <h5 v-if="product.methodSelected == 'pack'" class="card-title"><span class="mr-2">Precio del Pack:</span>{{parseFloat(product.price_per_pack).toFixed(2)}}€</h5>
                                 </div>
-                        
-                            </div>-->
-                            <div class="row mt-5 ml-0 mr-0 p-2 d-flex justify-content-center align-items-center" id="row-methods-select-units">
+                            </div>
+
+                            <div class="row mt-1 ml-0 mr-0 p-2 d-flex justify-content-center align-items-center" id="row-methods-select-units">
                                 <div class="col-5" style="padding: 0;">
                                  <label for="methodSelect">Método de medida</label>
                                 </div>
@@ -51,7 +53,7 @@
                                         <div v-if="product.methodSelected == 'kg'" class="col-7" style="padding: 0;">
                                             
                                             <div id="info-kg">
-                                                    <i class="fa-solid fa-circle-exclamation"></i> El peso puede no ser exacto
+                                                    <i class="fa-solid fa-circle-exclamation mr-1"></i> El peso puede no ser exacto
                                             </div>
                                            
 
@@ -59,7 +61,7 @@
                                         <div v-if="product.methodSelected == 'pieces'" class="col-7" style="padding: 0;">
                                             
                                              <div id="green-pieces" style="">
-                                                    <i class="fa-solid fa-circle-check"></i> Medida exacta
+                                                    <i class="fa-solid fa-circle-check mr-1"></i> Medida exacta
                                             </div>
                                             
                                                 
@@ -70,14 +72,14 @@
                                         <div v-if="product.methodSelected == 'pack'" class="col-7" style="padding: 0;">
                                             
                                                 <div id="warning-pack">
-                                                    <i class="fa-solid fa-circle-exclamation"></i> El pack de este producto contiene {{product.packQuantity}} unidades
+                                                    <i class="fa-solid fa-circle-exclamation mr-1"></i> El pack de este producto contiene {{product.packQuantity}} unidades
                                                 </div>
                                            
                                         </div>
                                         <div v-if="product.methodSelected == ''" class="col-7" style="padding: 0;">
                                             
                                                 <div id="info-about-methods">
-                                                    <i class="fa-solid fa-circle-exclamation"></i> Seleccione un método de medida
+                                                    <i class="fa-solid fa-circle-exclamation mr-1"></i> Seleccione un método de medida
                                                 </div>
                                                 
                                         </div>
@@ -153,14 +155,28 @@
             </div>
         </div>
     </div>
-    </div>
+</div>
 
+<!-- To assign the way the order is deliver to the customer -->
+<div class="row assignMethodDeliver mt-5 mb-3 pt-3 pb-3" style="margin-left: 15%; margin-right: 15%; width: 70%;">
+            <div class="col-12 col-sm-6 d-flex justify-content-center align-items-middle" style="font-weight: 500; color: green;">
+                    Método de envío:
+                                
+            </div>
+            <div class="col-12 col-sm-6 d-flex justify-content-center align-items-middle">
+                    <select v-model="deliverMethod" class="status-select" id="selectDeliverMethod">
+                            <option value="takeStore">Recoger en tienda</option>
+                            <option value="deliverHome">Envío a casa</option>
+                    </select>                    
+            </div>
+</div>
 
         <div class="card w-150 border-light mt-5" id="resume-buy-order">
             <div class="row align-items-center justify-content-center ">
                 <div class="col-6 col-sm-5">
                      <label for="anotations-order">Observaciones</label>
-                    <textarea type="text" v-model="anotationsOrder" class="form-control" id="anotations-order" placeholder="¿Qué debemos tener en cuenta?"></textarea>     
+                    <textarea type="text" v-model="anotationsOrder" class="form-control" id="anotations-order" placeholder="¿Qué debemos tener en cuenta?"></textarea>
+
                 </div>
                 <div class="col-6 col-sm-7 text-right">
                     <table class="" style="width: 100%">
@@ -202,7 +218,7 @@
 
        
 
-<DialogSuccessNotification :dialogShow="loginSuccess" :link='successLink' ref="loginDialogStatusSuccess" @finished="closeDialog()">
+<DialogSuccessNotification :link='successLink' ref="loginDialogStatusSuccess" @finished="closeDialog()">
     <div class="modal-content">
         <p>
           Pedido realizado con éxito
@@ -210,7 +226,7 @@
     </div>
     </DialogSuccessNotification>
 
-    <DialogErrorNotification :dialogShow="loginSuccess" :link='successLink' ref="loginDialogStatusError">
+    <DialogErrorNotification :link='successLink' ref="loginDialogStatusError">
       <div class="modal-content">
           <p>
             Error al realizar el pedido
@@ -234,15 +250,12 @@ export default {
     components: {DialogSuccessNotification,DialogErrorNotification},
      data(){
          return{
-            products: [
-             {id:0, name: 'item a', description: "Este es un producto de ejemplo", store:"1", methodsAllowed: ''},
-             {id:1, name: 'item b', description: "Este es un producto de ejemplo", store:"1", methodsAllowed: ''},
-             {id:2, name: 'item c', description: "Este es un producto de ejemplo", store:"2", methodsAllowed: ''},
-            ],
+            products: [],
             storeInfo: '',
+            deliverMethod: '',
             anotationsOrder: '',
             dialogActive: false,
-            successLink: '/',
+            successLink: '/stores',
             processStatus: 'success'
 
          }
@@ -257,22 +270,25 @@ export default {
      },
      props: [],
      methods: {
-          hidde(){
+          hidde()
+          {
                 this.dialogActive = false;
                 this.$emit('updateCart')
-                  },
-            show(){
-            this.dialogActive = true;
-            this.getCartProductsFromCustomer();
-             },
+          },
+          show()
+          {
+          this.dialogActive = true;
+          this.getCartProductsFromCustomer();
+          },
 
-         getEstimatedPriceForAllProducts(){
+         getEstimatedPriceForAllProducts()
+          {
              let total = 0;
              this.products.forEach( product => {
                 total += this.getEstimatedPriceForProduct(product)
              })
              return total;
-         },
+          },
          getEstimatedPriceForProduct(product){
 
              if(product.methodSelected == 'kg')
@@ -284,13 +300,14 @@ export default {
                  return product.unitsToBuy * product.price_per_unit;
              }
              else if(product.methodSelected == 'pack'){
-                 return product.unitsToBuy * product.packQuantity * product.price_per_unit
+                 return product.unitsToBuy * product.price_per_pack;
              }
              else{
                  return 0;
              }
          },
-          getStoreInfo(){
+          getStoreInfo()
+          {
               console.log('AQUI EL STORE DEL PRODUCT 0', this.products[0].fStore)
             storeService.getStoreData(this.products[0].fStore).then((response) => {
                 console.log(response)
@@ -299,9 +316,10 @@ export default {
             }).catch((error) => {
                 console.error(error);
             })
-            },
+          },
 
-         confirmBuy(){
+         confirmBuy()
+         {
              //Before buying, we set the price for the products
              this.products.forEach( product => {
                  product['estimated_price'] = this.getEstimatedPriceForProduct(product);
@@ -310,7 +328,7 @@ export default {
              let totalPrice = this.getEstimatedPriceForAllProducts();
 
             
-             orderService.createOrder(this.storeInfo.id, localStorage.getItem('userId'), totalPrice, this.anotationsOrder).then((response) => {
+             orderService.createOrder(this.storeInfo.id, localStorage.getItem('userId'), totalPrice, this.anotationsOrder,this.deliverMethod).then((response) => {
                 console.log(response)
                 if(response.status == '201'){
                     //Order created correctly, now insert items
@@ -322,12 +340,9 @@ export default {
                          cartService.deleteCart().then((response) => {
                               console.log(response)
                               //Everything went fine
-                              if(response.status == '201'){
-                                  
-                                  
-                                  //this.hidde()
+                              if(response.status == '201')
+                              {
                                   console.log('Pedido realizado correctamente')
-
                                   //This was a success buy
                                   this.processStatus = 'success';
                                   this.showDialogProcessResult();
@@ -353,9 +368,10 @@ export default {
                 this.showDialogProcessResult();
             })
 
-         },
+           },
 
-         discardProduct(product){
+         discardProduct(product)
+         {
              let index = this.products.findIndex((item) => {
                  item.id = product.id;
              })
@@ -374,7 +390,6 @@ export default {
 
               await cartService.getCart().then((response) => {
               console.log(response)
-              console.log('HIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII')
               this.products = response.data
 
               //Adding js to the new tab of buy
@@ -413,7 +428,6 @@ export default {
 
          },
          closeDialog(){
-             //this.hidde();
              document.getElementById('button-close-buy-order').click();
          },
 
@@ -582,6 +596,14 @@ export default {
     padding-left: 6px;
     padding-right: 6px;
 }
+
+
+.assignMethodDeliver{
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+
+
 @media (max-width: 767.98px) { 
     #buy-order-title{
     text-align: left;

@@ -167,12 +167,12 @@
           </li>
           <li v-if="isUserLogged && isStoreManager">
             <div class="d-flex justify-content-center align-items-center">
-            <router-link class="user-dropdown-item"  to="/storemanagement" id="mobile-sidebar-link"><i class="fa-regular fa-address-card"></i> Store Menu</router-link>
+            <router-link class="user-dropdown-item"  to="/storemanagement" id="mobile-sidebar-link"><i class="fa-solid fa-store"></i> Menú de tienda</router-link>
             </div>
           </li>
-          <li v-if="isUserLogged && !isStoreManager">
+          <li v-if="isUserLogged">
             <div class="d-flex justify-content-center align-items-center">
-            <router-link class="user-dropdown-item"  to="/profile" id="mobile-sidebar-link"><i class="fa-regular fa-address-card"></i> Profile</router-link>
+            <router-link class="user-dropdown-item"  to="/profile" id="mobile-sidebar-link"><i class="fa-regular fa-address-card"></i>  Perfil</router-link>
             </div>
           </li>
           <li v-if="isUserLogged && !isStoreManager">
@@ -183,13 +183,13 @@
 
           <li v-if="isUserLogged && isStoreManager">
             <div class="d-flex justify-content-center align-items-center">
-              <router-link class="user-dropdown-item" to="/receivedorders" id="mobile-sidebar-link">Órdenes Recibidas</router-link>
+              <router-link class="user-dropdown-item" to="/receivedorders" id="mobile-sidebar-link"><i class="fa-regular fa-bell"></i>Órdenes Recibidas</router-link>
             </div>
           </li>
 
           <li v-if="isUserLogged && !isStoreManager">
             <div class="d-flex justify-content-center align-items-center">
-            <router-link class="user-dropdown-item"  to="/myorders" id="mobile-sidebar-link" ><i class="fa-solid fa-clock-rotate-left"></i> Historial</router-link>
+            <router-link class="user-dropdown-item"  to="/myorders" id="mobile-sidebar-link" ><i class="fa-solid fa-clock-rotate-left"></i> Historial </router-link>
             </div>
           </li>
           <li v-if="isUserLogged">

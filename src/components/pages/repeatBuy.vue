@@ -37,12 +37,16 @@
                     </div>
                     <div class="col-12 col-sm-8">
 
-                            <!--<div class="row mb-5">
-                                <div class="col-12">
-                                <p class="card-text">{{product.description}}</p>
+                             <!-- Shows the price for the product -->
+                            <div class="row">
+                                <div class="col-12 d-flex justify-content-center align-items-middle">
+                                        <h5 v-if="product.methodSelected == 'kg'" class="card-title"><span class="mr-2">Precio del Kg:</span>{{product.price_per_kg.toFixed(2)}}€</h5>
+                                        <h5 v-if="product.methodSelected == 'pieces'" class="card-title"><span class="mr-2">Precio de la unidad:</span>{{parseFloat(product.price_per_unit).toFixed(2)}}€</h5>
+                                        <h5 v-if="product.methodSelected == 'pack'" class="card-title"><span class="mr-2">Precio del Pack:</span>{{parseFloat(product.price_per_pack).toFixed(2)}}€</h5>
                                 </div>
+                            </div>
                         
-                            </div>-->
+                            
                             <div class="row mt-5 ml-0 mr-0 p-2 d-flex justify-content-center align-items-center" id="row-methods-select-units">
                                 <div class="col-5" style="padding: 0;">
                                  <label for="methodSelect">Método de medida</label>
@@ -155,6 +159,19 @@
     </div>
     </div>
 
+    <!-- To assign the way the order is deliver to the customer -->
+    <div class="row assignMethodDeliver mt-5 mb-3 pt-3 pb-3" style="margin-left: 15%; margin-right: 15%; width: 70%;">
+                <div class="col-12 col-sm-6 d-flex justify-content-center align-items-middle" style="font-weight: 500; color: green;">
+                        Método de envío:
+                                    
+                </div>
+                <div class="col-12 col-sm-6 d-flex justify-content-center align-items-middle">
+                        <select v-model="deliverMethod" class="status-select" id="selectDeliverMethod">
+                                <option value="takeStore">Recoger en tienda</option>
+                                <option value="deliverHome">Envío a casa</option>
+                        </select>                    
+                </div>
+    </div>
 
         <div class="card w-150 border-light mt-5" id="resume-buy-order">
             <div class="row align-items-center justify-content-center ">
@@ -202,7 +219,7 @@
 
        
 
-<DialogSuccessNotification :dialogShow="loginSuccess" :link='successLink' ref="loginDialogStatusSuccess" @finished="closeDialog()">
+<DialogSuccessNotification :link='successLink' ref="loginDialogStatusSuccess" @finished="closeDialog()">
     <div class="modal-content">
         <p>
           Pedido realizado con éxito
@@ -210,7 +227,7 @@
     </div>
     </DialogSuccessNotification>
 
-    <DialogErrorNotification :dialogShow="loginSuccess" :link='successLink' ref="loginDialogStatusError">
+    <DialogErrorNotification :link='successLink' ref="loginDialogStatusError">
       <div class="modal-content">
           <p>
             Error al realizar el pedido
@@ -236,9 +253,7 @@ export default {
      data(){
          return{
             products: [
-             {id:0, name: 'item a', description: "Este es un producto de ejemplo", store:"1", methodsAllowed: ''},
-             {id:1, name: 'item b', description: "Este es un producto de ejemplo", store:"1", methodsAllowed: ''},
-             {id:2, name: 'item c', description: "Este es un producto de ejemplo", store:"2", methodsAllowed: ''},
+             
             ],
             storeInfo: '',
             anotationsOrder: '',
@@ -246,8 +261,9 @@ export default {
             productsReceived: [],
             fStoreReceived: 0, 
             timesOrdered: 0,
+            deliverMethod: '',
             updatedProducts: [],
-            successLink: '/',
+            successLink: '/repeatorder',
             processStatus: 'success',
             orderId: Number,
          }
@@ -257,7 +273,7 @@ export default {
      },
 
      mounted(){
-        this.getCartProductsFromCustomer();
+        //this.getCartProductsFromCustomer();
         
      },
      props: [],
@@ -266,11 +282,12 @@ export default {
                 this.dialogActive = false;
                 this.$emit('updateCart')
                   },
-            show(productsR, storeR, timesorderedR, orderId){
+            show(productsR, storeR, timesorderedR, orderId, deliverMethod){
                 this.products = productsR;
                 this.fStoreReceived = storeR;
                 this.timesOrdered = timesorderedR;
                 this.orderId = orderId;
+                this.deliverMethod = deliverMethod;
                 console.log('ESTOY EN EL SHOW PRODUCTS', this.products);
                 console.log('ESTOY EN EL SHOW fstorereceived', this.fStoreReceived);
                 console.log('ESTOY EN EL SHOW timesOrdered', this.timesOrdered);
@@ -324,7 +341,7 @@ export default {
              let totalPrice = this.getEstimatedPriceForAllProducts();
 
             
-             orderService.createOrderRepeated(this.storeInfo.id, localStorage.getItem('userId'), totalPrice, this.timesOrdered, this.anotationsOrder).then((response) => {
+             orderService.createOrderRepeated(this.storeInfo.id, localStorage.getItem('userId'), totalPrice, this.timesOrdered, this.anotationsOrder, this.deliverMethod).then((response) => {
                 console.log(response)
                 if(response.status == '201'){
                     //Order created correctly, now insert items
@@ -343,7 +360,7 @@ export default {
                                   console.log('Pedido realizado correctamente')
                                   
                                   //In order to make repeat and counting work, we delete the old one to give space to new one
-                                  orderService.deleteOrder(this.orderId);
+                                  //orderService.deleteOrder(this.orderId);
                                   
                                   //This was a success buy
                                   this.processStatus = 'success';

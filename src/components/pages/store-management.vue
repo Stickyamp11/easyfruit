@@ -143,11 +143,8 @@ export default {
             console.log('Deleting', product);
             this.idProductDelete = product.id;
             this.nameProductDelete = product.name;
-           // this.dialogDeleteProduct = true;
-           this.$refs.deleteDialogStoreManagement.show();
-            //refresh
-            //this.dialogDeleteProduct = false;
-
+            this.$refs.deleteDialogStoreManagement.show();
+           
           },
 
           async getStoreInfo(){
@@ -222,7 +219,6 @@ export default {
          },
 
          async getProductCategories(){
-            console.log('hola')
             await categoryService.getCategories().then((response) => {
             console.log('categories', response)
             this.categories = response.data;
@@ -287,9 +283,7 @@ export default {
   text-align: left;
 
 }
-#edit-store-wrapper{
 
-}
 .row-description{
   max-width: 200px;
   max-height: 50px ;

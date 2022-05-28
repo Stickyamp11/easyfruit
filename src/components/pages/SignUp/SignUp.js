@@ -1,6 +1,7 @@
 import axios from "axios"
 import DialogSuccessNotification from "../../Dialogs/DialogSuccessNotification/dialog-notification.vue"
 import DialogErrorNotification from "../../Dialogs/DialogErrorNotification/dialog-notification.vue"
+import * as customerService from "@/shared/services/customerService"
 export default {
   name: 'sign-up',
   components: {DialogErrorNotification, DialogSuccessNotification},
@@ -13,6 +14,7 @@ export default {
       phone:'',
       name:'',
       zip: '',
+      direction: '',
       termsAgreement: false,
       processStatus: 'success',
       successLink: '/',
@@ -32,18 +34,39 @@ export default {
       console.log(this.email)
       console.log('submitted')
 
-      const response = await axios.post('/customer',
+      await axios.post('/customer',
       {
         "name": this.name,
         "email": this.email,
         "phone": this.phone,
         "passwd": this.password,
         "zip": this.zip,
+        "address": this.direction,
         "seller": 'no',
       }).then(
         res => {
 
           if(res.status == 201){
+
+
+              //Saves session info
+              localStorage.setItem('token', res.data.token);
+              localStorage.setItem('userEmail', this.email);
+
+              customerService.getCustomer(this.email).then((response) => {
+              console.log('Datos usuario', response)
+              //Sets localStorage userId
+              localStorage.setItem('userId', response.data.id)
+              localStorage.setItem('isStoreManager', response.data.seller)
+              }).catch((error) => {
+              console.error(error);
+              this.showDialogProcessResult();
+              })
+
+
+            //Enable reload
+            this.logged();
+
             //Send dialog success
             this.processStatus = 'success';
             this.showDialogProcessResult();
@@ -64,7 +87,6 @@ export default {
         
       )
 
-      localStorage.setItem('token', response.data.token)
     },
 
 
@@ -79,6 +101,13 @@ export default {
       }
 
     },
+
+    logged(){
+
+      //Enable reload
+      localStorage.setItem('reload', 'true');
+
+    }
 
   }
 }

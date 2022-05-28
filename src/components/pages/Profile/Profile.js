@@ -16,6 +16,7 @@ export default {
       phone:'',
       name:'',
       zip: '',
+      direction: '',
       successLink: '',
       processStatus: 'success',
     }
@@ -63,7 +64,8 @@ export default {
         "email": this.email ? this.email : "",
         "phone": this.phone ? this.phone : "",
         "passwd": this.password ? this.password : "",
-        "zip": this.zip ? this.zip : ""
+        "zip": this.zip ? this.zip : "",
+        "direction": this.direction ? this.direction : ""
       }
       await customerService.updateCustomer(customer, this.customerId).then(
         res => {

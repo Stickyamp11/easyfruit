@@ -7,7 +7,7 @@ class="drop-zone-board"
 @dragover.prevent
 >
     <!-- In case there is no products yet here-->
-    <div class="empty-board" v-if="emptyProducts">
+    <div class="empty-board d-flex flex-column" v-if="emptyProducts">
       <div> ¡Arrastra productos aquí!</div>
       <i class="fa-solid fa-share-from-square"></i>
     </div>

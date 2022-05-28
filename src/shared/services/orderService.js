@@ -1,7 +1,7 @@
 import axios from 'axios'
 axios.defaults.baseURL = 'http://localhost:3000/api/v1';
 
- export async function createOrder(storeId, customerId, totalPrice,anotations,) {
+ export async function createOrder(storeId, customerId, totalPrice,anotations, deliverMethod) {
         return await axios.post('/order', {
             
                 'fStore': storeId,
@@ -9,6 +9,7 @@ axios.defaults.baseURL = 'http://localhost:3000/api/v1';
                 'estimated_total': totalPrice,
                 'anotations': anotations,
                 'times_ordered': 0,
+                'deliverOptions': deliverMethod
 
             
             
@@ -19,7 +20,7 @@ axios.defaults.baseURL = 'http://localhost:3000/api/v1';
         });
     }
 
-    export async function createOrderRepeated(storeId, customerId, totalPrice, timesOrdered, anotations) {
+    export async function createOrderRepeated(storeId, customerId, totalPrice, timesOrdered, anotations, deliverMethod) {
         return await axios.post('/order', {
             
                 'fStore': storeId,
@@ -27,6 +28,7 @@ axios.defaults.baseURL = 'http://localhost:3000/api/v1';
                 'estimated_total': totalPrice,
                 'times_ordered': timesOrdered,
                 'anotations': anotations,
+                'deliverOptions': deliverMethod
 
             
             

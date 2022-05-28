@@ -73,8 +73,10 @@ export default {
 
 
            //Send dialog success
+            this.logged();
             this.processStatus = 'success';
             this.showDialogProcessResult();
+            
 
           }
           else{
@@ -95,7 +97,6 @@ export default {
 
 
       console.log(localStorage.getItem('token'))
-      console.log(localStorage.getItem('fejfjefwe'))
     },
 
     //Dynamically show dialog error/success 
@@ -109,6 +110,13 @@ export default {
       }
 
     },
+
+    logged(){
+
+      //Enable reload
+      localStorage.setItem('reload', 'true');
+
+    }
 
   }
 

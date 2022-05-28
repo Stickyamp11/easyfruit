@@ -3,29 +3,41 @@
         <div class="inner-faq">
            <button class="accordion">¿Cómo funciona?</button>
             <div class="panel">
-            <p>Lorem ipsum...</p>
+            <p>Texto de prueba.Texto de prueba.
+                Texto de prueba.Texto de prueba.Texto de prueba.Texto de prueba.Texto de prueba.Texto de prueba.Texto de prueba.
+                Texto de prueba.Texto de prueba.</p>
             </div>
 
             <button class="accordion">¿Quienes somos?</button>
             <div class="panel">
-            <p>Lorem ipsum...</p>
+            <p>Texto de prueba.Texto de prueba.
+                Texto de prueba.Texto de prueba.Texto de prueba.Texto de prueba.Texto de prueba.Texto de prueba.Texto de prueba.
+                Texto de prueba.Texto de prueba.</p>
             </div>
 
             <button class="accordion">¿Cómo realizar un pedido?</button>
             <div class="panel">
-            <p>Lorem ipsum...</p>
+            <p>Texto de prueba.Texto de prueba.
+                Texto de prueba.Texto de prueba.Texto de prueba.Texto de prueba.Texto de prueba.Texto de prueba.Texto de prueba.
+                Texto de prueba.Texto de prueba.</p>
             </div>
              <button class="accordion">He tenido un problema con mi pedido...</button>
             <div class="panel">
-            <p>Lorem ipsum...</p>
+            <p>Texto de prueba.Texto de prueba.
+                Texto de prueba.Texto de prueba.Texto de prueba.Texto de prueba.Texto de prueba.Texto de prueba.Texto de prueba.
+                Texto de prueba.Texto de prueba.</p>
             </div>
              <button class="accordion">¿Cómo pagar?</button>
             <div class="panel">
-            <p>Lorem ipsum...</p>
+            <p>Texto de prueba.Texto de prueba.
+                Texto de prueba.Texto de prueba.Texto de prueba.Texto de prueba.Texto de prueba.Texto de prueba.Texto de prueba.
+                Texto de prueba.Texto de prueba.</p>
             </div>
              <button class="accordion">He encontrado un error en una tienda...</button>
             <div class="panel">
-            <p>Lorem ipsum...</p>
+            <p>Texto de prueba.Texto de prueba.
+                Texto de prueba.Texto de prueba.Texto de prueba.Texto de prueba.Texto de prueba.Texto de prueba.Texto de prueba.
+                Texto de prueba.Texto de prueba.</p>
             </div>
         </div>
     </section>

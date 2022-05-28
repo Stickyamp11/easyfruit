@@ -1,11 +1,10 @@
 import {sharedData} from "../../../shared/sharedData"
 import Cart from "../cart/ca-rt.vue"
-import Card from "../../Draggable/ca-rd.vue"
 import Board from '../../Draggable/boa-rd.vue'
 import * as cartService from "@/shared/services/cartService"
 export default {
   name: 'nav-bar',
-  components: {Cart, Card,Board},
+  components: {Cart,Board},
   props: [
     'userLogged'
   ],

@@ -32,7 +32,6 @@ export default {
     let input = document.getElementById("search-bar");
     input.addEventListener('keyup', function(event) {
       event.preventDefault();
-      console.log('HOLAAAAAAAAAAAAAAAAAAA')
       if(event.key === 'Enter') {
         document.getElementById('search-addon').click();
       }

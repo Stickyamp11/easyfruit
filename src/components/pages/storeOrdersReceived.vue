@@ -27,11 +27,17 @@
                     <td class="align-middle">{{order.anotations}}</td>
                     <td class="align-middle"> <span class="badge p-2" :class="[{'green-status': order.status == 'created',
                      'yellow-status': order.status == 'delivering',
-                    'red-status': order.status == 'closed' }]" style="color: white;">
+                    'red-status': order.status == 'closed',
+                    'orange-status': order.status == 'ready',
+                    'orange-status': order.status == 'sent',
+                    'blue-status': order.status == 'delivered' }]" style="color: white;">
                         
-                        <select class="status-select" @change="orderStatusChanged($event, order)">
-                            <option selected>{{order.status}}</option>
+                        <select v-model="order.status" class="status-select" @change="orderStatusChanged($event, order)">
+                            <option value="created">Creado por el usuario</option>
                             <option value="delivering">Preparando</option>
+                            <option value="sent">Enviado</option>
+                            <option value="ready">Listo para recogida</option>
+                            <option value="delivered">Entregado</option>
                             <option value="closed">Cerrado</option>
                         </select>
 
@@ -43,14 +49,18 @@
                         <button class="btn btn-success mr-2" v-on:click="showHiddenTr('hiddenTr' + order.id)" :disabled="order.items.length <= 0" style="font-size: 1rem;">
                          +
                         </button>
-                       <!-- <button class="btn btn-success" v-on:click="adjustOrderToRepeat(order)" style="font-size: 1rem;">
-                        <i class="fa-solid fa-repeat"></i>
-                        </button> -->
                     </td>
                     </tr>
 
                     <tr :id="'hiddenTr' + order.id" style="display: none;">
                             <td style="width: 100%;" colspan="6">
+                              <div class="col-12 mb-3">
+                                <span class="hiddenInfoCustomer">Nombre:</span> {{order.customerName}}
+                                <span class="hiddenInfoCustomer">Email:</span> {{order.customerEmail}} 
+                                <span class="hiddenInfoCustomer">Teléfono:</span> {{order.customerPhone}}
+                                <span class="hiddenInfoCustomer"> Tipo de pedido:</span> {{order.deliverOptions == 'takeHome' ? 'Enviar a casa' : 'Recogida en tienda'}}
+                                <span v-if="order.deliverOptions == 'deliverHome'" class="hiddenInfoCustomer"> Dirección:</span> <span v-if="order.deliverOptions == 'deliverHome'">{{order.customerAddress}}</span>
+                              </div>
                              <div class="hidden-table-wrapper" style="border: 2px solid; border-color: rgba(27,112,13,255);"> 
                                 <table style="width: 100%;">
                                     <thead>
@@ -180,15 +190,26 @@ export default {
          console.log(' getOrders response', response )
          this.orders = response.data;
           this.orders.forEach( order => {
+            //Add values to determinate which order is more important to attend
             if(order.status == 'created'){
-              order['prio'] = 2;
+              order['prio'] = 4;
             }
             if(order.status == 'delivering'){
+              order['prio'] = 3;
+            }
+            if(order.status == 'sent'){
+              order['prio'] = 2;
+            }
+            if(order.status == 'ready'){
+              order['prio'] = 2;
+            }
+            if(order.status == 'delivered'){
               order['prio'] = 1;
             }
             if(order.status == 'closed'){
               order['prio'] = 0;
             }
+           
           })
          this.orders = this.orders.sort( function(a,b) {
 
@@ -281,7 +302,18 @@ hr.titleSeparator {
     color: black;
     border-radius: 10%;
     padding: 0;
-
+}
+.orange-status{
+    background-color: rgb(235, 183, 72);
+    color: black;
+    border-radius: 10%;
+    padding: 0;
+}
+.blue-status{
+    background-color: rgb(92, 155, 192);
+    color: black;
+    border-radius: 10%;
+    padding: 0;
 }
 
 #orders-history-table-wrapper{
@@ -330,4 +362,12 @@ color: rgba(27,112,13,255);
   font-weight: 100;
   color: rgb(0, 0, 0);
 }
+
+.hiddenInfoCustomer{
+  font-weight: 700;
+  color: green;
+  margin-right: 1rem;
+  margin-left: 1rem;
+}
+
 </style>

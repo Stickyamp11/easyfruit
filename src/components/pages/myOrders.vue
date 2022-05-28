@@ -12,6 +12,7 @@
                     <th scope="col">Cantidad de productos</th>
                     <th scope="col">Precio estimado</th>
                     <th scope="col">Anotaciones</th>
+                    <th scope="col">Tipo de envío</th>
                     <th scope="col">Estado</th>
                     <th scope="col">Ver más</th>
                     </tr>
@@ -25,6 +26,7 @@
                     <td class="align-middle">{{order.items?.length}}</td>
                     <td class="align-middle">{{parseFloat(order.estimated_total).toFixed(2)}}€</td>
                     <td class="align-middle">{{order.anotations}}</td>
+                    <td class="align-middle">{{order.deliverOptions == 'takeStore' ? 'Recogida en tienda' : 'Envío a casa'}}</td>
                     <td class="align-middle"> <span class="badge p-2" :class="[{'green-status': order.status == 'created',
                      'yellow-status': order.status == 'delivering',
                     'red-status': order.status == 'closed' }]" style="color: white;">
@@ -45,7 +47,7 @@
                     </tr>
 
                     <tr :id="'hiddenTr' + order.id" style="display: none;">
-                            <td style="width: 100%;" colspan="6">
+                            <td style="width: 100%;" colspan="7">
                              <div class="hidden-table-wrapper" style="border: 2px solid; border-color: rgba(27,112,13,255);"> 
                                 <table style="width: 100%;">
                                     <thead>
@@ -86,39 +88,7 @@
                 </nav>
         </div>
 
-       <!-- <div class="col-12 ">
-            <h1>Pedidos que sueles hacer</h1>
-            <hr class="titleSeparator">
-            <div class="row" :key="toporder.id" v-for="toporder in topOrders">
-                <div class="col-12" style="margin-left: 5%; margin-bottom: 10%; flex: 0 0 90%;" >
-                    <div class="row">
-                        <div class="col-6">
-                            <span style="font-size: 200%; color: black;">Google</span>
-                        </div>
-
-                        <div class="col-6 text-right" style="">
-                            <button class="btn btn-success" v-on:click="adjustOrderToRepeat(toporder)" style="font-size: 1rem;">
-                                <i class="fa-solid fa-repeat"></i>
-                            </button>
-                        </div>
-
-                    </div>
-                        <hr class="itemSeparatorOrders">
-
-                        <div class="row">
-                            <div class="col-12">
-    
-                            <div style="width: 100%; overflow-x: auto; ">
-                                <img v-for="item in toporder.items" :key="item.productId" :src="item.productData?.product_img" style="width: 128px; height: 128px; margin-right: 2%;">
-                            </div>
-                            </div>
-                        </div>
-                   
-                </div>
-
-            </div>
-           
-        </div> -->
+       
     </div>
 
     <RepeatOrder ref="repeatOrder">
@@ -126,7 +96,6 @@
 </template>
 
 <script>
-import * as storeService from "@/shared/services/storeService"
 import * as orderService from "@/shared/services/orderService"
 //import * as productService from "@/shared/services/productService"
 import RepeatOrder from "@/components/pages/repeatBuy.vue"
@@ -205,7 +174,7 @@ export default {
           this.repeatBuyTimesordered = order.times_ordered;
           console.log('items', order.items)
           console.log('items', order.items)
-          this.$refs.repeatOrder.show(this.repeatBuyProducts, this.repeatBuyFstore, this.repeatBuyTimesordered, order.id);
+          this.$refs.repeatOrder.show(this.repeatBuyProducts, this.repeatBuyFstore, this.repeatBuyTimesordered, order.id, order.deliverOptions);
       },
       showHiddenTr(tr){
           console.log('Estoy en el showHidden')
@@ -226,37 +195,6 @@ export default {
          this.orders = response.data.reverse();
           this.getDataPage(1);
      });
-
-    /* orderService.getMostFrequentedOrders().then( response => {
-         console.log(' getOrders response', response )
-         orderService.getFullOrdersOneCall().then ( res => {
-           console.log(' getOrdersFull response', res )
-         })
-         this.topOrders = response.data;
-
-
-
-                    this.topOrders.forEach(order => {
-                                orderService.getItems(order).then( response => {
-                                        console.log('getItems response', response )
-                                        order['items'] = response.data;
-
-
-                                        order.items.forEach(item => {
-                                        productService.getProductById(item.productId).then( response => {
-                                                console.log('getProductById response', response )
-                                                item['productData'] = response.data;
-                                                 //Once we have the products we set the pagination:
-                                                 this.getDataPage(1);
-                                            });
-                                        });
-
-                                    });
-                        });
-
-     })*/
-   
-
    
     console.log('topOrders', this.topOrders)
     this.loading = false;
@@ -270,49 +208,6 @@ export default {
         })
     },
 
-    async handleSubmit(){
-
-      console.log('submitted')
-
-      let storeUpdated = {
-        "name": this.name ? this.name : "",
-        "address": this.address ? this.address : "",
-        "phone": this.phone ? this.phone : "",
-        "id": this.store.id
-      }
-      await storeService.updateStore(storeUpdated).then(
-        res => {
-          console.log(res)
-          console.log('He entrado dentro del success del updateStore y ejecutaré el uploadImg')
-
-
-         let formData = new FormData();
-
-          let myFile = document.querySelector('input[type=file]').files[0];
-          myFile.fileId = this.store.id;
-          formData.append("file", myFile);
-          formData.append("id",this.store.id);
-          console.log('aquiiii', myFile);
-          storeService.uploadImg(formData).then(
-              res => {
-                  console.log(res)
-                 this.dialogSuccess = true;
-
-               }).catch(
-          err => {
-            console.log(err)
-          }
-          )
-
-
-        }).catch(
-          err => {
-            console.log(err)
-          }
-        
-      )
-
-    },
 
   }
 }

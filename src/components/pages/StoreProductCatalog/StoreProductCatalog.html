@@ -61,7 +61,12 @@
               <div class="card-body p-3 d-flex flex-column justify-content-center align-items-center" style="overflow-x: hidden">
                 <p class="card-text"><h6>{{product.name}}</h6></p>
                 <p class="card-text" style="overflow: hidden; height: 50px; ">{{product.description}}</p>
-                <p class="card-text" style="overflow: hidden; height: 50px; font-size: 120%; color: rgba(27,112,13,255); font-weight: 700; ">Precio Kg: {{(product.price_per_kg).toFixed(2)}}€</p>
+
+                <!-- Conditional if to show kg price but if kg is not allowed, then show units or if neither then show pack -->
+                <p v-if="product.price_per_kg" class="card-text" style="overflow: hidden; height: 50px; font-size: 120%; color: rgba(27,112,13,255); font-weight: 700; ">Precio Kg: {{(product.price_per_kg).toFixed(2)}}€</p>
+                <p v-if="!product.price_per_kg && product.price_per_unit" class="card-text" style="overflow: hidden; height: 50px; font-size: 120%; color: rgba(27,112,13,255); font-weight: 700; ">Precio Unidad: {{parseFloat(product.price_per_unit).toFixed(2)}}€</p>
+                <p v-if="!product.price_per_kg && !product.price_per_unit && product.price_per_pack" class="card-text" style="overflow: hidden; height: 50px; font-size: 120%; color: rgba(27,112,13,255); font-weight: 700; ">Precio Pack: {{parseFloat(product.price_per_pack).toFixed(2)}}€</p>
+
               </div>
               
             </div>

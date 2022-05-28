@@ -1,8 +1,8 @@
 <template>
 <form  class="edit-store-form" @submit.prevent="handleSubmit">
   <div class="row" id="image-row">
-      <div class="col-12">
-            <label for="Image" class="form-label">Previsualización de la tienda</label>
+      <div class="col-12 d-flex flex-column justify-content-center align-items-center">
+            <label for="Image" class="form-label" style="color:green; font-weight: 500; font-size: 110%;">Previsualización de la tienda</label>
             <div id="frame-wrapper"> 
             <img id="frame" ref="frame-ref" src="" class="img-fluid" />
             </div>
@@ -26,17 +26,17 @@
   </div>
  
   <div class="row">
-  <div class="col-md-6">
-  <button type="submit" class="btn btn-success"  v-on:click="handleSubmit">Actualizar</button>
+  <div class="col-md-6 ">
+  <button type="submit" class="btn btn-success ml-5"  v-on:click="handleSubmit">Actualizar</button>
   </div>
-  <div class="col-md-6">
-  <button type="submit" class="btn btn-secondary"  v-on:click="$router.go(-1)">Volver</button>
+  <div class="col-md-6 d-flex justify-content-end">
+  <button type="submit" class="btn btn-secondary mr-5"  v-on:click="$router.go(-1)">Volver</button>
   </div>
   </div>
 </form>
 
 
- <DialogSuccessNotification :dialogShow="loginSuccess" :link='successLink' ref="loginDialogStatusSuccess">
+ <DialogSuccessNotification :link='successLink' ref="loginDialogStatusSuccess">
     <div class="modal-content">
         <p>
           Información editada con éxito
@@ -44,7 +44,7 @@
     </div>
     </DialogSuccessNotification>
 
-    <DialogErrorNotification :dialogShow="loginSuccess" :link='successLink' ref="loginDialogStatusError">
+    <DialogErrorNotification :link='successLink' ref="loginDialogStatusError">
       <div class="modal-content">
           <p>
             Error al editar la información
@@ -220,6 +220,9 @@ export default {
 .edit-store-form{
 width: 90%;
 margin-left: 5%;
+margin-top: 5%;
+box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+padding: 1%;
 }
 #frame-wrapper{
     width: 1000px;
@@ -238,7 +241,6 @@ margin-left: 5%;
 }
 
 #image-row{
-    margin-top: 5%;
     margin-bottom: 5%;
 }
 </style>

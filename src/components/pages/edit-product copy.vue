@@ -49,7 +49,7 @@
 </form>
 
 
- <DialogSuccessNotification :dialogShow="loginSuccess" :link='successLink' ref="loginDialogStatusSuccess">
+ <DialogSuccessNotification :link='successLink' ref="loginDialogStatusSuccess">
     <div class="modal-content">
         <p>
           Inicio de sesión exitoso
@@ -57,7 +57,7 @@
     </div>
     </DialogSuccessNotification>
 
-    <DialogErrorNotification :dialogShow="loginSuccess" :link='successLink' ref="loginDialogStatusError">
+    <DialogErrorNotification :link='successLink' ref="loginDialogStatusError">
       <div class="modal-content">
           <p>
             Error al iniciar sesión
