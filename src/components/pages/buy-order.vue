@@ -342,6 +342,10 @@ export default {
                               //Everything went fine
                               if(response.status == '201')
                               {
+                                  //Reset info
+                                  this.deliverMethod = '';
+                                  this.anotationsOrder = '';
+
                                   console.log('Pedido realizado correctamente')
                                   //This was a success buy
                                   this.processStatus = 'success';
@@ -434,10 +438,9 @@ export default {
          jsStuffToAdd(){
                //SHOW CART WHEN CLOSING BUY ORDER TAB
             document.getElementById('button-close-buy-order').addEventListener('click', function(){
-              document.getElementById('cart-button-web').style.display = 'block';
-              document.getElementById('cart-button-web-counter').style.display = 'block';
-              //document.getElementsByClassName('sidebarCart')[0].style.width = '22rem';
 
+              //Click "X" from cart to use js already set to display cart button and counter
+              document.getElementById('button-cart-close-content').click();
 
             });
             

@@ -9,7 +9,7 @@
                   <span class="ml-3" id="buy-order-title">Resumen del pedido para {{storeInfo.name}}</span>
             </div>
             <div class="col-3 text-right ">
-                <button id="button-close-buy-order" class="btn btn-circle" v-on:click="hidde()"><i class="fa-solid fa-x" style="font-size: 1.8rem;"></i></button>
+                <button id="button-close-repeat-buy" class="btn btn-circle" v-on:click="hidde(); jsClickClose();"><i class="fa-solid fa-x" style="font-size: 1.8rem;"></i></button>
             </div>
         </div>
         <hr style="margin: 0;">
@@ -273,7 +273,6 @@ export default {
      },
 
      mounted(){
-        //this.getCartProductsFromCustomer();
         
      },
      props: [],
@@ -296,6 +295,9 @@ export default {
                 this.dialogActive = true;
                 this.getUpdatedInfoProducts();
                 this.getStoreInfo();
+
+                
+
              },
 
          getEstimatedPriceForAllProducts(){
@@ -350,10 +352,10 @@ export default {
                      console.log(response)
                      if(response.status == 201){
                          //Order is placed, cart now is redundant
-                         cartService.deleteCart().then((response) => {
-                              console.log(response)
+                         //cartService.deleteCart().then((response) => {
+                           //   console.log(response)
                               //Everything went fine
-                              if(response.status == '201'){
+                             // if(response.status == '201'){
                                   
                                   
                                   //this.hidde()
@@ -365,13 +367,13 @@ export default {
                                   //This was a success buy
                                   this.processStatus = 'success';
                                   this.showDialogProcessResult();
-                              }
+                              //}
                               
-                              }).catch((error) => {
-                                  console.error(error)
-                                  this.processStatus = 'error';
-                                  this.showDialogProcessResult();
-                              })
+                             //  }).catch((error) => {
+                              //     console.error(error)
+                              //     this.processStatus = 'error';
+                               //    this.showDialogProcessResult();
+                              // })
                      }
                     }).catch((error) => {
                         console.error(error);
@@ -423,60 +425,40 @@ export default {
                     console.log('Aqui un producto', updatedproduct)
                     this.updatedProducts.push(updatedproduct);
                 })
+
+                
             })
+
 
             console.log('updatedPRODUCTS', this.updatedProducts)
             this.products = this.updatedProducts;
 
+            //Adds javascript css changes to the cart
+                //this.jsStuffToAdd();
+
           
 
-         },
-
-        async getCartProductsFromCustomer(){
-
-              await cartService.getCart().then((response) => {
-              console.log(response)
-              console.log('HIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII')
-              this.products = response.data
-
-              //Adding js to the new tab of buy
-              this.jsStuffToAdd();
-              //Getting store info
-              this.getStoreInfo();
-
-              this.products.forEach( product => {
-                  
-                  product['methodSelected'] = ''
-                  //product['methodsAllowed'] = 'kg;pieces;pack'
-                  //console.log('aquiiiiii', product.methodsAllowed.split(';'))
-                  product['unitsToBuy'] = ''
-                  if(product.id == 8)
-                  {
-                    product['methodsAllowed'] = 'kg'  
-                  }
-            
-              })
-             
-              
-
-              }).catch((error) => {
-              console.error(error);
-              })
-            
-            
-
-            
          },
       
 
          closeDialog(){
              //this.hidde();
-             document.getElementById('button-close-buy-order').click();
+             document.getElementById('button-close-repeat-buy').click();
          },
 
          jsStuffToAdd(){
-          
+               //SHOW CART WHEN CLOSING BUY ORDER TAB
+            document.getElementById('button-close-repeat-buy').addEventListener('click', function(){
+
+              //Click "X" from cart to use js already set to display cart button and counter
+              document.getElementById('button-cart-close-content').click();
+
+            });
             
+         },
+         jsClickClose(){
+                //Click "X" from cart to use js already set to display cart button and counter
+              document.getElementById('button-cart-close-content').click();
          },
 
           //Dynamically show dialog error/success 

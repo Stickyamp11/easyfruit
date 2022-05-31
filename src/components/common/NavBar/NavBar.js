@@ -218,8 +218,8 @@ export default {
             //MOST IMPORTANT OF ALL IS THAT HERE WE CONTROL WHEN CART IS SHOWN AND WHEN HIDDEN
             //Enable click in the cart icon
             document.getElementById('cart-button-web').addEventListener('click', function(){
-              document.getElementById('cart-button-web').style.display = document.getElementById('cart-button-web').style.display == 'none' ? 'block' : 'none';
-              document.getElementById('cart-button-web-counter').style.display = document.getElementById('cart-button-web-counter').style.display == 'none' ? 'block' : 'none';
+              document.getElementById('cart-button-web').style.display = document.getElementById('cart-button-web').style.display ='none';
+              document.getElementById('cart-button-web-counter').style.display = document.getElementById('cart-button-web-counter').style.display = 'none';
 
               document.getElementsByClassName('sidebarCart')[0].style.right = '0rem';
               //Also when clicking, we need to set collapse to show so:
@@ -228,8 +228,8 @@ export default {
             }, false);
             //Enable click in the counter
             document.getElementById('cart-button-web-counter').addEventListener('click', function(){
-              document.getElementById('cart-button-web').style.display = document.getElementById('cart-button-web').style.display == 'none' ? 'block' : 'none';
-              document.getElementById('cart-button-web-counter').style.display = document.getElementById('cart-button-web-counter').style.display == 'none' ? 'block' : 'none';
+              document.getElementById('cart-button-web').style.display = document.getElementById('cart-button-web').style.display = 'none';
+              document.getElementById('cart-button-web-counter').style.display = document.getElementById('cart-button-web-counter').style.display = 'none';
 
               document.getElementsByClassName('sidebarCart')[0].style.right = '0rem';
               //Also when clicking counter, we need to set collapse to show so:
@@ -244,8 +244,8 @@ export default {
              cartService.getNumberOfItems().then(res => {
               this.counter = res.data;
              });
-              document.getElementById('cart-button-web').style.display = document.getElementById('cart-button-web').style.display == 'none' ? 'block' : 'none';
-              document.getElementById('cart-button-web-counter').style.display = document.getElementById('cart-button-web-counter').style.display == 'none' ? 'block' : 'none';
+              document.getElementById('cart-button-web').style.display = document.getElementById('cart-button-web').style.display = 'block';
+              document.getElementById('cart-button-web-counter').style.display = document.getElementById('cart-button-web-counter').style.display = 'block';
 
               //Also when clicking close, we need to set collapse to show  hidde so:
               document.getElementById('mySidebar').classList.remove('show');

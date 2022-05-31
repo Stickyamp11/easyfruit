@@ -12,7 +12,7 @@
                         </div>
 
                         <div class="col-6 text-right d-flex justify-content-end align-items-center" style="">
-                            <button class="btn btn-success" v-on:click="adjustOrderToRepeat(toporder)" style="font-size: 1rem;">
+                            <button class="btn btn-success" v-on:click="adjustOrderToRepeat(toporder); jsDomStuff();" style="font-size: 1rem;">
                                 <span class="mr-2">Repetir pedido</span> <i class="fa-solid fa-repeat"></i>
                             </button>
                         </div>
@@ -137,6 +137,12 @@ export default {
                 console.error(error);
             })
             },
+
+    jsDomStuff(){
+              console.log('Se ha ejecutado el jsDomStuff');
+              document.getElementById('cart-button-web').style.display = 'none';
+              document.getElementById('cart-button-web-counter').style.display = 'none';
+    },
 
   }
 }

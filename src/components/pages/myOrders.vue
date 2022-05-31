@@ -40,7 +40,7 @@
                         <button class="btn btn-success mr-2" v-on:click="showHiddenTr('hiddenTr' + order.id)" :disabled="order.items.length <= 0" style="font-size: 1rem;">
                          +
                         </button>
-                        <button class="btn btn-success" v-on:click="adjustOrderToRepeat(order)" style="font-size: 1rem;">
+                        <button class="btn btn-success" v-on:click="adjustOrderToRepeat(order); jsDomStuff();" style="font-size: 1rem;">
                         <i class="fa-solid fa-repeat"></i>
                         </button>
                     </td>
@@ -207,6 +207,13 @@ export default {
             this.loading = false;
         })
     },
+
+
+    jsDomStuff(){
+              console.log('Se ha ejecutado el jsDomStuff');
+              document.getElementById('cart-button-web').style.display = 'none';
+              document.getElementById('cart-button-web-counter').style.display = 'none';
+    }
 
 
   }
