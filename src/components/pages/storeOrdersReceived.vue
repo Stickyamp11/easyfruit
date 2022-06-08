@@ -28,7 +28,7 @@
                     <td class="align-middle"> <span class="badge p-2" :class="[{'green-status': order.status == 'created',
                      'yellow-status': order.status == 'delivering',
                     'red-status': order.status == 'closed',
-                    'orange-status': order.status == 'ready',
+                    'orange-status2': order.status == 'ready',
                     'orange-status': order.status == 'sent',
                     'blue-status': order.status == 'delivered' }]" style="color: white;">
                         
@@ -304,6 +304,12 @@ hr.titleSeparator {
     padding: 0;
 }
 .orange-status{
+    background-color: rgb(235, 183, 72);
+    color: black;
+    border-radius: 10%;
+    padding: 0;
+}
+.orange-status2{
     background-color: rgb(235, 183, 72);
     color: black;
     border-radius: 10%;

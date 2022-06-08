@@ -376,6 +376,18 @@ export default {
  background-color: rgb(13, 85, 28);
  color: rgb(255, 255, 255);
 }
+
+.modal-content{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    border: 0;
+    background-color: rgb(255, 255, 255);
+    font-weight: 700;
+    font-size: 120%;
+}
+
 @media (max-width: 767.98px) {
    .create-product-form{
   width: 90%;
