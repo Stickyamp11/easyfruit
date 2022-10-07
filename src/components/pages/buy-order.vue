@@ -308,11 +308,8 @@ export default {
          },
           getStoreInfo()
           {
-              console.log('AQUI EL STORE DEL PRODUCT 0', this.products[0].fStore)
             storeService.getStoreData(this.products[0].fStore).then((response) => {
-                console.log(response)
                 this.storeInfo = response.data
-                console.log('storeInfo', this.storeInfo)
             }).catch((error) => {
                 console.error(error);
             })
@@ -324,30 +321,21 @@ export default {
              this.products.forEach( product => {
                  product['estimated_price'] = this.getEstimatedPriceForProduct(product);
              })
-             //All the prices sum 
              let totalPrice = this.getEstimatedPriceForAllProducts();
 
             
              orderService.createOrder(this.storeInfo.id, localStorage.getItem('userId'), totalPrice, this.anotationsOrder,this.deliverMethod).then((response) => {
-                console.log(response)
                 if(response.status == '201'){
                     //Order created correctly, now insert items
 
                     orderService.createOrderItems(response.data.id, this.products).then((response) => {
-                     console.log(response)
                      if(response.status == 201){
                          //Order is placed, cart now is redundant
                          cartService.deleteCart().then((response) => {
-                              console.log(response)
-                              //Everything went fine
                               if(response.status == '201')
                               {
-                                  //Reset info
                                   this.deliverMethod = '';
                                   this.anotationsOrder = '';
-
-                                  console.log('Pedido realizado correctamente')
-                                  //This was a success buy
                                   this.processStatus = 'success';
                                   this.showDialogProcessResult();
                               }
@@ -393,28 +381,20 @@ export default {
         async getCartProductsFromCustomer(){
 
               await cartService.getCart().then((response) => {
-              console.log(response)
-              this.products = response.data
+                this.products = response.data
+                this.jsStuffToAdd();
+                this.getStoreInfo();
 
-              //Adding js to the new tab of buy
-              this.jsStuffToAdd();
-              //Getting store info
-              this.getStoreInfo();
-
-              this.products.forEach( product => {
-                  
-                  product['methodSelected'] = ''
-                  //product['methodsAllowed'] = 'kg;pieces;pack'
-                  //console.log('aquiiiiii', product.methodsAllowed.split(';'))
-                  product['unitsToBuy'] = ''
-                  if(product.id == 8)
-                  {
-                    product['methodsAllowed'] = 'kg'  
-                  }
-            
-              })
-             
-              
+                this.products.forEach( product => {
+                    
+                    product['methodSelected'] = ''
+                    product['unitsToBuy'] = ''
+                    if(product.id == 8)
+                    {
+                        product['methodsAllowed'] = 'kg'  
+                    }
+                
+                })
 
               }).catch((error) => {
               console.error(error);

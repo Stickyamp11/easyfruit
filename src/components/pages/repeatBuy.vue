@@ -287,11 +287,7 @@ export default {
                 this.timesOrdered = timesorderedR;
                 this.orderId = orderId;
                 this.deliverMethod = deliverMethod;
-                console.log('ESTOY EN EL SHOW PRODUCTS', this.products);
-                console.log('ESTOY EN EL SHOW fstorereceived', this.fStoreReceived);
-                console.log('ESTOY EN EL SHOW timesOrdered', this.timesOrdered);
-                console.log('ESTOY EN EL SHOW orderId', this.orderId);
-
+    
                 this.dialogActive = true;
                 this.getUpdatedInfoProducts();
                 this.getStoreInfo();
@@ -324,11 +320,8 @@ export default {
              }
          },
           getStoreInfo(){
-              console.log('AQUI EL STORE DEL PRODUCT 0', this.fStoreReceived)
             storeService.getStoreData(this.fStoreReceived).then((response) => {
-                console.log(response)
                 this.storeInfo = response.data
-                console.log('storeInfo', this.storeInfo)
             }).catch((error) => {
                 console.error(error);
             })
@@ -339,41 +332,17 @@ export default {
              this.products.forEach( product => {
                  product['estimated_price'] = this.getEstimatedPriceForProduct(product);
              })
-             //All the prices sum 
              let totalPrice = this.getEstimatedPriceForAllProducts();
 
             
              orderService.createOrderRepeated(this.storeInfo.id, localStorage.getItem('userId'), totalPrice, this.timesOrdered, this.anotationsOrder, this.deliverMethod).then((response) => {
-                console.log(response)
                 if(response.status == '201'){
-                    //Order created correctly, now insert items
 
                     orderService.createOrderItems(response.data.id, this.products).then((response) => {
-                     console.log(response)
                      if(response.status == 201){
-                         //Order is placed, cart now is redundant
-                         //cartService.deleteCart().then((response) => {
-                           //   console.log(response)
-                              //Everything went fine
-                             // if(response.status == '201'){
-                                  
-                                  
-                                  //this.hidde()
-                                  console.log('Pedido realizado correctamente')
-                                  
-                                  //In order to make repeat and counting work, we delete the old one to give space to new one
-                                  //orderService.deleteOrder(this.orderId);
-                                  
-                                  //This was a success buy
-                                  this.processStatus = 'success';
-                                  this.showDialogProcessResult();
-                              //}
-                              
-                             //  }).catch((error) => {
-                              //     console.error(error)
-                              //     this.processStatus = 'error';
-                               //    this.showDialogProcessResult();
-                              // })
+                        this.processStatus = 'success';
+                        this.showDialogProcessResult();
+                            
                      }
                     }).catch((error) => {
                         console.error(error);
@@ -398,16 +367,12 @@ export default {
              if(index)
              {
                this.products.splice(index,1);
-
-              //Delete product from cart
                cartService.deleteProductFromCart(product.id);
              }
              
          },
 
         async getUpdatedInfoProducts(){
-             console.log('productos repeatOrder', this.products);
-             console.log('fStore', this.fStoreReceived)
              this.updatedProducts = [];
             await this.products?.forEach( product => {
                 productService.getProductById(product.productId).then( resp => {
@@ -422,27 +387,17 @@ export default {
                     }
                     
                     updatedproduct['unitsToBuy'] = product.unitsToBuy;
-                    console.log('Aqui un producto', updatedproduct)
                     this.updatedProducts.push(updatedproduct);
                 })
 
                 
             })
-
-
-            console.log('updatedPRODUCTS', this.updatedProducts)
             this.products = this.updatedProducts;
-
-            //Adds javascript css changes to the cart
-                //this.jsStuffToAdd();
-
-          
 
          },
       
 
          closeDialog(){
-             //this.hidde();
              document.getElementById('button-close-repeat-buy').click();
          },
 

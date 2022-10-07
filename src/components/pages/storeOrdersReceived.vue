@@ -1,4 +1,5 @@
 <template>
+<section>
     <div class="row mt-5 ml-5 mr-5">
        
         <div class="col-12">
@@ -104,16 +105,15 @@
 
     <RepeatOrder ref="repeatOrder">
     </RepeatOrder>
+</section>
 </template>
 
 <script>
 import * as storeService from "@/shared/services/storeService"
 import * as orderService from "@/shared/services/orderService"
-//import * as productService from "@/shared/services/productService"
 import RepeatOrder from "@/components/pages/repeatBuy.vue"
-
 import {sharedData} from "../../shared/sharedData"
-//import DialogNotification from "./DialogNotification/dialog-notification.vue"
+
 export default {
   name: 'store-orders-received',
   components: {RepeatOrder},
@@ -154,12 +154,7 @@ export default {
          this.paginatedOrders = [];
          let ini = (pageNumber * this.pageElements) - this.pageElements;
          let fin = (pageNumber * this.pageElements);
-
-         /*for(let index = ini; index < fin ; index++){
-           this.paginatedProducts.push(this.products[index]);
-         }*/
          this.paginatedOrders = this.orders.slice(ini, fin);
-         console.log('Estoy en el getDataPage', this.paginatedOrders)
        },
           tableMaxPages(){
             return Math.ceil(this.orders.length / this.pageElements);
@@ -178,19 +173,14 @@ export default {
             }
           },
       showHiddenTr(tr){
-          console.log('Estoy en el showHidden')
-          console.log(tr)
           let element = document.getElementById(tr);
           element.style.display = element.style.display === 'none' ? '' : 'none';
       },
  
     async refreshData(){
       orderService.getFullOrdersPendingOfStoreOneCall(this.storeInfo.id).then( response => {
-        console.log('el id del store', this.storeInfo.id)
-         console.log(' getOrders response', response )
          this.orders = response.data;
           this.orders.forEach( order => {
-            //Add values to determinate which order is more important to attend
             if(order.status == 'created'){
               order['prio'] = 4;
             }
@@ -234,12 +224,7 @@ export default {
 
     async getStoreInfo(){
             await storeService.getStoreDataByManagerEmail(localStorage.getItem('userEmail')).then((response) => {
-                console.log(response)
-                console.log('aqui userEmail', localStorage.getItem('userEmail'))
                 this.storeInfo = response.data
-                console.log('storeInfo', this.storeInfo)
-
-                //Then refresh data
                 this.refreshData();
 
             }).catch((error) => {
@@ -248,21 +233,13 @@ export default {
             },
       
     orderStatusChanged(event, order){
-      console.log('cambiado en el changed', event.target.value)
       order.status = event.target.value;
-
-      //Call API to save changes
-
       orderService.updateStatusOrder(order.id, order.status).then (res => {
 
-        if(res.status == 201) {
-          console.log('ih')
+        if(res.status != 201) {
+          console.error('Something went wrong: ', res.status)
         }
-        else
-        {
-          //Something went wrong
-          console.log('hi')
-        }
+       
       });
 
 

@@ -49,9 +49,7 @@ export default {
   },
 
   mounted () {
-  
-    console.log(this.dialogActive)
-    console.log('hi dialog delete')
+
   },
 
   methods: {
@@ -64,11 +62,7 @@ export default {
     },
 
     deleteProduct(){
-        productService.deleteProduct(this.idProductToDelete).then ( res => {
-            console.log(res)
-            //this.dialogActive = false;
-            //this.dialogShow = false;
-            console.log('Deleted product successfully')
+        productService.deleteProduct(this.idProductToDelete).then ( () => {
             this.hidde();
         })
     },
@@ -86,9 +80,6 @@ export default {
 </script>
 
 <style>
-::slotted(){
-
-}
 .overlay {
 
     position: fixed;

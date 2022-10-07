@@ -50,10 +50,6 @@
           class="col col-lg-3 col-md-4 col-sm-6 col-12 mb-2"
           draggable="true"
           @dragstart="startDrag($event, product)">
-
-            <!-- V-bind is used in vue to fetch dynamic data into some prop into the component-->
-             <!-- <SingleProductCard :product_id="product.id" :product_name="product.name" :price_per_kg="product.price_per_kg" :Category="product.fCategory"></SingleProductCard>-->
-            
              <div class="card" id="card-item">
               <img id="product-card-img" v-if="product.product_img" class="rounded mx-auto d-block mt-2" :src="product.product_img" alt="Card image cap" >
               <img id="product-card-img" v-else class="rounded mx-auto d-block mt-2" src="@/assets/product_1.png" alt="Card image cap" >

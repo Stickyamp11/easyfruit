@@ -1,4 +1,5 @@
 <template>
+<section>
   <div class="row" style="margin-left: 5%; width: 90%">
     <div class="form-group col-6 col-sm-6 " id="edit-store-wrapper">
       <router-link to="/editstore" id="edit-store" type="button" class="btn btn-primary">
@@ -71,6 +72,7 @@
 <hr/>
 </div>
 </DialogDeleteProduct>
+</section>
 </template>
 
 <script>
@@ -105,7 +107,6 @@ export default {
      mounted(){
          this.getProductCategories();
          this.getStoreInfo();
-         //Gets the info of first page when mounted
          
      },
      props: [],
@@ -115,12 +116,7 @@ export default {
          this.paginatedProducts = [];
          let ini = (pageNumber * this.pageElements) - this.pageElements;
          let fin = (pageNumber * this.pageElements);
-
-         /*for(let index = ini; index < fin ; index++){
-           this.paginatedProducts.push(this.products[index]);
-         }*/
          this.paginatedProducts = this.products.slice(ini, fin);
-         console.log('Estoy en el getDataPage', this.paginatedProducts)
        },
           tableMaxPages(){
             return Math.ceil(this.products.length / this.pageElements);
@@ -139,8 +135,6 @@ export default {
             }
           },
           deleteProduct(product){
-            //Refresh
-            console.log('Deleting', product);
             this.idProductDelete = product.id;
             this.nameProductDelete = product.name;
             this.$refs.deleteDialogStoreManagement.show();
@@ -149,12 +143,7 @@ export default {
 
           async getStoreInfo(){
             await storeService.getStoreDataByManagerEmail(localStorage.getItem('userEmail')).then((response) => {
-                console.log(response)
-                console.log('aqui userEmail', localStorage.getItem('userEmail'))
                 this.storeInfo = response.data
-                console.log('storeInfo', this.storeInfo)
-
-                //Once we have the store info, we get the products
                 this.getProductsDataFromStore();
 
             }).catch((error) => {
@@ -164,7 +153,6 @@ export default {
 
             async getProductsDataFromStore(){
             await storeService.getStoreProducts(this.storeInfo.id).then((response) => {
-            console.log('products', response)
             this.products = response.data;
 
             //Little fix to have the category name in the product:
@@ -198,9 +186,7 @@ export default {
 
         deleteProductFromStore(product){
 
-           productService.deleteProduct(product.id).then(response => {
-              console.log(response);
-
+           productService.deleteProduct(product.id).then(() => {
               //Reload items
               this.getProductsDataFromStore();
             }).catch((error) => {
@@ -220,16 +206,11 @@ export default {
 
          async getProductCategories(){
             await categoryService.getCategories().then((response) => {
-            console.log('categories', response)
-            this.categories = response.data;
-            console.log(this.categories)
-
-            
-
+              this.categories = response.data;
             }).catch((error) => {
-            console.error(error);
-            this.processStatus = 'error';
-            this.showDialogProcessResult();
+              console.error(error);
+              this.processStatus = 'error';
+              this.showDialogProcessResult();
             })
             },
 

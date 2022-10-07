@@ -6,7 +6,7 @@ axios.defaults.baseURL = 'http://localhost:3000/api/v1';
         return await axios.get('/cart/' + localStorage.getItem('userId'), { headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }}).then(function (response) {
             return response;
         }).catch(function (error) {
-            console.log(error);
+            console.error(error);
         });
     }
 
@@ -21,7 +21,7 @@ export async function insertProductIntoCart(productId){
 },{ headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }}).then(function(response){
          return response;
      }).catch(function(error){
-         console.log(error);
+         console.error(error);
      })
 
 }
@@ -34,7 +34,7 @@ export async function deleteProductFromCart(productId){
     } ).then(function(response){
          return response;
      }).catch(function(error){
-         console.log(error);
+         console.error(error);
      })
 
 }
@@ -48,7 +48,7 @@ export async function deleteCart(){
     } ).then(function(response){
          return response;
      }).catch(function(error){
-         console.log(error);
+         console.error(error);
      })
 
 }
@@ -59,6 +59,6 @@ export async function getNumberOfItems() {
     return await axios.get('/cart/total/' + localStorage.getItem('userId'), { headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }}).then(function (response) {
         return response;
     }).catch(function (error) {
-        console.log(error);
+        console.error(error);
     });
 }

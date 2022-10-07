@@ -6,13 +6,11 @@
     <div v-show="dialogActive" class="dialog-inner">
       <!-- Dialog Content-->
       <slot />
-      <i class="fa-solid fa-circle-exclamation fa-8x"></i>
 
+      <i class="fa-solid fa-circle-exclamation fa-8x"></i>
       <router-link class="close-link" :to="redirectLink" v-on:click="dialogFinished()">
       <button class="button-close" @Click="dialogActive = false">
-        
           <span style="font-weight: 500; color: white;">Ok </span>
-     
       </button>
     </router-link>
     </div>

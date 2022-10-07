@@ -21,9 +21,7 @@ export default {
   },
   methods: {
     clicked(){
-      
-      console.log(this.store_id + 'submitted')
-    }
+          }
   }
 }
 

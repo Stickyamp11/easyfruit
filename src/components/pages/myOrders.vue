@@ -1,4 +1,5 @@
 <template>
+<section>
     <div class="row mt-5 ml-5 mr-5">
        
         <div class="col-12">
@@ -29,7 +30,7 @@
                     <td class="align-middle">{{order.deliverOptions == 'takeStore' ? 'Recogida en tienda' : 'Envío a casa'}}</td>
                     <td class="align-middle"> <span class="badge p-2" :class="[{'green-status': order.status == 'created',
                      'yellow-status': order.status == 'delivering',
-                    'red-status': order.status == 'closed' }]" style="color: white;">
+                    'red-status': order.status == 'closed', 'orange-status': order.status == 'sent' || order.status == 'ready'  }]" style="color: white;">
                         
                         {{order.status}}
                          </span>
@@ -93,15 +94,14 @@
 
     <RepeatOrder ref="repeatOrder">
     </RepeatOrder>
+</section>
 </template>
 
 <script>
 import * as orderService from "@/shared/services/orderService"
-//import * as productService from "@/shared/services/productService"
 import RepeatOrder from "@/components/pages/repeatBuy.vue"
-
 import {sharedData} from "../../shared/sharedData"
-//import DialogNotification from "./DialogNotification/dialog-notification.vue"
+
 export default {
   name: 'my-orders',
   components: {RepeatOrder},
@@ -144,12 +144,7 @@ export default {
          this.paginatedOrders = [];
          let ini = (pageNumber * this.pageElements) - this.pageElements;
          let fin = (pageNumber * this.pageElements);
-
-         /*for(let index = ini; index < fin ; index++){
-           this.paginatedProducts.push(this.products[index]);
-         }*/
          this.paginatedOrders = this.orders.slice(ini, fin);
-         console.log('Estoy en el getDataPage', this.paginatedOrders)
        },
           tableMaxPages(){
             return Math.ceil(this.orders.length / this.pageElements);
@@ -168,17 +163,12 @@ export default {
             }
           },
       adjustOrderToRepeat(order){
-          console.log('adjust clicked', order);
           this.repeatBuyFstore = order.fStore;
           this.repeatBuyProducts = order.items;
           this.repeatBuyTimesordered = order.times_ordered;
-          console.log('items', order.items)
-          console.log('items', order.items)
           this.$refs.repeatOrder.show(this.repeatBuyProducts, this.repeatBuyFstore, this.repeatBuyTimesordered, order.id, order.deliverOptions);
       },
       showHiddenTr(tr){
-          console.log('Estoy en el showHidden')
-          console.log(tr)
           let element = document.getElementById(tr);
           element.style.display = element.style.display === 'none' ? '' : 'none';
       },
@@ -191,13 +181,10 @@ export default {
 
     async refreshData(){
       orderService.getFullOrdersOneCall().then( response => {
-         console.log(' getOrders response', response )
          this.orders = response.data.reverse();
           this.getDataPage(1);
      });
-   
-    console.log('topOrders', this.topOrders)
-    this.loading = false;
+       this.loading = false;
    
     },
 
@@ -210,7 +197,6 @@ export default {
 
 
     jsDomStuff(){
-              console.log('Se ha ejecutado el jsDomStuff');
               document.getElementById('cart-button-web').style.display = 'none';
               document.getElementById('cart-button-web-counter').style.display = 'none';
     }
@@ -246,6 +232,14 @@ hr.titleSeparator {
 }
 .red-status{
     background-color: rgb(247, 126, 85);
+    color: black;
+    border-radius: 10%;
+    padding: 0;
+
+}
+
+.orange-status{
+    background-color: rgb(235, 183, 72);
     color: black;
     border-radius: 10%;
     padding: 0;

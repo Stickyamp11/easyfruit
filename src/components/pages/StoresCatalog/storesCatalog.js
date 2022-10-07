@@ -18,7 +18,6 @@ export default {
   methods: {
     getStoresData(){
       axios.get('/store').then((response) => {
-        console.log(response)
         this.stores = response.data
       }).catch((error) => {
         console.error(error);

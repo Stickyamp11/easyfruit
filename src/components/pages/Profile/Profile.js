@@ -31,12 +31,8 @@ export default {
 
 
     async refreshData(){
-      //console.log(this.email)
-      //console.log('submitted')
-      console.log(sharedData)
       await customerService.getCustomer(localStorage.getItem('userEmail')).then(
         res => {
-          console.log(res)
           this.customerId = res.data.id;
           this.email = res.data.email;
           this.phone = res.data.phone;
@@ -45,21 +41,15 @@ export default {
           this.direction = res.data.address;
         }).catch(
           err => {
-            console.log(err)
-            //Send dialog error
+            console.error(err)
             this.processStatus = 'error';
             this.showDialogProcessResult();
           }
         
       )
-
-      //localStorage.setItem('token', response.data.token)
     },
 
     async handleSubmit(){
-
-      console.log('submitted')
-
       let customer = {
         "name": this.name ? this.name : "",
         "email": this.email ? this.email : "",
@@ -70,7 +60,6 @@ export default {
       }
       await customerService.updateCustomer(customer, this.customerId).then(
         res => {
-          console.log(res)
           if(res.status == 201)
           {
             //Send dialog success
@@ -84,11 +73,9 @@ export default {
             this.showDialogProcessResult();
 
           }
-
-
         }).catch(
           err => {
-            console.log(err)
+            console.error(err)
             //Send dialog error
             this.processStatus = 'error';
             this.showDialogProcessResult();

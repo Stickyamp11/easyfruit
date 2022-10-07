@@ -13,14 +13,11 @@ export default {
 
   },
   mounted () {
-    //this.jsStuff();
     this.getProductItemsFromBoard();
 
   },
   methods: {
     getProductItemsFromBoard(){
-      console.log('update button')
-      console.log(this.$refs['cartBoard'].getLengthProducts())
       if(this.$refs['cartBoard'].getLengthProducts() > 0){
         this.currentProductsBoard = true;
       }
@@ -35,7 +32,6 @@ export default {
       return this.$refs['cartBoard'].getLengthProducts();
     },
     onChangedProducts(){
-      console.log('Received event. I updated the board.')
       this.$refs['cartBoard'].getCartProductsFromCustomer();
     },
     hidde(){
@@ -56,13 +52,6 @@ export default {
   
       this.$refs.buyResumeDilog.show();
     },
-  /* jsStuff(){
-     /* events fired on the drop targets 
-      document.addEventListener("dragover", function() {
-
-        this.getProductItemsFromBoard()
-      }.bind(this), false);
-   } */
 
   }
 }

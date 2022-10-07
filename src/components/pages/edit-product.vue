@@ -1,4 +1,5 @@
 <template>
+<section>
 <form  class="create-product-form" @submit.prevent="">
    <div class="form-group row">
 
@@ -108,6 +109,7 @@
           </p>
       </div>
       </DialogErrorNotification>
+</section>
 </template>
 
 <script>
@@ -169,33 +171,20 @@ export default {
             },
 
     async refreshData(){
-      //console.log(this.email)
-      //console.log('submitted')
-      console.log(sharedData)
-
       //We get store info from user logged email registered in DB
        await storeService.getStoreDataByManagerEmail(localStorage.getItem('userEmail')).then((response) => {
-                console.log(response)
-                console.log('aqui userEmail', localStorage.getItem('userEmail'))
                 this.storeInfo = response.data
-                console.log('storeInfo', this.storeInfo)
-
             }).catch((error) => {
                 console.error(error);
             })
 
-         //Once we have store info and product id from route we can obtain its information
-      console.log('HERE')
-      console.log(this.productId,this.storeInfo.id)
+      //Once we have store info and product id from route we can obtain its information
       await storeService.getStoreProduct( this.storeInfo.id, this.productId).then(
         res => {
-          console.log('productData',res)
           this.product = res.data[0];
-          console.log(this.product.name)
           this.productName = this.product.name;
           this.categorySelected = this.product.fCategory;
           this.productCategory = this.product.fCategory;
-          console.log('AQUIIIIIIIIIIIIIIIII', this.categorySelected);
           this.productDescription = this.product.description;
 
           //Set true or false to methods
@@ -203,26 +192,18 @@ export default {
 
           //Preview load
           this.$refs["frame-ref"].src = this.product.product_img;
-
-          console.log('orrrrirorr', this.productCategory)
         }).catch(
           err => {
-            console.log(err)
+            console.error(err)
             this.processStatus = 'error'
             this.showDialogProcessResult();
           })
 
         //When you have product data, then , you call to get categories
           this.getProductCategories();
-
-
-      //localStorage.setItem('token', response.data.token)
     },
 
     async handleSubmit(){
-
-      console.log('submitted')
-
       let sendProduct = {
         fCategory: this.categorySelected,
         description: this.productDescription,
@@ -235,12 +216,8 @@ export default {
         packQuantity: this.acceptPacks ? this.packQuantity : 0,
         methodsAllowed: this.getMethodsForProduct()
       }
-      console.log('sendProduct', sendProduct)
-
      await productService.updateProduct(sendProduct, this.product.id).then(response =>
      {
-       console.log(response);
-
       if(response.status == 201)
       {
           //Only applies if any image has been loaded
@@ -252,11 +229,8 @@ export default {
                   myFile.fileId = this.productId;
                   formData.append("file", myFile);
                   formData.append("id",this.productId);
-                  console.log('aquiiii', myFile);
+
                   productService.uploadImg(formData).then((response) => {
-
-                      console.log(response)
-
                       if(response.status == 201){
                         //This was a success
                           this.processStatus = 'success';
@@ -296,18 +270,13 @@ export default {
     },
 
      async getProductCategories(){
-            console.log('hola')
             await categoryService.getCategories().then((response) => {
-            console.log('categories', response)
             this.categories = response.data;
-            console.log(this.categories)
-
-            
-
+          
             }).catch((error) => {
-            console.error(error);
-            this.processStatus = 'error';
-            this.showDialogProcessResult();
+              console.error(error);
+              this.processStatus = 'error';
+              this.showDialogProcessResult();
             })
             },
 

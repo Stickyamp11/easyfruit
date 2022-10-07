@@ -20,13 +20,8 @@ export default {
   methods: {
     checkReload(){
         //To prevent infinite loop
-        console.log('TRY TO RELOAD', localStorage.getItem('reload') )
         if(localStorage.getItem('reload') == 'true'){
-
-          console.log('ESTOY DENTRO')
-
           localStorage.setItem('reload', 'false');
-
           location.reload();
         }
       

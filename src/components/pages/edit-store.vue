@@ -1,4 +1,5 @@
 <template>
+<section>
 <form  class="edit-store-form" @submit.prevent="handleSubmit">
   <div class="row" id="image-row">
       <div class="col-12 d-flex flex-column justify-content-center align-items-center">
@@ -51,7 +52,7 @@
           </p>
       </div>
       </DialogErrorNotification>
-
+</section>
 </template>
 
 <script>
@@ -95,12 +96,8 @@ export default {
             },
 
     async refreshData(){
-      //console.log(this.email)
-      //console.log('submitted')
-      console.log(sharedData)
       await storeService.getStoreDataByManagerEmail(localStorage.getItem('userEmail')).then(
         res => {
-          console.log(res)
           this.store = res.data;
           this.name = this.store.name;
           this.address = this.store.address;
@@ -110,20 +107,15 @@ export default {
 
         }).catch(
           err => {
-            console.log(err)
+            console.error(err)
             this.processStatus = 'error';
             this.showDialogProcessResult();
           }
         
       )
-
-      //localStorage.setItem('token', response.data.token)
     },
 
     async handleSubmit(){
-
-      console.log('submitted')
-
       let storeUpdated = {
         "name": this.name ? this.name : "",
         "address": this.address ? this.address : "",
@@ -137,9 +129,6 @@ export default {
             //It means we need to send the img loaded
             if(this.thereIsImage)
             {
-                  console.log(res)
-                  console.log('He entrado dentro del success del updateStore y ejecutaré el uploadImg')
-
 
                 let formData = new FormData();
 
@@ -147,20 +136,15 @@ export default {
                   myFile.fileId = this.store.id;
                   formData.append("file", myFile);
                   formData.append("id",this.store.id);
-                  console.log('aquiiii', myFile);
                   storeService.uploadImg(formData).then(
                       res => {
                         if(res.status == 201)
-
-                          console.log(res)
-
-                        //Everything went fine
                         this.processStatus = 'success';
                         this.showDialogProcessResult();
 
                       }).catch(
                   err => {
-                    console.log(err)
+                    console.error(err)
                     this.processStatus = 'error';
                     this.showDialogProcessResult();
                   }
@@ -184,7 +168,7 @@ export default {
 
         }).catch(
           err => {
-            console.log(err)
+            console.error(err)
             this.processStatus = 'error';
             this.showDialogProcessResult();
           }

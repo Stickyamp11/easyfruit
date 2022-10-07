@@ -1,6 +1,4 @@
-.nav-bar {
-    
-}
+
 .nav-item{
     font-size: 130%;
 }
@@ -11,32 +9,15 @@
     right: 2%;
     background-color: rgb(15, 98, 36);
 }
-#user-menu-toggle{
-    
-}
 
 .nav-padding{
     padding-left: 40px;
     padding-bottom: 40px;
 }
 
-
-
-
-#sign-up-button{
-    /*position: fixed;
-    right: 10%;*/
-
-}
-#sign-up-button-text{
-
-}
-
 #login-button{
     padding-top: 0px;
     padding-bottom: 0px;
-    /*position:fixed;
-    right: 2%;*/
     background-color: rgba(40, 117, 40, 0);
     margin-top: 10%;
 }
@@ -53,10 +34,6 @@
     max-height: 70px;
     min-height: 70px;
     background-color: rgb(255, 255, 255) !important;
-}
-
-#fill-space{
-
 }
 
 #user-dropdown{

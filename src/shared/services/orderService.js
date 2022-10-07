@@ -16,7 +16,7 @@ axios.defaults.baseURL = 'http://localhost:3000/api/v1';
         },{ headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }}).then(function (response) {
             return response;
         }).catch(function (error) {
-            console.log(error);
+            console.error(error);
         });
     }
 
@@ -35,7 +35,7 @@ axios.defaults.baseURL = 'http://localhost:3000/api/v1';
         },{ headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }}).then(function (response) {
             return response;
         }).catch(function (error) {
-            console.log(error);
+            console.error(error);
         });
     }
 
@@ -49,7 +49,7 @@ axios.defaults.baseURL = 'http://localhost:3000/api/v1';
         },{ headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }}).then(function (response) {
             return response;
         }).catch(function (error) {
-            console.log(error);
+            console.error(error);
         });
     }
     
@@ -59,9 +59,7 @@ export async function getFullOrdersAndItems() {
         params: { idCustomer: localStorage.getItem('userId')}
     }
     )
-    //When received orders then we look for items
-    console.log('orders', orders)
-    
+
     //Looking for items
     orders.forEach((order) => {
 
@@ -71,10 +69,7 @@ export async function getFullOrdersAndItems() {
             params: { idOrder: order.id}
         }
         );
-
-            console.log('Order item')
             order['items'] = orderItems.data;
-            console.log(orderItems)
 
             //Once we have the item we bring all the info about the products
             order.items.forEach( item => {
@@ -142,7 +137,6 @@ export async function getFullOrdersOneCall(){
         params: { idCustomer: localStorage.getItem('userId')}
     }
     ).then(function (response) {
-        console.log('aqui la response FULLLLL', response)
         response.data = response.data.orders;
         return response;
     }).catch( error => console.error(error))
@@ -155,7 +149,6 @@ export async function getFullOrdersPendingOfStoreOneCall(idStore){
         params: { idStore: idStore}
     }
     ).then(function (response) {
-        console.log('aqui la response FULLLLL', response)
         response.data = response.data.orders;
         return response;
     }).catch( error => console.error(error))
@@ -171,7 +164,7 @@ export async function updateStatusOrder(orderId, status) {
     },{ headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }}).then(function (response) {
         return response;
     }).catch(function (error) {
-        console.log(error);
+        console.error(error);
     });
 }
 
@@ -179,7 +172,7 @@ export async function deleteOrder(orderId){
     return await axios.delete('/order/' + orderId ,{ headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }}).then(function(response){
         return response;
     }).catch(function(error){
-        console.log(error);
+        console.error(error);
     })
        
     

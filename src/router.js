@@ -10,12 +10,6 @@ mode: 'history',
 history: createWebHistory(),
 base: process.env.BASE_URL,
 routes: [
-
-    {
-       path: '/owsmgpgmrwpogmomgro',
-       name: 'homes',
-       component: () => import('./App.vue')
-    },
     {
       path: '/',
       name: 'home',

@@ -26,14 +26,10 @@
     <Board ref="cartBoard" @changedProducts="getProductItemsFromBoard()"/>
     <hr style="height:2px;border-width:0;color:gray;background-color:gray; width: 80%;">
 
-    <div id="sidebar-footer">
-
-        <!--<router-link :to="{name:'buy'}">-->
-            <button :disabled="!currentProductsBoard" id="button-send-buy-order" class="btn btn-success" type="button" @Click="openBuyDialog()" data-toggle="collapse" data-target="#cart-content">
-              Realizar pedido
-            </button>
-        <!--</router-link>-->
-
+    <div id="sidebar-footer"> 
+        <button :disabled="!currentProductsBoard" id="button-send-buy-order" class="btn btn-success" type="button" @Click="openBuyDialog()" data-toggle="collapse" data-target="#cart-content">
+          Realizar pedido
+        </button>
     </div>
 
 

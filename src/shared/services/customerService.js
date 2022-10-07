@@ -11,7 +11,7 @@ axios.defaults.baseURL = 'http://localhost:3000/api/v1';
         },{ headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }}).then(function (response) {
             return response;
         }).catch(function (error) {
-            console.log(error);
+            console.error(error);
         });
     }
 
@@ -20,7 +20,7 @@ export async function updateCustomer(customer, id){
      },{ headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }}).then(function(response){
          return response;
      }).catch(function(error){
-         console.log(error);
+         console.error(error);
      })
 
 }

@@ -31,15 +31,6 @@ class="drop-zone-board"
                 </div>
             </div>
             </div>
-
-            <!--
-            <div class="draggable-item-footer">
-                <span>
-                    <button class="button-cart-delete-item" type="submit" v-on:click="deleteProductFromCart(item)">
-                    <i class="fa-solid fa-x"></i>
-                    </button>
-                </span>
-            </div> -->
     </div>
  
 </div> 
@@ -64,21 +55,17 @@ import * as cartService from "@/shared/services/cartService"
      props: [],
      methods: {
          getCartProductsFromCustomer(){
-
-             console.log('heyyyyyy')
               cartService.getCart().then((response) => {
-              console.log('Productos carrito en la carga', response)
-              console.log('hi')
-              
-              this.products2 = response.data
 
-              if(this.products2.length){
-                  this.emptyProducts = false;
-              }
-              //Refresh cart items
-            this.onChangeProducts();
+                    this.products2 = response.data
+
+                    if(this.products2.length){
+                        this.emptyProducts = false;
+                    }
+                    //Refresh cart items
+                    this.onChangeProducts();
               }).catch((error) => {
-              console.error(error);
+                     console.error(error);
               })
 
          },
@@ -90,17 +77,11 @@ import * as cartService from "@/shared/services/cartService"
             const productFStore = event.dataTransfer.getData('productFStore')
 
 
-            console.log(productId)
             if(!this.products2.find((prd) => prd.id == productId ) && productId){
                 
                 //When there is at least one product in cart we need to add extra security
                 if(this.products2.length > 0){
-                    console.log('FIRST LOOP' )
                     //If the product comes from a different store we need to reject it.
-                    console.log(productFStore)
-                    console.log('RECENT HERE' )
-                    console.log(this.products2)
-                    console.log(this.products2[0])
                     if(this.products2[0].fStore == productFStore)
                     {
                         this.products2.push({id: productId, product_img: productImg, name: productName})
@@ -123,49 +104,29 @@ import * as cartService from "@/shared/services/cartService"
                         this.onChangeProducts();
                 }
                
-                
-                
-                
-
             }
-
-            console.log(this.products2)
             
         },
 
         startDrag(event, item){
-            console.log(item)
-            console.log('startDrag')
             event.dataTransfer.dropEffect = 'move'
             event.dataTransfer.effectAllowed = 'move'
             event.dataTransfer.setData('productId', item.id)
             event.dataTransfer.setData('productTitle', item.title)
             event.dataTransfer.setData('productList', item.list)
-
-
-            console.log(event.dataTransfer.getData('productId'))
         },
         deleteProductFromCart(product){
-            console.log('Borrando')
-            console.log(product)
-            console.log(product.id)
-            console.log(this.products2)
             let position = this.products2.indexOf(product)
-            console.log(position)
             if(position >= 0)
             {
-            this.products2.splice(position, 1);
-
-            cartService.deleteProductFromCart(product.id);
+                this.products2.splice(position, 1);
+                cartService.deleteProductFromCart(product.id);
             }
 
             //If length is 0 , then products array is empty
-            console.log('heyyy')
-            console.log(this.products2.length)
             if(this.products2.length == 0){ 
                 this.emptyProducts = true;
                 }
-            console.log(this.products2)
             //Refresh cart items
             this.onChangeProducts();
         },

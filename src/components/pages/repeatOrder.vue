@@ -1,4 +1,5 @@
 <template>
+<section>
     <div class="row mt-5 ml-5 mr-5">
        
         <div class="col-12 ">
@@ -38,6 +39,7 @@
 
     <RepeatOrder ref="repeatOrder">
     </RepeatOrder>
+</section>
 </template>
 
 <script>
@@ -45,9 +47,8 @@ import * as orderService from "@/shared/services/orderService"
 import * as productService from "@/shared/services/productService"
 import * as storeService from "@/shared/services/storeService"
 import RepeatOrder from "@/components/pages/repeatBuy.vue"
-
 import {sharedData} from "../../shared/sharedData"
-//import DialogNotification from "./DialogNotification/dialog-notification.vue"
+
 export default {
   name: 'repeat-orders',
   components: {RepeatOrder},
@@ -77,21 +78,16 @@ export default {
   methods: {
      
       adjustOrderToRepeat(order){
-          console.log('adjust clicked', order);
           this.repeatBuyFstore = order.fStore;
           this.repeatBuyProducts = order.items;
           this.repeatBuyTimesordered = order.times_ordered;
-          console.log('items', order.items)
-          console.log('items', order.items)
           this.$refs['repeatOrder'].show(this.repeatBuyProducts, this.repeatBuyFstore, this.repeatBuyTimesordered, order.id, order.deliverOptions);
       },
      
     async refreshData(){
 
     orderService.getMostFrequentedOrders().then( response => {
-         console.log(' getOrders response', response )
-         orderService.getFullOrdersOneCall().then ( res => {
-           console.log(' getOrdersFull response', res )
+         orderService.getFullOrdersOneCall().then( () => {
          })
          this.topOrders = response.data;
 
@@ -99,14 +95,12 @@ export default {
 
                     this.topOrders.forEach(order => {
                                 orderService.getItems(order).then( response => {
-                                        console.log('getItems response', response )
                                         order['items'] = response.data;
                                         //Get store name for the order.
                                         this.getStoreInfo(order);
 
                                         order.items.forEach(item => {
                                         productService.getProductById(item.productId).then( response => {
-                                                console.log('getProductById response', response )
                                                 item['productData'] = response.data;
                                                  //Once we have the products we set the pagination:
                                             });
@@ -116,30 +110,19 @@ export default {
                         });
 
      })
-   
-
-   
-    console.log('topOrders', this.topOrders)
-    this.loading = false;
-   
+    this.loading = false;   
     },
 
 
     async getStoreInfo(order){
-            console.log('AQYI', order.fStore)
             await storeService.getStoreData(order.fStore).then((response) => {
-                console.log(response)
                 order['storeName'] = response.data.name;
-                console.log('storeInfo', this.storeInfo)
-
-
             }).catch((error) => {
                 console.error(error);
             })
             },
 
     jsDomStuff(){
-              console.log('Se ha ejecutado el jsDomStuff');
               document.getElementById('cart-button-web').style.display = 'none';
               document.getElementById('cart-button-web-counter').style.display = 'none';
     },

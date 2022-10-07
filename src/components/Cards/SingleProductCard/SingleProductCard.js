@@ -18,7 +18,6 @@ export default {
 
   },
   mounted () {
-    console.log(this.product_name)
   },
   methods: {
 

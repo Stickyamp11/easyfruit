@@ -1,4 +1,5 @@
 <template>
+<section>
 <form  class="create-product-form" @submit.prevent="">
    <div class="form-group row">
 
@@ -108,6 +109,7 @@
           </p>
       </div>
       </DialogErrorNotification>
+</section>
 </template>
 
 <script>
@@ -168,17 +170,9 @@ export default {
             },
 
     async refreshData(){
-      //console.log(this.email)
-      //console.log('submitted')
-      console.log(sharedData)
-
       //We get store info from user logged email registered in DB
        await storeService.getStoreDataByManagerEmail(localStorage.getItem('userEmail')).then((response) => {
-                console.log(response)
-                console.log('aqui userEmail', localStorage.getItem('userEmail'))
                 this.storeInfo = response.data
-                console.log('storeInfo', this.storeInfo)
-
             }).catch((error) => {
                 console.error(error);
             })
@@ -186,15 +180,9 @@ export default {
 
         //When you have product data, then , you call to get categories
           this.getProductCategories();
-
-
-      //localStorage.setItem('token', response.data.token)
     },
 
     async handleSubmit(){
-
-      console.log('submitted')
-
       let sendProduct = {
         fCategory: this.categories.find(i => i.name == this.categorySelected).id,
         description: this.productDescription,
@@ -207,11 +195,9 @@ export default {
         packQuantity: this.acceptPacks ? this.packQuantity : 0,
         methodsAllowed: this.getMethodsForProduct()
       }
-      console.log('sendProduct', sendProduct)
 
      await productService.createProduct(sendProduct).then(response =>
      {
-       console.log(response);
 
       if(response.status == 201)
       {
@@ -227,11 +213,8 @@ export default {
           myFile.fileId = this.productId;
           formData.append("file", myFile);
           formData.append("id",this.productId);
-          console.log('aquiiii', myFile);
+          
           productService.uploadImg(formData).then((response) => {
-
-              console.log(response)
-
               if(response.status == 201){
                  //This was a success
                   this.processStatus = 'success';
@@ -264,20 +247,14 @@ export default {
     },
 
      async getProductCategories(){
-            console.log('hola')
             await categoryService.getCategories().then((response) => {
-            console.log('categories', response)
-            this.categories = response.data;
-            console.log(this.categories)
-
-            
-
+               this.categories = response.data;
             }).catch((error) => {
-            console.error(error);
-            this.processStatus = 'error';
-            this.showDialogProcessResult();
+               console.error(error);
+               this.processStatus = 'error';
+               this.showDialogProcessResult();
             })
-            },
+       },
 
     getMethodsForProduct(){
       let methods = ""

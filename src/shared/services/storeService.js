@@ -4,13 +4,11 @@ export async function getStoreProducts(id) {
     return await axios.get('/product/store/'+ id,{ headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }}).then(function (response) {
         return response;
     }).catch(function (error) {
-        console.log(error);
+        console.error(error);
     });
 }
 
 export async function getStoreProduct(idStore, idProduct) {
-    console.log('service here')
-    console.log(idProduct, idStore)
     return await axios.get('/product/store',
     { headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
       params: { idProduct: idProduct, idStore: idStore}
@@ -18,14 +16,14 @@ export async function getStoreProduct(idStore, idProduct) {
     ).then(function (response) {
         return response;
     }).catch(function (error) {
-        console.log(error);
+        console.error(error);
     });
 }
 export async function getStoreData(id) {
     return await axios.get('/store/'+ id,{ headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }}).then(function (response) {
         return response;
     }).catch(function (error) {
-        console.log(error);
+        console.error(error);
     });
 }
 
@@ -33,7 +31,7 @@ export async function getStoreDataByManagerEmail(email) {
     return await axios.get('/store/emailManager/'+ email,{ headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }}).then(function (response) {
         return response;
     }).catch(function (error) {
-        console.log(error);
+        console.error(error);
     });
 }
 
@@ -42,7 +40,7 @@ export async function updateStore(store) {
 }, { headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }}).then(function (response) {
         return response;
     }).catch(function (error) {
-        console.log(error);
+        console.error(error);
     });
 }
 
@@ -51,7 +49,7 @@ export async function uploadImg(payLoad){
      ,{ headers: {'Content-Type': 'multipart/form-data', Authorization: 'Bearer ' + localStorage.getItem('token') }}).then(function(response){
          return response;
      }).catch(function(error){
-         console.log(error);
+         console.error(error);
      })
 
     }

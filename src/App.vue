@@ -43,7 +43,9 @@ export default {
 </script>
 
 <style>
-
+html{
+  overflow-x: hidden;
+}
 input:focus{
       box-shadow: rgba(36, 104, 19, 0.795) 1px 5px 15px !important;
 }

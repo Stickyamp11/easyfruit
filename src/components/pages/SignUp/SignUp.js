@@ -31,9 +31,6 @@ export default {
   },
   methods: {
     async handleSubmit(){
-      console.log(this.email)
-      console.log('submitted')
-
       await axios.post('/customer',
       {
         "name": this.name,
@@ -54,13 +51,12 @@ export default {
               localStorage.setItem('userEmail', this.email);
 
               customerService.getCustomer(this.email).then((response) => {
-              console.log('Datos usuario', response)
-              //Sets localStorage userId
-              localStorage.setItem('userId', response.data.id)
-              localStorage.setItem('isStoreManager', response.data.seller)
+                //Sets localStorage userId
+                localStorage.setItem('userId', response.data.id)
+                localStorage.setItem('isStoreManager', response.data.seller)
               }).catch((error) => {
-              console.error(error);
-              this.showDialogProcessResult();
+                console.error(error);
+                this.showDialogProcessResult();
               })
 
 
@@ -79,7 +75,7 @@ export default {
           
         }).catch(
           err => {
-            console.log(err)
+            console.error(err)
             //Send dialog error
             this.processStatus = 'error';
             this.showDialogProcessResult();
@@ -103,10 +99,7 @@ export default {
     },
 
     logged(){
-
-      //Enable reload
       localStorage.setItem('reload', 'true');
-
     }
 
   }
